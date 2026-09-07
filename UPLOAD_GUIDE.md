@@ -39,3 +39,5 @@ index.html의 프로젝트 상세와 소개 부분을 편집합니다. 개인별
 ## 배포 검증
 
 npm test → npm run build 순서로 실행합니다. dist에는 index.html, styles.css, app.js, data.js, projects-library.js, assets/favicon.svg의 6개 파일만 존재해야 합니다. 본문은 JavaScript를 꺼도 읽을 수 있습니다.
+
+2026-09-07 시각화 추가: 루트의 `index.html`, `styles.css`, `app.js`, `studio.js`, `scripts/build.mjs`, `tests/content.test.mjs`와 `assets/image-review.jpg`를 함께 반영하세요. 현재 GitHub Actions 빌드는 이 이미지와 모듈만 추가 허용합니다. 설명 문서와 내부 브리프는 공개 사이트에 배포하지 않습니다.

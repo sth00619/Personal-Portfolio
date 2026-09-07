@@ -34,3 +34,5 @@ function updateRisk(){
 }
 q('#weight').addEventListener('input',updateRisk);q('#correlation').addEventListener('input',updateRisk);updateRisk();
 q('#print-page').addEventListener('click',()=>window.print());
+
+import "./studio.js";
