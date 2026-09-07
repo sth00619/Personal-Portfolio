@@ -14,6 +14,7 @@
 | scripts/build.mjs | 추가 — 공개 파일만 dist로 복사 |
 | tests/finance.test.mjs, tests/content.test.mjs | 추가 — 계산·공개 범위 검사 |
 | .github/workflows/deploy.yml | 교체 — 루트 전체 업로드 대신 dist만 배포 |
+| .github/workflows/static.yml | 교체 — 중복 배포를 제거하고 PR 사전 검사만 수행 |
 | .gitignore | 추가 |
 | README.md, UPLOAD_GUIDE.md | 교체 또는 추가 |
 

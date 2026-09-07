@@ -15,3 +15,10 @@ test('기본 HTML만으로 모든 프로젝트와 금융 설명에 접근할 수
  assert.ok(html.includes('가상 계산 예제'));
  assert.ok(!html.includes('PORTFOLIO_REVAMP_BRIEF'));
 });
+test('기존 중복 workflow도 저장소 전체를 배포하지 않는다',async()=>{
+ const deploy=await readFile('.github/workflows/deploy.yml','utf8');
+ const old=await readFile('.github/workflows/static.yml','utf8');
+ assert.ok(deploy.includes('path: dist'));
+ assert.ok(!old.includes('upload-pages-artifact'));
+ assert.ok(!old.includes('deploy-pages'));
+});
