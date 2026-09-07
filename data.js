@@ -1,105 +1,22 @@
-// ===== RESOURCE DATA — merged from 56 images across 3 chats =====
-const RESOURCES = [
-  // === SQL ===
-  { id: 1, field: "sql", type: "Video", name: "MySQL Tutorial — Programming with Mosh", desc: "3-hour YouTube course, 14M+ views. Best single video to get SQL fundamentals.", link: "https://www.youtube.com/watch?v=7S_tz1z_5bA", src: "Chat 1 · Img 4" },
-  { id: 2, field: "sql", type: "Reference", name: "W3Schools MySQL Docs", desc: "Quick syntax reference for SELECT, JOIN, GROUP BY, window functions.", link: "https://www.w3schools.com/mysql/", src: "Chat 1 · Img 3" },
-  { id: 3, field: "sql", type: "Practice", name: "OneCompiler — SQL Sandbox", desc: "Run SQL in-browser. No setup. Good for quick practice.", link: "https://onecompiler.com/mysql", src: "Chat 1 · Img 1" },
-  { id: 4, field: "sql", type: "Practice", name: "LeetCode SQL — 50 Easy + 50 Medium", desc: "Interview prep target. Window functions, GROUP BY aggregations.", link: "https://leetcode.com/problemset/database/", src: "Chat 3 · Roadmap" },
-  { id: 5, field: "sql", type: "Project", name: "Text-to-SQL AI Project", desc: "Build an NLP→SQL query converter. Top-tier AI engineering portfolio piece.", link: "", src: "Chat 1 · Img 18 / Chat 2 · Img 3" },
-  { id: 6, field: "sql", type: "Project", name: "Log & HR Data SQL Analysis", desc: "Codeit Sprint style: analyze employee/log data, export insights. Clean GitHub project.", link: "", src: "Chat 3 · Codeit Sprint Step 1, 4" },
-
-  // === PYTHON ===
-  { id: 7, field: "python", type: "Course", name: "Microsoft Python — 44-part Series", desc: "Free Microsoft Learn. Beginner-friendly, structured. Great first course.", link: "https://learn.microsoft.com/en-us/shows/intro-to-python-development/", src: "Chat 1 · Img 5" },
-  { id: 8, field: "python", type: "Course", name: "CS50P — Harvard Python (edX)", desc: "Functions, OOP, file I/O, testing. Free to audit. Excellent fundamentals.", link: "https://cs50.harvard.edu/python/", src: "Chat 1 · Img 19" },
-  { id: 9, field: "python", type: "Repo", name: "30-Days-Of-Python", desc: "Structured 30-day path. Daily lessons + exercises. Build daily study habit.", link: "https://github.com/Asabeneh/30-Days-Of-Python", src: "Chat 3 · Img 1" },
-  { id: 10, field: "python", type: "Book", name: "Python Data Science Handbook (Free)", desc: "Jake VanderPlas. Covers NumPy, Pandas, Matplotlib, Scikit-learn.", link: "https://github.com/jakevdp/PythonDataScienceHandbook", src: "Chat 2 · Img 6–7" },
-  { id: 11, field: "python", type: "Repo", name: "project-based-learning", desc: "Build real apps: scrapers, games, APIs. Multi-language, Python-heavy.", link: "https://github.com/practical-tutorials/project-based-learning", src: "Chat 3 · Img 2" },
-  { id: 12, field: "python", type: "Roadmap", name: "Virgilio Data Science Roadmap", desc: "Open-source DS path: Python, stats, ML, tools in order.", link: "https://virgili0.github.io/Virgilio/", src: "Chat 2 · Img 20" },
-  { id: 13, field: "python", type: "Course", name: "mlcourse.ai", desc: "Open ML course with Kaggle competitions. Theory + hands-on Python ML.", link: "https://mlcourse.ai/", src: "Chat 1 · Img 6" },
-
-  // === ML / DS ===
-  { id: 14, field: "ml", type: "Curriculum", name: "ML-for-Beginners — Microsoft", desc: "12 weeks, 26 lessons. Scikit-learn, quizzes. Free university-level course.", link: "https://github.com/microsoft/ML-For-Beginners", src: "Chat 3 · Img 4" },
-  { id: 15, field: "ml", type: "Repo", name: "500 AI/ML/DL Projects with Code", desc: "500+ ideas: AI, ML, DL, CV, NLP. Use as your project picker.", link: "https://github.com/ashishpatel26/500-AI-Machine-learning-Deep-learning-Computer-vision-NLP-Projects-with-code", src: "Chat 3 · Img 5" },
-  { id: 16, field: "ml", type: "Kaggle", name: "Customer Churn Prediction", desc: "EDA → preprocessing → Logistic Regression → ROC-AUC. Great first ML project.", link: "https://www.kaggle.com/", src: "Chat 1 · Img 12 / Chat 2 · Img 14" },
-  { id: 17, field: "ml", type: "Kaggle", name: "House Price Prediction", desc: "TensorFlow Decision Forests. 14,281 votes. Classic regression problem.", link: "https://www.kaggle.com/", src: "Chat 2 · Img 13" },
-  { id: 18, field: "ml", type: "Project List", name: "Top 25 ML Projects (Beginner→Capstone)", desc: "Tiered list from @she_explores_data. Pick 1 from each tier.", link: "", src: "Chat 2 · Img 15" },
-  { id: 19, field: "ml", type: "Project", name: "Spotify Music Analysis", desc: "Audio features by genre/popularity. Pandas + Seaborn + clustering.", link: "", src: "Chat 1 · Img 11" },
-  { id: 20, field: "ml", type: "Project", name: "Transaction Fraud Detection", desc: "Imbalanced classification. SMOTE, XGBoost, precision-recall tradeoff.", link: "", src: "Chat 1 · Img 9" },
-  { id: 21, field: "ml", type: "Project", name: "Time Series Forecasting", desc: "Stock/weather prediction with LSTM or Prophet. Strong portfolio signal.", link: "", src: "Chat 1 · Img 10" },
-  { id: 22, field: "ml", type: "Project", name: "Transit Delay Prediction", desc: "Predict delays using real transit data. Regression + feature engineering.", link: "", src: "Chat 1 · Img 10" },
-  { id: 23, field: "ml", type: "Project", name: "News Sentiment + Stock Returns", desc: "NLP sentiment analysis linked to financial data. Cross-domain project.", link: "", src: "Chat 1 · Img 14" },
-  { id: 24, field: "ml", type: "Advanced", name: "RAG Pipeline with Hybrid Search", desc: "Vector DB + keyword search + LLM. End-to-end GenAI system.", link: "", src: "Chat 1 · Img 16 / Chat 2 · Img 3" },
-  { id: 25, field: "ml", type: "Advanced", name: "Fine-tuning Pipeline with LoRA", desc: "LLM fine-tuning on custom data using LoRA/PEFT. MLE differentiator.", link: "", src: "Chat 1 · Img 17" },
-  { id: 26, field: "ml", type: "Advanced", name: "Agent Orchestration System", desc: "Multi-agent AI system with tool use. Cutting-edge AI eng project.", link: "", src: "Chat 1 · Img 18" },
-  { id: 27, field: "ml", type: "Roadmap", name: "6-Month DS Roadmap (Microsoft)", desc: "Month 1-6: Python→SQL→ML→DL→Cloud→Interview. Full career plan.", link: "", src: "Chat 2 · Img 19" },
-
-  // === TOOLS ===
-  { id: 28, field: "tools", type: "Tool", name: "Microsoft markitdown", desc: "PDF/Word/PPT → Markdown converter. 125k stars. LangChain integration.", link: "https://github.com/microsoft/markitdown", src: "Chat 3 · Img 6" },
-  { id: 29, field: "tools", type: "Repo", name: "build-your-own-X (500k+ stars)", desc: "Re-create real tech: databases, Docker, AI models, games.", link: "https://github.com/codecrafters-io/build-your-own-x", src: "Chat 3 · Img 3" },
-  { id: 30, field: "tools", type: "Claude", name: "Claude Code — 5 Core Skills", desc: "MCP builder, Playwright, frontend design, code review, refactoring.", link: "", src: "Chat 2 · Img 5, 8" },
-  { id: 31, field: "tools", type: "Claude", name: "Playwright MCP — Browser Automation", desc: "Anthropic plugin. 179k+ installs. Automate browser tasks via Claude.", link: "", src: "Chat 2 · Img 9" },
-  { id: 32, field: "tools", type: "Claude", name: "tasteskill.dev + impeccable", desc: "Design quality skills for Claude. Improve AI output aesthetics.", link: "https://tasteskill.dev", src: "Chat 2 · Img 16–17" },
-  { id: 33, field: "tools", type: "Cert", name: "Claude Certified Architect (Free)", desc: "Free AI certification from Anthropic. Add to LinkedIn/resume.", link: "", src: "Chat 2 · Img 2" },
-
-  // === CAREER ===
-  { id: 34, field: "career", type: "Interview", name: "DS Interview Loop — 5 Rounds", desc: "Resume → Phone → Take-home → Coding loop → ML design → Behavioral.", link: "", src: "Chat 3 · Interview map" },
-  { id: 35, field: "career", type: "Projects", name: "35 Coding Projects to Get Hired", desc: "DS, ML, AI Eng, Cybersecurity. Top: RAG, Text-to-SQL, LLM eval.", link: "", src: "Chat 2 · Img 3" },
-  { id: 36, field: "career", type: "Path", name: "Undergrad → Data Science Pathway", desc: "Portfolio, internships, networking, first job timeline.", link: "", src: "Chat 1 · Img 15" },
-  { id: 37, field: "career", type: "Cert", name: "AZ-900 + DP-100 (Azure)", desc: "AZ-900 free (cloud fundamentals). DP-100 for Azure DS Associate.", link: "https://learn.microsoft.com", src: "Chat 3 · Roadmap Month 4" },
-  { id: 38, field: "career", type: "Behavioral", name: "10 STAR Stories — MS Leadership", desc: "Growth Mindset, Customer Obsession, D&I. Covers most behavioral rounds.", link: "", src: "Chat 3 · Interview section" },
-];
-
-// Default bookmarks
-const DEFAULT_LINKS = [
-  { id: "l1", title: "LeetCode", url: "https://leetcode.com", cat: "study" },
-  { id: "l2", title: "Kaggle", url: "https://www.kaggle.com", cat: "study" },
-  { id: "l3", title: "GitHub Profile", url: "https://github.com/sth00619", cat: "repo" },
-  { id: "l4", title: "Microsoft Learn", url: "https://learn.microsoft.com", cat: "study" },
-  { id: "l5", title: "mlcourse.ai", url: "https://mlcourse.ai", cat: "study" },
-];
-
-// Default projects
-const DEFAULT_PROJECTS = [
-  { id: "p1", name: "Customer Churn Prediction", field: "ml", status: "todo" },
-  { id: "p2", name: "SQL Log Analysis", field: "sql", status: "todo" },
-  { id: "p3", name: "30-Days-Of-Python", field: "python", status: "todo" },
-  { id: "p4", name: "RAG Pipeline", field: "ml", status: "todo" },
-];
-
-// ===== PROFILE — case subject =====
-const DEFAULT_PROFILE = {
-  name: "SONG",
-  korean_name: "송",
-  title: "Data Analyst · ML Practitioner",
-  title_kr: "데이터 분석가 · ML 실무자 지망",
-  status: "open", // open | exploring | closed
-  status_label: "Open to opportunities",
-  status_label_kr: "신규 기회를 찾고 있습니다",
-  location: "Hwado, Gyeonggi-do, KR",
-  languages: ["Korean (Native)", "English (Professional)"],
-  summary_kr: "한국 시장의 금융·교통·관광 데이터를 활용한 ML/분석 포트폴리오를 구축하고 있습니다. KOSPI 종목 예측, 서울 대중교통 패턴 분석, 한국관광 TourAPI 활용 등 도메인 특화 프로젝트로 데이터 분석가/사이언티스트 직군을 준비하고 있습니다.",
-  summary_en: "Building a portfolio of data and ML projects grounded in Korean market data — finance, transit, tourism. Targeting Data Analyst / Data Scientist / Growth roles in fintech, mobility, and public sector.",
-  focus_areas: [
-    { label: "Finance · 금융",       category: "finance" },
-    { label: "Transport · 교통",     category: "transport" },
-    { label: "Tourism · 관광",       category: "tourism" },
-    { label: "BI · Tableau",         category: "da-bi" },
-    { label: "AI Engineering",       category: "ai-eng" },
-  ],
-  contact: {
-    email: "",
-    github: "https://github.com/sth00619",
-    linkedin: "",
-    blog: "",
-  },
-  resume_url: "",
-};
-
-const DEFAULT_EDUCATION = [
-  // { id, institution, degree, field, start, end, note }
-];
-
-const DEFAULT_EXPERIENCE = [
-  // { id, company, role, start, end, summary }
-];
-
+// 공개 설명용 가상 데이터 계산입니다. 실제 서비스 코드·시장 데이터·API를 사용하지 않습니다.
+const UNIT_SCALE = { '원': 1n, '백만원': 1000000n, '억원': 100000000n };
+export function normalizeAmount(raw, unit) {
+  if (!(unit in UNIT_SCALE)) throw new Error('단위를 확인해 주세요.');
+  const value=String(raw).trim();
+  if (!value) return null;
+  if (!/^-?(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(value) || value.replaceAll(',','').replace('-','').length>18) throw new Error('18자리 이내 정수를 입력하세요. 쉼표는 세 자리마다 구분합니다.');
+  return BigInt(value.replaceAll(',','')) * UNIT_SCALE[unit];
+}
+export function changeRate(previous,current) {
+  if (![previous,current].every(Number.isFinite) || previous<=0 || current<0) return null;
+  return (current-previous)/previous*100;
+}
+export function valuation(cap,income) {
+  if (cap<=0n || income<=0n) return null;
+  return Number(cap)/Number(income);
+}
+export function portfolioVolatility(weight,sigmaA,sigmaB,rho) {
+  if (![weight,sigmaA,sigmaB,rho].every(Number.isFinite)||weight<0||weight>1||sigmaA<0||sigmaB<0||Math.abs(rho)>1) throw new Error('비중·변동성·상관계수의 범위를 확인해 주세요.');
+  const b=1-weight;
+  return Math.sqrt(Math.max(0,weight**2*sigmaA**2+b**2*sigmaB**2+2*weight*b*sigmaA*sigmaB*rho));
+}
