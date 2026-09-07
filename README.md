@@ -3,7 +3,7 @@
 A case-file styled portfolio + study tracker for the 2026 summer intensive.
 Inspired by [kdfiles.com](https://www.kdfiles.com/).
 
-**Live**: https://sth00619.github.io/2026-Summer-Study
+**Live**: https://sth00619.github.io/Personal-Portfolio/
 
 ## What this is
 
