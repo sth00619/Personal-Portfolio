@@ -1,0 +1,7 @@
+.venv/
+artifacts/cache/
+data/scifact/
+data/*.zip
+__pycache__/
+**/__pycache__/
+.pytest_cache/
