@@ -1,0 +1,9 @@
+data/scifact/
+data/*.zip
+results/cache/
+results/candidate.json
+results/runs.json
+results/per_query.json
+results/miss_candidates.json
+**/__pycache__/
+**/.pytest_cache/

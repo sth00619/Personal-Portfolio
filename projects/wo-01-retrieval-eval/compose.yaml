@@ -1,0 +1,11 @@
+services:
+  retrieval-eval:
+    build:
+      context: .
+    volumes:
+      - ./data:/app/data
+      - ./results/cache:/app/results/cache
+      - huggingface-cache:/root/.cache/huggingface
+
+volumes:
+  huggingface-cache:
