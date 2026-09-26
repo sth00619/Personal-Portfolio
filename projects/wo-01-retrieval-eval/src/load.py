@@ -4,32 +4,54 @@ import csv
 import json
 import re
 from pathlib import Path
+from typing import TypeAlias, cast
+
+CorpusDocument: TypeAlias = dict[str, object]
+Corpus: TypeAlias = dict[str, CorpusDocument]
+Queries: TypeAlias = dict[str, str]
+Qrels: TypeAlias = dict[str, dict[str, int]]
+
+NEGATION = re.compile(
+    r"\b(no|not|never|without|cannot|doesn't|don't|isn't|aren't|lack|lacks|negative|unrelated)\b",
+    re.IGNORECASE,
+)
+NUMERIC = re.compile(
+    (
+        r"\b\d+(?:\.\d+)?\b|\b(percent|percentage|fold|rate|high|higher|low|lower|"
+        r"more|less|fewer|increase|decrease)\b"
+    ),
+    re.IGNORECASE,
+)
 
 
-def load_scifact(folder: Path):
-    def load_jsonl(name):
-        with (folder / name).open(encoding="utf-8") as stream:
-            return {str(row["_id"]): row for line in stream if (row := json.loads(line))}
+def _load_jsonl(path: Path) -> dict[str, dict[str, object]]:
+    """Load JSON Lines rows keyed by their required ``_id`` field."""
+    rows: dict[str, dict[str, object]] = {}
+    with path.open(encoding="utf-8") as stream:
+        for line in stream:
+            row = cast(dict[str, object], json.loads(line))
+            rows[str(row["_id"])] = row
+    return rows
 
-    corpus = load_jsonl("corpus.jsonl")
-    all_queries = load_jsonl("queries.jsonl")
-    qrels = {}
+
+def load_scifact(folder: Path) -> tuple[Corpus, Queries, Qrels]:
+    """Return the SciFact corpus and only the queries judged in the test qrels."""
+    corpus = _load_jsonl(folder / "corpus.jsonl")
+    all_queries = _load_jsonl(folder / "queries.jsonl")
+    qrels: Qrels = {}
     with (folder / "qrels" / "test.tsv").open(encoding="utf-8", newline="") as stream:
         for row in csv.DictReader(stream, delimiter="\t"):
             score = int(row["score"])
             if score > 0:
                 qrels.setdefault(row["query-id"], {})[row["corpus-id"]] = score
-    queries = {qid: all_queries[qid]["text"] for qid in qrels}
-    assert queries and all(qrels[qid] for qid in queries)
+    queries = {qid: str(all_queries[qid]["text"]) for qid in qrels}
+    if not queries or not all(qrels[qid] for qid in queries):
+        raise ValueError("SciFact test data has no judged queries")
     return corpus, queries, qrels
 
 
-NEGATION = re.compile(r"\b(no|not|never|without|cannot|doesn't|don't|isn't|aren't|lack|lacks|negative|unrelated)\b", re.I)
-NUMERIC = re.compile(r"\b\d+(?:\.\d+)?\b|\b(percent|percentage|fold|rate|higher|lower|increase|decrease)\b", re.I)
-
-
 def query_category(text: str) -> str:
-    """Mutually exclusive query-form buckets, not labels supplied by SciFact."""
+    """Assign a mutually exclusive query-form bucket derived from claim text."""
     if NEGATION.search(text):
         return "negation"
     if NUMERIC.search(text):
