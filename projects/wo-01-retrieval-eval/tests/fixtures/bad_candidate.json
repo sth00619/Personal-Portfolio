@@ -1,0 +1,17 @@
+{
+  "config": {
+    "retriever": "hybrid",
+    "chunk_tokens": 128,
+    "reranker": false
+  },
+  "dataset": "BEIR SciFact test",
+  "summary": {
+    "all": {
+      "n": 300,
+      "recall@10": 0.8,
+      "MRR": 0.64,
+      "nDCG@10": 0.67
+    }
+  },
+  "note": "Deliberately degraded fixture used to demonstrate the CI failure path."
+}
