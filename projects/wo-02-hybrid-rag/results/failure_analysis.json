@@ -1,0 +1,158 @@
+{
+  "retrieval_failure_count": 53,
+  "retrieval_failure_examples": [
+    {
+      "query_id": "1",
+      "query": "0-dimensional biomaterials show inductive properties.",
+      "relevant_doc_ids": [
+        "31715818"
+      ],
+      "retrieved_top10": [
+        "10931595",
+        "43385013",
+        "6863070",
+        "24660385",
+        "803312",
+        "13231899",
+        "10607877",
+        "10608397",
+        "4346436",
+        "40212412"
+      ],
+      "reason": "No human-labeled relevant document was retrieved in the top 10."
+    },
+    {
+      "query_id": "13",
+      "query": "5% of perinatal mortality is due to low birth weight.",
+      "relevant_doc_ids": [
+        "1606628"
+      ],
+      "retrieved_top10": [
+        "35714909",
+        "1263446",
+        "28633594",
+        "30786800",
+        "8842332",
+        "23557241",
+        "25182647",
+        "26611834",
+        "16322674",
+        "17450673"
+      ],
+      "reason": "No human-labeled relevant document was retrieved in the top 10."
+    },
+    {
+      "query_id": "132",
+      "query": "Aspirin inhibits the production of PGE2.",
+      "relevant_doc_ids": [
+        "7975937"
+      ],
+      "retrieved_top10": [
+        "3866315",
+        "9159125",
+        "54482327",
+        "58006489",
+        "27615329",
+        "21181273",
+        "6083952",
+        "45401535",
+        "36838958",
+        "33118292"
+      ],
+      "reason": "No human-labeled relevant document was retrieved in the top 10."
+    },
+    {
+      "query_id": "213",
+      "query": "CRP is not predictive of postoperative mortality following Coronary Artery Bypass Graft (CABG) surgery.",
+      "relevant_doc_ids": [
+        "13625993"
+      ],
+      "retrieved_top10": [
+        "27054878",
+        "20887554",
+        "5884524",
+        "40156901",
+        "750781",
+        "21048969",
+        "9846940",
+        "5824985",
+        "7640792",
+        "7813993"
+      ],
+      "reason": "No human-labeled relevant document was retrieved in the top 10."
+    },
+    {
+      "query_id": "239",
+      "query": "Cellular aging closely links to an older appearance.",
+      "relevant_doc_ids": [
+        "14079881"
+      ],
+      "retrieved_top10": [
+        "516867",
+        "19343151",
+        "3230557",
+        "615047",
+        "7042304",
+        "9559146",
+        "22264117",
+        "9291668",
+        "40349336",
+        "1084345"
+      ],
+      "reason": "No human-labeled relevant document was retrieved in the top 10."
+    }
+  ],
+  "generation_failure_count": 13,
+  "generation_failure_examples": [
+    {
+      "query_id": "3",
+      "question_type": "calculation",
+      "claim": "1,000 genomes project enables mapping of genetic sequence variation consisting of rare variants with larger penetrance effects than common variants.",
+      "relevant_rank": 6,
+      "expected_label": "SUPPORT",
+      "predicted_label": "CONTRADICT",
+      "citation": "4414547#c0",
+      "reason": "the generator cited a non-gold document and the NLI verdict disagreed with the human label"
+    },
+    {
+      "query_id": "5",
+      "question_type": "calculation",
+      "claim": "1/2000 in UK have abnormal PrP positivity.",
+      "relevant_rank": 1,
+      "expected_label": "SUPPORT",
+      "predicted_label": "CONTRADICT",
+      "citation": "13734012#c1",
+      "reason": "the NLI verdict disagreed with the human label"
+    },
+    {
+      "query_id": "279",
+      "question_type": "calculation",
+      "claim": "Commelina yellow mottle virus' (ComYMV) genome consists of 7489 baise pairs.",
+      "relevant_rank": 1,
+      "expected_label": "SUPPORT",
+      "predicted_label": "CONTRADICT",
+      "citation": "14376683#c0",
+      "reason": "the NLI verdict disagreed with the human label"
+    },
+    {
+      "query_id": "593",
+      "question_type": "calculation",
+      "claim": "Incidence of heart failure decreased by 10% in women since 1979.",
+      "relevant_rank": 1,
+      "expected_label": "SUPPORT",
+      "predicted_label": "CONTRADICT",
+      "citation": "19675911#c1",
+      "reason": "the NLI verdict disagreed with the human label"
+    },
+    {
+      "query_id": "51",
+      "question_type": "comparison",
+      "claim": "ALDH1 expression is associated with better breast cancer outcomes.",
+      "relevant_rank": 2,
+      "expected_label": "CONTRADICT",
+      "predicted_label": "SUPPORT",
+      "citation": "8963413#c0",
+      "reason": "the generator cited a non-gold document and the NLI verdict disagreed with the human label"
+    }
+  ]
+}
