@@ -4,3 +4,13 @@ test-results/
 playwright-report/
 .env*
 .DS_Store
+.venv-wo01/
+**/__pycache__/
+**/.pytest_cache/
+projects/wo-01-retrieval-eval/data/scifact/
+projects/wo-01-retrieval-eval/data/*.zip
+projects/wo-01-retrieval-eval/results/cache/
+projects/wo-01-retrieval-eval/results/candidate.json
+projects/wo-01-retrieval-eval/results/runs.json
+projects/wo-01-retrieval-eval/results/per_query.json
+projects/wo-01-retrieval-eval/results/miss_candidates.json

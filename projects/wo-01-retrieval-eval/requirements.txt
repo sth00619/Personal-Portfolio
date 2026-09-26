@@ -1,0 +1,4 @@
+sentence-transformers>=3.0,<7
+rank-bm25==0.2.2
+numpy>=1.24
+pytest>=8
