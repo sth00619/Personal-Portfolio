@@ -1,0 +1,26 @@
+services:
+  redis:
+    image: redis:8.4.0-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  semantic-cache:
+    build:
+      context: .
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - huggingface-cache:/root/.cache/huggingface
+
+volumes:
+  huggingface-cache:
