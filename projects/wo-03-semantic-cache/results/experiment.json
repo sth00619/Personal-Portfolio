@@ -1,0 +1,61 @@
+{
+  "dataset": "Quora Question Pairs via sentence-transformers/quora-duplicates",
+  "dataset_revision": "41f699770310302022a4dd75d4cf903bfef9ea46",
+  "embedding_model": "sentence-transformers/quora-distilbert-base",
+  "tuning_pairs": 2000,
+  "replay_pairs": 500,
+  "normalized_label_overrides": 3,
+  "threshold_tuning": {
+    "selected_threshold": 0.993,
+    "precision_policy": 0.995,
+    "safety_margin": 0.003,
+    "selected_precision": 1.0,
+    "selected_recall": 0.0518444666001994,
+    "selected_coverage": 0.026,
+    "selected_true_hits": 52,
+    "selected_false_hits": 0
+  },
+  "replay": {
+    "queries": 1000,
+    "hit_counts": {
+      "exact": 150,
+      "miss": 2,
+      "prefix": 839,
+      "semantic": 9
+    },
+    "response_hit_rate": 0.159,
+    "cache_assist_rate": 0.998,
+    "semantic_hits": 9,
+    "semantic_false_hits": 0,
+    "semantic_false_hit_rate": 0.0,
+    "semantic_precision": 1.0,
+    "baseline_cost_usd": 2.218372500000002,
+    "actual_cost_usd": 0.7202091250000001,
+    "cost_saved_usd": 1.4981633750000016,
+    "cost_reduction_rate": 0.675343466888451,
+    "baseline_p50_ms": 1500.496547488336,
+    "actual_p50_ms": 1204.0884918832962,
+    "p50_reduction_rate": 0.19753997841660742,
+    "baseline_p95_ms": 1742.765518608913,
+    "actual_p95_ms": 1469.2100503836443,
+    "p95_reduction_rate": 0.15696630746035323
+  },
+  "cache_bust": {
+    "first_v1_lookup": "miss",
+    "second_v1_lookup": "exact",
+    "first_v2_lookup": "miss",
+    "prompt_change_busted_cache": true,
+    "invalidated": {
+      "redis_entries": 2,
+      "semantic_entries": 842
+    }
+  },
+  "simulation_assumptions": {
+    "input_price_per_million_usd": 1.25,
+    "output_price_per_million_usd": 5.0,
+    "system_prompt_tokens": 1200,
+    "prefix_input_discount": 0.9,
+    "prefix_latency_saving_ms": 260.0,
+    "boundary": "Redis and FAISS are executed; LLM cost and latency are deterministic modeled values."
+  }
+}

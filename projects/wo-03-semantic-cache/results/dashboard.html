@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WO-03 Semantic Cache Dashboard</title>
+<style>
+body { font-family: system-ui, sans-serif; margin: 0; background: #f5f7fb; color: #172033; }
+main { max-width: 1100px; margin: 40px auto; padding: 0 24px; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 5px 20px #17203312; }
+.value { font-size: 2rem; font-weight: 750; color: #0f4c81; }
+img { width: 100%; border-radius: 14px; margin-top: 24px; }
+small { color: #5f6b7a; }
+</style>
+<main>
+<h1>WO-03 · Semantic Cache Replay</h1>
+<p>1,000 Quora-derived requests · selected cosine threshold 0.993</p>
+<section class="grid">
+<div class="card"><div class="value">15.9%</div>Response hit rate</div>
+<div class="card"><div class="value">0.00%</div>Semantic false-hit rate</div>
+<div class="card"><div class="value">67.5%</div>Modeled cost reduction</div>
+<div class="card"><div class="value">15.7%</div>Modeled p95 reduction</div>
+</section>
+<img src="dashboard.png" alt="Semantic cache KPI dashboard">
+<img src="precision_curve.png" alt="Threshold precision curve">
+<p><small>Redis and FAISS cache behavior is executed. LLM price and latency use a deterministic simulation and are not provider measurements.</small></p>
+</main>
+</html>
