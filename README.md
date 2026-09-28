@@ -1,48 +1,78 @@
-# 송태호 · 금융 개발 포트폴리오
+# Personal Portfolio · Song Tae-ho
 
-공개 사이트: https://sth00619.github.io/Personal-Portfolio/
+> AI Engineering · Data Science · 검색 시스템 · 금융 데이터
 
-금융 데이터 전처리, 수식의 전제, 프로젝트에서 확인한 작업과 검증 범위를 소개합니다. 개인 학습 트래커를 채용 담당자가 바로 읽을 수 있는 정적 콘텐츠로 개편했습니다.
+**Notion 케이스 스터디** → [Portfolio Hub](https://app.notion.com/p/3df76d2e4c1c80b1b168db16c30a457d)  
+**라이브 사이트** → [sth00619.github.io/Personal-Portfolio](https://sth00619.github.io/Personal-Portfolio/)
 
-## 편집 위치
+---
 
-- index.html: 자기소개, 프로젝트 경험, 전처리 설명, 금융 개념, 협업과 지원 방향
-- styles.css: 반응형 스타일과 인쇄 표시
-- data.js: 공개용 가상 계산 예제. 운영 코드와 분리
-- projects-library.js: 관심 직무별 설명 문구
-- app.js: 직무 필터·가상 계산기·인쇄
-- assets/favicon.svg: 아이콘
-- scripts/build.mjs: 공개 파일 허용 목록
-- .github/workflows/deploy.yml: 검사 후 GitHub Pages 배포
+## 원칙
 
-## 로컬 실행과 검사
+이 레포의 모든 프로젝트는 세 가지를 갖춰야 완료로 인정합니다.
 
-Node.js 22 및 Python 3을 사용합니다. 외부 npm 의존성과 API 키가 필요하지 않습니다.
+1. **Eval** — 정량 지표 (Recall@10, false-hit rate, nDCG 등)
+2. **Number** — 실제 측정한 숫자
+3. **Tradeoff** — 왜 이 설정을 골랐는지 말로 설명 가능
 
-```sh
-npm test
-npm run build
-npm run dev
+---
+
+## WO 시리즈 — AI Engineering
+
+| # | 프로젝트 | 핵심 결과 | 상태 |
+|---|---|---|---|
+| [WO-01](./projects/wo-01-retrieval-eval/) | 검색 평가 하네스 | Recall@10 **0.8244** · CI gate | ✅ |
+| [WO-02](./projects/wo-02-hybrid-rag/) | 하이브리드 RAG | Hybrid RRF · Faithfulness 0.5667 | ✅ |
+| [WO-03](./projects/wo-03-semantic-cache/) | 시맨틱 캐시 | False-hit 0/9 · 비용 67.5%↓ | ✅ |
+| WO-04 | 멀티에이전트 오케스트레이션 | — | 🔄 |
+| WO-05 | 프롬프트 인젝션 가드레일 | — | ⬜ |
+| WO-06 | 신용평가 스코어카드 | — | ⬜ |
+
+각 폴더 안의 `README.md`에 문제 정의·접근·결과·한계·AI 활용 구분이 정리되어 있습니다.
+
+---
+
+## Data Profolio — 데이터 분석·엔지니어링
+
+| # | 프로젝트 | 스택 | 상태 |
+|---|---|---|---|
+| P1 | 실시간 금융 거래 이상탐지 | XGBoost · Airflow · FastAPI · Redis | ⬜ |
+| P2 | SaaS 고객 이탈 예측·코호트 | LightGBM · SHAP · dbt | ⬜ |
+| P3 | 서울 대중교통 지연 예측 | PostGIS · LSTM · Mapbox | ⬜ |
+| P4 | K-뷰티 글로벌 트렌드 | pytrends · Prophet · ES | ⬜ |
+| P5 | 서울 상권 입지 추천 | H3 · PostGIS · Deck.gl | ⬜ |
+| P6 | 글로벌 인텔리전스 플랫폼 | Mapbox Globe · Deck.gl | ⬜ |
+| P7M | 그로스 마케팅 성과 분석 | GA4 · RFM · ROAS | ⬜ |
+| P7P | SaaS 프로덕트 분석 | Aha Moment · RICE · dbt | ⬜ |
+
+---
+
+## 폴더 구조
+
+```
+Personal-Portfolio/
+├── CLAUDE.md              # Codex 공통 규칙
+├── README.md              # 이 파일
+├── projects/
+│   ├── wo-01-retrieval-eval/   # ✅ 검색 평가 하네스
+│   ├── wo-02-hybrid-rag/       # ✅ 하이브리드 RAG
+│   ├── wo-03-semantic-cache/   # ✅ 시맨틱 캐시
+│   └── ...
+└── track-d-sql/           # SQL·DB 학습 기록
 ```
 
-http://127.0.0.1:5174 에서 확인합니다. 주요 글은 HTML에 포함되어 있어 JavaScript 없이도 읽을 수 있습니다. 페이지 내부 링크와 상대 자산 경로를 사용하므로 GitHub Pages의 저장소 경로에서 작동합니다.
+---
 
-## 공개 범위
+## AI 활용 방식
 
-내부 브리프, 프로젝트 전체 소스, 원본 금융 데이터, 상세 아키텍처, 운영 로그·프롬프트·비용 정책은 배포하지 않습니다. 빌드는 명시적으로 허용한 파일만 dist에 복사합니다. 공개 저장소에 커밋하는 파일 자체도 공개되므로 내부 자료는 커밋하지 않습니다.
+모든 프로젝트 README에 **AI 활용 구분** 섹션이 있습니다.
 
-계산기는 일반적인 수식을 설명하는 가상 예제입니다. 투자 실적이나 실제 시장 정보가 아닙니다. FinanceManus/FinanceX는 협업의 구조·이론 검토와 UI/UX·문서화 범위로 소개하며 금융 엔진 전체를 개인 구현으로 표현하지 않습니다.
+| 직접 작성 | Codex 활용 |
+|---|---|
+| 목표·제약·Ship Gate·기술 선택·결과 해석 | 보일러플레이트·Docker·스캐폴딩·반복 계산 |
 
-미확인 학력·근무 경력·개인 기여율·수익률은 추가하지 않았습니다. 확정 정보는 index.html의 소개 영역에 추가합니다.
+코드가 왜 그렇게 작동하는지 설명할 수 없는 부분은 사용하지 않았습니다.
 
-## 업로드와 배포
+---
 
-UPLOAD_GUIDE.md를 참고하세요. GitHub Pages의 Source는 GitHub Actions를 사용합니다.
-
-### 작업 시각화 (2026-09-07 추가)
-
-페이지 상단 `#studio`에서 전처리 4단계, 포트폴리오 위험 곡선, 실제 이미지 비교, 가상 A/B 신뢰구간을 조작할 수 있습니다. `studio.js`가 상호작용을 담당합니다. 공개용 금융·실험 예제는 실측 성과가 아니며, 이미지 비교는 보류 사례입니다.
-
-`#job-fit`에는 토스·사람인 점핏·LinkedIn 공개 공고의 요구와 프로젝트 근거를 연결했습니다. 경력 연수·미보유 도구를 보유 역량으로 간주하지 않습니다. 출처와 확인일은 페이지에 표시합니다.
-
-추가 배포 파일: 저장소 루트 `studio.js`, `assets/image-review.jpg`. 이미지에는 검토용 시각 자료 일부만 포함되며 원본 프롬프트·로그는 포함하지 않습니다.
+*마지막 업데이트: 2026-09-27*
