@@ -1,0 +1,11 @@
+services:
+  hybrid-rag:
+    build:
+      context: .
+    volumes:
+      - ./data:/app/data
+      - ./artifacts/cache:/app/artifacts/cache
+      - huggingface-cache:/root/.cache/huggingface
+
+volumes:
+  huggingface-cache:
