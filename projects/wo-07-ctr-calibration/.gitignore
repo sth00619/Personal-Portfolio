@@ -2,6 +2,7 @@ data/*.parquet
 data/*.zip
 data/*.gz
 data/*.csv
+data/*.tmp
 results/*.tmp
 __pycache__/
 .pytest_cache/

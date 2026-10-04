@@ -6,6 +6,7 @@ data/*.parquet
 data/*.zip
 data/*.gz
 data/*.csv
+data/*.tmp
 results/
 *.pkl
 *.bin

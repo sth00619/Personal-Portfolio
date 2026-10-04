@@ -2,7 +2,7 @@
 
 ## 판정
 
-**대체 채택.** 첨부 작업지시서의 Kaggle Criteo Display Advertising Challenge와 Avazu는 이 환경에서 인증 정보가 없고 Kaggle API 요청이 HTTP 401을 반환했다. 대회 규칙 동의 여부도 확인할 수 없다. 두 대회의 데이터를 확보했다고 주장하지 않는다. 대신 [Criteo 공식 배포 페이지](https://ailab.criteo.com/download-criteo-1tb-click-logs-dataset/)가 연결한 [Criteo Click Logs](https://huggingface.co/datasets/criteo/CriteoClickLogs)를 사용한다. 이는 Kaggle 대회 데이터와 **다른 데이터셋**이다.
+**주 실험의 대체 채택.** 처음에는 Kaggle 인증 정보가 없고 API 요청이 HTTP 401을 반환해 대회 파일을 확보할 수 없었다. 주 실험에는 [Criteo 공식 배포 페이지](https://ailab.criteo.com/download-criteo-1tb-click-logs-dataset/)가 연결한 [Criteo Click Logs](https://huggingface.co/datasets/criteo/CriteoClickLogs)를 사용한다. 이는 Kaggle Criteo 대회 데이터와 **다른 데이터셋**이다. 사용자가 별도로 내려받아 제공한 Avazu 대회 파일은 이후 **독립 검증**에 사용했고, 원본 검증은 [AVAZU_VALIDATION.md](AVAZU_VALIDATION.md)에 기록했다.
 
 공식 설명은 이 데이터가 디스플레이 광고 노출과 클릭 피드백으로 구성되고, 24일의 일자별 데이터이며, 원본 행이 시간순이라고 밝힌다. 현재 배포 형식은 날짜별 디렉터리 안의 여러 Parquet 조각이다. 조각 **안**의 순서를 시간 정보로 가정하지 않고, 날짜가 다른 조각 사이의 선후 관계만 분할에 사용한다.
 
@@ -10,7 +10,7 @@
 
 | 항목 | 확인 결과 |
 |---|---|
-| Kaggle 대회 | 인증 파일과 `KAGGLE_USERNAME`, `KAGGLE_KEY`, `KAGGLE_API_TOKEN` 모두 없음. 비인증 API 요청 HTTP 401. 규칙 동의 여부 미확인 |
+| Kaggle CLI | 인증 파일과 `KAGGLE_USERNAME`, `KAGGLE_KEY`, `KAGGLE_API_TOKEN` 모두 없음. 초기 비인증 API 요청 HTTP 401. Avazu 파일은 사용자가 브라우저로 직접 다운로드 |
 | 채택 데이터 | `criteo/CriteoClickLogs` 공개 파일 다운로드 성공. 별도 계정 불필요 |
 | 라이선스 | [데이터 카드](https://huggingface.co/datasets/criteo/CriteoClickLogs/blob/main/README.md)의 CC BY-NC-SA 4.0. 연구·비상업 목적, 출처 표시. 원본 재배포 없이 Git에서 제외 |
 | 다운로드 | `bash data/download.sh` — 날짜별로 고정된 Parquet 조각 하나씩 다운로드하고 SHA-256 검증 |
