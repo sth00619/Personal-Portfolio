@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import least_squares
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import brier_score_loss, log_loss
+from sklearn.metrics import brier_score_loss, log_loss, roc_auc_score
 
 from data.download import FILES, digest_file
 
@@ -94,7 +94,8 @@ def load_day(day: str, prefix: bool, advertiser_only: bool = False) -> tuple[pd.
     """Parse supported impressions and join click events by bid ID."""
     clicks = click_counts(day)
     records: list[dict[str, object]] = []
-    audit = {"rows": 0, "malformed": 0, "invalid_price": 0, "advertiser_rows": 0}
+    audit = {"rows": 0, "malformed": 0, "invalid_price": 0,
+             "invalid_advertiser_price": 0, "advertiser_rows": 0}
     for line in impression_lines(day, prefix):
         audit["rows"] += 1
         fields = line.rstrip("\r\n").split("\t")
@@ -108,6 +109,8 @@ def load_day(day: str, prefix: bool, advertiser_only: bool = False) -> tuple[pd.
             continue
         if price < 0 or bid < 0 or price > bid:
             audit["invalid_price"] += 1
+            if fields[22] == ADVERTISER:
+                audit["invalid_advertiser_price"] += 1
             continue
         if fields[22] == ADVERTISER:
             audit["advertiser_rows"] += 1
@@ -172,11 +175,13 @@ def train_pctr(train: pd.DataFrame, calibration: pd.DataFrame, test: pd.DataFram
         "calibration_mean_pctr": float(p_cal.mean()),
         "calibration_brier": float(brier_score_loss(calibration["clicked"], p_cal)),
         "calibration_logloss": float(log_loss(calibration["clicked"], p_cal)),
+        "calibration_auc": float(roc_auc_score(calibration["clicked"], p_cal)),
         "test_rows": len(test), "test_clicked": int(test["clicked"].sum()),
         "test_ctr": float(test["clicked"].mean()),
         "test_mean_pctr": float(p_test.mean()),
         "test_brier": float(brier_score_loss(test["clicked"], p_test)),
         "test_logloss": float(log_loss(test["clicked"], p_test)),
+        "test_auc": float(roc_auc_score(test["clicked"], p_test)),
     }
     return p_cal, p_test, diagnostics
 
@@ -330,6 +335,7 @@ def run() -> dict[str, object]:
     cal_target = budget * cal_hours / HOURS
     prices = train_advertiser["price"].to_numpy()
     bids, empirical, c = conditional_win_curve(prices)
+    win_curve_rmse = float(np.sqrt(np.mean((bids / (c + bids) - empirical) ** 2)))
     avg_pctr = float(np.mean([auction.pctr for auction in cal_auctions]))
     strategies = ("constant", "linear", "ortb", "paced_ortb")
     scales = {
@@ -356,7 +362,8 @@ def run() -> dict[str, object]:
         "observed_train_hours": observed_hours,
         "budget_fraction": BUDGET_FRACTION, "budget": budget,
         "calibration_target": cal_target, "calibration_hours": cal_hours,
-        "win_curve_c": c, "mean_calibration_pctr_for_advertiser": avg_pctr,
+        "win_curve_c": c, "win_curve_rmse": win_curve_rmse,
+        "mean_calibration_pctr_for_advertiser": avg_pctr,
         "scales": scales, "scores": [asdict(score) for score in scores],
         "test_advertiser_rows": len(test_auctions),
         "test_advertiser_clicked_impressions": sum(a.clicks > 0 for a in test_auctions),
