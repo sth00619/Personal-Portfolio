@@ -1,0 +1,9 @@
+data/raw/
+*.zip
+*.pkl
+*.parquet
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+*.pyc

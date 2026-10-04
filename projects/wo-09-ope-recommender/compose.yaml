@@ -1,0 +1,17 @@
+services:
+  download:
+    build: .
+    volumes:
+      - ./data:/app/data
+    command: python data/download.py
+  experiment:
+    build: .
+    volumes:
+      - ./data:/app/data:ro
+      - ./results:/app/results
+    command: python run.py
+  test:
+    build: .
+    volumes:
+      - ./results:/app/results:ro
+    command: pytest -q
