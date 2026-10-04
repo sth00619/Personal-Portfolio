@@ -1,0 +1,12 @@
+data/*.parquet
+data/*.zip
+data/*.gz
+data/*.csv
+results/*.tmp
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.pkl
+*.bin
+.env
