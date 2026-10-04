@@ -1,0 +1,5 @@
+services:
+  injection-guard:
+    build: .
+    volumes:
+      - ./results:/app/results
