@@ -11,9 +11,9 @@
 
 이 레포의 모든 프로젝트는 세 가지를 갖춰야 완료로 인정합니다.
 
-1. **Eval** — 정량 지표 (Recall@10, false-hit rate, nDCG 등)
+1. **Eval** — 정량 지표 (Recall@10, false-hit rate, Gini, 종료 상태 일치율 등)
 2. **Number** — 실제 측정한 숫자
-3. **Tradeoff** — 왜 이 설정을 골랐는지 말로 설명 가능
+3. **Tradeoff** — 왜 이 설정을 골랐는지, 무엇이 아직 증명되지 않았는지 말로 설명 가능
 
 ---
 
@@ -23,12 +23,14 @@
 |---|---|---|---|
 | [WO-01](./projects/wo-01-retrieval-eval/) | 검색 평가 하네스 | Recall@10 **0.8244** · CI gate | ✅ |
 | [WO-02](./projects/wo-02-hybrid-rag/) | 하이브리드 RAG | Hybrid RRF · Faithfulness 0.5667 | ✅ |
-| [WO-03](./projects/wo-03-semantic-cache/) | 시맨틱 캐시 | False-hit 0/9 · 비용 67.5%↓ | ✅ |
-| WO-04 | 멀티에이전트 오케스트레이션 | — | 🔄 |
-| WO-05 | 프롬프트 인젝션 가드레일 | — | ⬜ |
-| WO-06 | 신용평가 스코어카드 | — | ⬜ |
+| [WO-03](./projects/wo-03-semantic-cache/) | 시맨틱 캐시 | False-hit 0/9 · 비용 67.5%↓(모델링) | ✅ |
+| [WO-04](./projects/wo-04-multi-agent/) | 멀티워커 오케스트레이션 | 종료상태 30/30 일치 · 승인 전 지급 0건 | ✅ |
+| [WO-05](./projects/wo-05-injection-guard/) | 프롬프트 인젝션 가드레일 | 공격 성공 60→0 · 오탐 2/100 | ✅ |
+| [WO-06](./projects/wo-06-credit-scorecard/) | 신용평가 스코어카드 | Gini 0.3045/0.3055 · 재학습신호 0건 | ✅ |
 
 각 폴더 안의 `README.md`에 문제 정의·접근·결과·한계·AI 활용 구분이 정리되어 있습니다.
+
+> **표현 경계**: WO-04의 워커는 LLM이 아닌 결정적 규칙이며 비용·지급은 모델링·합성 기록입니다. WO-05의 공격·방어는 합성 코퍼스 결과이며 실제 LLM·이메일·ATS 환경의 방어율이 아닙니다. WO-06은 공개 Lending Club 데이터의 사후 분석이며, 결과 관측 시점이 데이터에 없어 실제 배포 시점을 재현한 backtest가 아닙니다.
 
 ---
 
@@ -57,6 +59,9 @@ Personal-Portfolio/
 │   ├── wo-01-retrieval-eval/   # ✅ 검색 평가 하네스
 │   ├── wo-02-hybrid-rag/       # ✅ 하이브리드 RAG
 │   ├── wo-03-semantic-cache/   # ✅ 시맨틱 캐시
+│   ├── wo-04-multi-agent/      # ✅ 멀티워커 오케스트레이션
+│   ├── wo-05-injection-guard/  # ✅ 프롬프트 인젝션 가드레일
+│   ├── wo-06-credit-scorecard/ # ✅ 신용평가 스코어카드
 │   └── ...
 └── track-d-sql/           # SQL·DB 학습 기록
 ```
@@ -69,10 +74,10 @@ Personal-Portfolio/
 
 | 직접 작성 | Codex 활용 |
 |---|---|
-| 목표·제약·Ship Gate·기술 선택·결과 해석 | 보일러플레이트·Docker·스캐폴딩·반복 계산 |
+| 목표·제약·Ship Gate·기술 선택·결과 해석·표현 경계 | 보일러플레이트·Docker·스캐폴딩·반복 계산·테스트 코드 |
 
 코드가 왜 그렇게 작동하는지 설명할 수 없는 부분은 사용하지 않았습니다.
 
 ---
 
-*마지막 업데이트: 2026-09-27*
+*마지막 업데이트: 2026-10-04*
