@@ -15,7 +15,14 @@ import shap
 
 from src.data import FEATURES, TARGET, expanding_month_splits, load_applications
 from src.metrics import auc_gini, population_stability_index, psi_signal
-from src.models import fit_challenger, fit_scorecard
+from src.models import (
+    BASE_GOOD_BAD_ODDS,
+    BASE_SCORE,
+    POINTS_TO_DOUBLE_ODDS,
+    Scorecard,
+    fit_challenger,
+    fit_scorecard,
+)
 
 START_MONTH = "2015-01"
 END_MONTH = "2017-06"
@@ -28,7 +35,9 @@ PLOT_DPI = 160
 FIGURE_SIZE = (9, 4.5)
 
 
-def tune_challenger(train: pd.DataFrame) -> tuple[dict[str, int | float], list[dict[str, Any]]]:
+def tune_challenger(
+    train: pd.DataFrame, feature_names: tuple[str, ...]
+) -> tuple[dict[str, int | float], list[dict[str, Any]]]:
     """Tune on the final training month without inspecting OOT months."""
     months = sorted(train["month"].unique().tolist())
     tuning_month = months[-1]
@@ -45,8 +54,8 @@ def tune_challenger(train: pd.DataFrame) -> tuple[dict[str, int | float], list[d
             "min_child_samples": trial.suggest_int("min_child_samples", 50, 180),
             "learning_rate": trial.suggest_float("learning_rate", 0.03, 0.12),
         }
-        model = fit_challenger(fit_rows[list(FEATURES)], fit_rows[TARGET].to_numpy(), parameters)
-        prediction = model.predict_proba(validation[list(FEATURES)])[:, 1]
+        model = fit_challenger(fit_rows[list(feature_names)], fit_rows[TARGET].to_numpy(), parameters)
+        prediction = model.predict_proba(validation[list(feature_names)])[:, 1]
         return auc_gini(validation[TARGET].to_numpy(), prediction)[0]
 
     optuna.logging.set_verbosity(optuna.logging.WARNING)
@@ -75,7 +84,7 @@ def shap_reasons(model: Any, applicant: pd.DataFrame) -> dict[str, Any]:
             "value": float(applicant.iloc[0][feature]) if pd.notna(applicant.iloc[0][feature]) else None,
             "shap_log_odds": float(contribution),
         }
-        for feature, contribution in zip(FEATURES, signed)
+        for feature, contribution in zip(applicant.columns, signed)
         if contribution > 0
     ]
     factors.sort(key=lambda item: item["shap_log_odds"], reverse=True)
@@ -108,6 +117,44 @@ def plot_monthly_results(rows: list[dict[str, Any]], output: Path) -> None:
     plt.close(figure)
 
 
+def write_scorecard_points(scorecard: Scorecard, results_dir: Path) -> None:
+    """Export the final fold's WoE bins and additive point contributions."""
+    factor = POINTS_TO_DOUBLE_ODDS / np.log(2)
+    offset = BASE_SCORE - factor * np.log(BASE_GOOD_BAD_ODDS)
+    intercept_points = float(offset - factor * scorecard.model.intercept_[0])
+    rows = []
+    for feature, coefficient in zip(scorecard.selected_features, scorecard.model.coef_[0]):
+        table = scorecard.binners[feature].binning_table.build()
+        for _, bin_row in table.iterrows():
+            if str(bin_row["Bin"]) == "Totals":
+                continue
+            parsed_woe = pd.to_numeric(bin_row["WoE"], errors="coerce")
+            if int(bin_row["Count"]) == 0 or pd.isna(parsed_woe):
+                continue
+            woe = float(parsed_woe)
+            rows.append(
+                {
+                    "feature": feature,
+                    "bin": str(bin_row["Bin"]),
+                    "count": int(bin_row["Count"]),
+                    "event_rate": float(bin_row["Event rate"]),
+                    "woe": woe,
+                    "iv": float(bin_row["IV"]),
+                    "logistic_coefficient": float(coefficient),
+                    "point_contribution": float(-factor * coefficient * woe),
+                }
+            )
+    pd.DataFrame(rows).to_csv(results_dir / "scorecard_bins.csv", index=False)
+    scaling = {
+        "base_score": BASE_SCORE,
+        "base_good_bad_odds": BASE_GOOD_BAD_ODDS,
+        "points_to_double_odds": POINTS_TO_DOUBLE_ODDS,
+        "intercept_points": intercept_points,
+        "formula": "score = intercept_points + sum(point_contribution for selected bins)",
+    }
+    (results_dir / "scorecard_scaling.json").write_text(json.dumps(scaling, indent=2), encoding="utf-8")
+
+
 def _model_summary(rows: list[dict[str, Any]], name: str) -> dict[str, float]:
     """Aggregate equal-weight monthly discrimination and score drift."""
     return {
@@ -130,24 +177,33 @@ def run_experiment(
     results_dir.mkdir(parents=True, exist_ok=True)
     frame = load_applications(data_path, start_month, end_month, monthly_cap)
     folds = expanding_month_splits(frame, VALIDATION_MONTHS, MIN_TRAIN_MONTHS)
-    challenger_parameters, tuning_trials = tune_challenger(folds[0][1])
+    initial_train = folds[0][1]
+    internal_validation_month = initial_train["month"].max()
+    pre_tuning_rows = initial_train[initial_train["month"] < internal_validation_month]
+    initial_scorecard = fit_scorecard(
+        pre_tuning_rows[list(FEATURES)], pre_tuning_rows[TARGET].to_numpy(dtype=int)
+    )
+    challenger_parameters, tuning_trials = tune_challenger(initial_train, initial_scorecard.selected_features)
     rows: list[dict[str, Any]] = []
     last_model: Any = None
     last_validation: pd.DataFrame | None = None
     last_predictions: np.ndarray | None = None
     last_iv: dict[str, float] = {}
     last_features: tuple[str, ...] = ()
+    last_scorecard: Scorecard | None = None
     for month, train, validation in folds:
         train_x = train[list(FEATURES)]
         validation_x = validation[list(FEATURES)]
         train_y = train[TARGET].to_numpy(dtype=int)
         validation_y = validation[TARGET].to_numpy(dtype=int)
         scorecard = fit_scorecard(train_x, train_y)
-        challenger = fit_challenger(train_x, train_y, challenger_parameters)
+        challenger_x = train_x[list(scorecard.selected_features)]
+        challenger_validation_x = validation_x[list(scorecard.selected_features)]
+        challenger = fit_challenger(challenger_x, train_y, challenger_parameters)
         score_train = scorecard.predict_pd(train_x)
         score_test = scorecard.predict_pd(validation_x)
-        light_train = challenger.predict_proba(train_x)[:, 1]
-        light_test = challenger.predict_proba(validation_x)[:, 1]
+        light_train = challenger.predict_proba(challenger_x)[:, 1]
+        light_test = challenger.predict_proba(challenger_validation_x)[:, 1]
         score_auc, score_gini = auc_gini(validation_y, score_test)
         light_auc, light_gini = auc_gini(validation_y, light_test)
         score_psi = population_stability_index(score_train, score_test)
@@ -159,17 +215,21 @@ def run_experiment(
                 "train_count": len(train),
                 "validation_count": len(validation),
                 "default_rate": float(validation_y.mean()),
+                "selected_features": list(scorecard.selected_features),
                 "scorecard": {"auc": score_auc, "gini": score_gini, "psi": score_psi, "signal": psi_signal(score_psi)},
                 "lightgbm": {"auc": light_auc, "gini": light_gini, "psi": light_psi, "signal": psi_signal(light_psi)},
             }
         )
         last_model = challenger
-        last_validation = validation_x
+        last_validation = challenger_validation_x
         last_predictions = light_test
         last_iv = scorecard.information_value
         last_features = scorecard.selected_features
+        last_scorecard = scorecard
         print(f"{month}: scorecard Gini={score_gini:.3f}, LightGBM Gini={light_gini:.3f}, PSI={score_psi:.3f}/{light_psi:.3f}", flush=True)
     assert last_model is not None and last_validation is not None and last_predictions is not None
+    assert last_scorecard is not None
+    write_scorecard_points(last_scorecard, results_dir)
     highest_risk_position = int(np.argmax(last_predictions))
     applicant = last_validation.iloc[[highest_risk_position]]
     example = {
@@ -181,7 +241,7 @@ def run_experiment(
     }
     comparison = {
         "scorecard": {**_model_summary(rows, "scorecard"), "explainability": "additive WoE bins and PDO score"},
-        "lightgbm": {**_model_summary(rows, "lightgbm"), "explainability": "post-hoc Tree SHAP; local approximation only"},
+        "lightgbm": {**_model_summary(rows, "lightgbm"), "explainability": "post-hoc Tree SHAP; local attribution, not causal"},
     }
     output = {
         "dataset": "Zenodo 11295916 Lending Club granting model",

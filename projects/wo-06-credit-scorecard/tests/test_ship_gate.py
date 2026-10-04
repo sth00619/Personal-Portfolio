@@ -1,12 +1,16 @@
 """Tests for leakage, chronology, scoring, and PSI alarm behavior."""
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytest
 
 from src.data import FEATURES, assert_feature_allowlist, expanding_month_splits
+from src.experiment import write_scorecard_points
 from src.metrics import PSI_RETRAIN, auc_gini, population_stability_index, psi_signal
-from src.models import fit_scorecard, pd_to_points
+from src.models import BASE_GOOD_BAD_ODDS, BASE_SCORE, POINTS_TO_DOUBLE_ODDS, fit_scorecard, pd_to_points
 
 ROWS_PER_MONTH = 120
 MONTH_COUNT = 6
@@ -51,7 +55,7 @@ def test_pdo_adds_fifty_points_when_good_odds_double() -> None:
     assert pd_to_points(np.array([1 / 21]))[0] == pytest.approx(600.0)
 
 
-def test_woe_model_handles_out_of_time_values_without_refit() -> None:
+def test_woe_model_handles_out_of_time_values_without_refit(tmp_path: Path) -> None:
     """Training-only bins should score later values and yield valid discrimination."""
     rng = np.random.default_rng(RANDOM_STATE)
     frame = pd.DataFrame(
@@ -71,3 +75,11 @@ def test_woe_model_handles_out_of_time_values_without_refit() -> None:
     assert np.all((predictions > 0) & (predictions < 1))
     assert np.isfinite(predictions).all()
     assert auc_gini(target[500:], predictions)[0] >= 0.4
+    factor = POINTS_TO_DOUBLE_ODDS / np.log(2)
+    intercept_points = BASE_SCORE - factor * np.log(BASE_GOOD_BAD_ODDS) - factor * model.model.intercept_[0]
+    bin_points = -factor * model.transform(frame.iloc[500:]) * model.model.coef_[0]
+    assert np.allclose(model.score(frame.iloc[500:]), intercept_points + bin_points.sum(axis=1))
+    write_scorecard_points(model, tmp_path)
+    assert not pd.read_csv(tmp_path / "scorecard_bins.csv").empty
+    scaling = json.loads((tmp_path / "scorecard_scaling.json").read_text())
+    assert scaling["intercept_points"] == pytest.approx(intercept_points)
