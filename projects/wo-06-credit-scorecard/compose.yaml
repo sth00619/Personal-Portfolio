@@ -1,0 +1,12 @@
+services:
+  experiment:
+    build: .
+    volumes:
+      - ./data:/app/data:ro
+      - ./results:/app/results
+    environment:
+      WO06_DATA_PATH: /app/data/LC_loans_granting_model_dataset.csv
+      WO06_RESULTS_DIR: /app/results
+  test:
+    build: .
+    command: pytest -q
