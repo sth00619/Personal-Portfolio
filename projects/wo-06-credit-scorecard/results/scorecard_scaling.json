@@ -1,0 +1,7 @@
+{
+  "base_score": 600,
+  "base_good_bad_odds": 20,
+  "points_to_double_odds": 50,
+  "intercept_points": 474.9929200649085,
+  "formula": "score = intercept_points + sum(point_contribution for selected bins)"
+}

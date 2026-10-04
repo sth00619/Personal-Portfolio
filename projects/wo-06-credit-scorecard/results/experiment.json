@@ -1,0 +1,278 @@
+{
+  "dataset": "Zenodo 11295916 Lending Club granting model",
+  "data_range": [
+    "2015-01",
+    "2017-06"
+  ],
+  "sampled_rows": 45000,
+  "monthly_cap": 1500,
+  "validation_scheme": "retrospective expanding monthly originations; no random split",
+  "label_availability_verified": false,
+  "feature_allowlist": [
+    "revenue",
+    "dti_n",
+    "loan_amnt",
+    "fico_n",
+    "experience_c"
+  ],
+  "tuning_validation_month": "2016-12",
+  "optuna_trials": [
+    {
+      "number": 0,
+      "auc": 0.6361214274180527,
+      "parameters": {
+        "n_estimators": 156,
+        "num_leaves": 30,
+        "min_child_samples": 145,
+        "learning_rate": 0.08387926357773329
+      }
+    },
+    {
+      "number": 1,
+      "auc": 0.6452695643088496,
+      "parameters": {
+        "n_estimators": 123,
+        "num_leaves": 10,
+        "min_child_samples": 57,
+        "learning_rate": 0.10795585311974416
+      }
+    },
+    {
+      "number": 2,
+      "auc": 0.627980119869682,
+      "parameters": {
+        "n_estimators": 190,
+        "num_leaves": 24,
+        "min_child_samples": 52,
+        "learning_rate": 0.11729188669457949
+      }
+    },
+    {
+      "number": 3,
+      "auc": 0.6449394952555542,
+      "parameters": {
+        "n_estimators": 225,
+        "num_leaves": 12,
+        "min_child_samples": 73,
+        "learning_rate": 0.046506405886809044
+      }
+    }
+  ],
+  "selected_lightgbm_parameters": {
+    "n_estimators": 123,
+    "num_leaves": 10,
+    "min_child_samples": 57,
+    "learning_rate": 0.10795585311974416
+  },
+  "final_fold_information_value": {
+    "revenue": 0.033614589207297256,
+    "dti_n": 0.0735552380191306,
+    "loan_amnt": 0.033112663027375214,
+    "fico_n": 0.1263750574247181,
+    "experience_c": 0.0
+  },
+  "final_fold_selected_scorecard_features": [
+    "revenue",
+    "dti_n",
+    "loan_amnt",
+    "fico_n"
+  ],
+  "monthly": [
+    {
+      "month": "2017-01",
+      "train_end_month": "2016-12",
+      "train_count": 36000,
+      "validation_count": 1500,
+      "default_rate": 0.21666666666666667,
+      "selected_features": [
+        "revenue",
+        "dti_n",
+        "loan_amnt",
+        "fico_n"
+      ],
+      "scorecard": {
+        "auc": 0.6530684124386252,
+        "gini": 0.30613682487725047,
+        "psi": 0.016761442211633046,
+        "signal": "STABLE"
+      },
+      "lightgbm": {
+        "auc": 0.6448196399345336,
+        "gini": 0.28963927986906723,
+        "psi": 0.019197345876193372,
+        "signal": "STABLE"
+      }
+    },
+    {
+      "month": "2017-02",
+      "train_end_month": "2017-01",
+      "train_count": 37500,
+      "validation_count": 1500,
+      "default_rate": 0.22533333333333333,
+      "selected_features": [
+        "revenue",
+        "dti_n",
+        "loan_amnt",
+        "fico_n"
+      ],
+      "scorecard": {
+        "auc": 0.6469920255833138,
+        "gini": 0.2939840511666276,
+        "psi": 0.029961510667491243,
+        "signal": "STABLE"
+      },
+      "lightgbm": {
+        "auc": 0.6522548350629908,
+        "gini": 0.3045096701259815,
+        "psi": 0.027206940650901974,
+        "signal": "STABLE"
+      }
+    },
+    {
+      "month": "2017-03",
+      "train_end_month": "2017-02",
+      "train_count": 39000,
+      "validation_count": 1500,
+      "default_rate": 0.22733333333333333,
+      "selected_features": [
+        "revenue",
+        "dti_n",
+        "loan_amnt",
+        "fico_n"
+      ],
+      "scorecard": {
+        "auc": 0.6589549085443767,
+        "gini": 0.3179098170887533,
+        "psi": 0.026791994095763126,
+        "signal": "STABLE"
+      },
+      "lightgbm": {
+        "auc": 0.660028996581642,
+        "gini": 0.3200579931632841,
+        "psi": 0.024519546942649392,
+        "signal": "STABLE"
+      }
+    },
+    {
+      "month": "2017-04",
+      "train_end_month": "2017-03",
+      "train_count": 40500,
+      "validation_count": 1500,
+      "default_rate": 0.234,
+      "selected_features": [
+        "revenue",
+        "dti_n",
+        "loan_amnt",
+        "fico_n"
+      ],
+      "scorecard": {
+        "auc": 0.6654268917106168,
+        "gini": 0.3308537834212335,
+        "psi": 0.02616528411093687,
+        "signal": "STABLE"
+      },
+      "lightgbm": {
+        "auc": 0.6709029776914894,
+        "gini": 0.34180595538297887,
+        "psi": 0.028536024245927463,
+        "signal": "STABLE"
+      }
+    },
+    {
+      "month": "2017-05",
+      "train_end_month": "2017-04",
+      "train_count": 42000,
+      "validation_count": 1500,
+      "default_rate": 0.24533333333333332,
+      "selected_features": [
+        "revenue",
+        "dti_n",
+        "loan_amnt",
+        "fico_n"
+      ],
+      "scorecard": {
+        "auc": 0.6423425737440467,
+        "gini": 0.28468514748809337,
+        "psi": 0.024253910708937624,
+        "signal": "STABLE"
+      },
+      "lightgbm": {
+        "auc": 0.6336094734214164,
+        "gini": 0.26721894684283276,
+        "psi": 0.024948329208084017,
+        "signal": "STABLE"
+      }
+    },
+    {
+      "month": "2017-06",
+      "train_end_month": "2017-05",
+      "train_count": 43500,
+      "validation_count": 1500,
+      "default_rate": 0.236,
+      "selected_features": [
+        "revenue",
+        "dti_n",
+        "loan_amnt",
+        "fico_n"
+      ],
+      "scorecard": {
+        "auc": 0.6466634129026533,
+        "gini": 0.29332682580530656,
+        "psi": 0.034949315095009856,
+        "signal": "STABLE"
+      },
+      "lightgbm": {
+        "auc": 0.65488163200915,
+        "gini": 0.3097632640182999,
+        "psi": 0.029476011710883956,
+        "signal": "STABLE"
+      }
+    }
+  ],
+  "comparison": {
+    "scorecard": {
+      "mean_auc": 0.6522413708206054,
+      "mean_gini": 0.3044827416412108,
+      "gini_std": 0.015838117970368625,
+      "mean_psi": 0.026480576148295295,
+      "max_psi": 0.034949315095009856,
+      "explainability": "additive WoE bins and PDO score"
+    },
+    "lightgbm": {
+      "mean_auc": 0.6527495924502037,
+      "mean_gini": 0.3054991849004074,
+      "gini_std": 0.02333172091263129,
+      "mean_psi": 0.025647366439106697,
+      "max_psi": 0.029476011710883956,
+      "explainability": "post-hoc Tree SHAP; local attribution, not causal"
+    }
+  },
+  "example": {
+    "month": "2017-06",
+    "selection": "highest estimated PD in final OOT month",
+    "hypothetical_decision": "manual_review",
+    "estimated_pd": 0.5404383515463246,
+    "positive_risk_contributors": [
+      {
+        "feature": "dti_n",
+        "value": 61.28,
+        "shap_log_odds": 0.6818641621647613
+      },
+      {
+        "feature": "loan_amnt",
+        "value": 30000.0,
+        "shap_log_odds": 0.4616508135405812
+      },
+      {
+        "feature": "fico_n",
+        "value": 667.0,
+        "shap_log_odds": 0.3902546433777401
+      }
+    ],
+    "shap_unit": "raw log-odds"
+  },
+  "retrain_review_months": {
+    "scorecard": [],
+    "lightgbm": []
+  }
+}
