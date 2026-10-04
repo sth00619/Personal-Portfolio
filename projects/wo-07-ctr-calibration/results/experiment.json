@@ -2,6 +2,8 @@
   "dataset": "criteo/CriteoClickLogs",
   "sample_design": "first 40000 rows of one fixed Parquet shard per day",
   "rows_per_day": 40000,
+  "preferred_method": "platt",
+  "preferred_method_basis": "predeclared lower-complexity monotone parametric mapping; test is for comparison only",
   "split": {
     "train": {
       "days": [
