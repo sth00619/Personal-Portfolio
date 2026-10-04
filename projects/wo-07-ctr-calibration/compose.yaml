@@ -10,3 +10,9 @@ services:
     volumes:
       - ./results:/app/results:ro
     command: pytest -q
+  avazu:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+    command: python avazu_run.py
