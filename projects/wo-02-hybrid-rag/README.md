@@ -11,6 +11,16 @@
 2. cross-encoder가 상위 후보를 질의와 함께 읽으면 정답 문서의 순위가 더 올라간다.
 3. 답변을 근거 문장의 추출형 판정으로 제한하면 모든 답변에 검증 가능한 청크 인용을 남길 수 있다.
 
+## 접근 — 시도 순서
+
+**1차 (검색 단계, WO-01 설정 재사용)**: WO-01에서 가장 좋았던 128-token 청크·BM25·Dense·RRF 조합을 그대로 가져왔다. Hybrid RRF Recall@10 0.8244로 가설 1을 재확인했다.
+
+**2차 (리랭커 추가, 가설 2 검증)**: 상위 20개 후보에 cross-encoder를 적용했다. 예상과 달리 MRR만 0.0008 상승하고 Recall@10·nDCG@10은 오히려 낮아졌다. MS MARCO로 학습된 리랭커가 SciFact의 과학 주장 검증 도메인과 맞지 않는다는 신호로 판단해, 운영 기본값은 RRF 단독으로 정하고 리랭커는 도메인 특화 모델 교체 전까지 보류했다.
+
+**3차 (생성 — 다문서 컨텍스트 시도)**: 가설 3을 검증하기 위해 처음에는 리랭킹 상위 5개 문서를 모두 NLI에 입력했다. 로컬 NLI가 비정답 문장의 점수를 과신해 잘못된 문서를 인용하는 사례가 늘었다.
+
+**4차 (생성 — top-1 제한으로 수정)**: 생성 컨텍스트를 최상위 1개 문서로 제한했다. 인용 정확도는 개선됐지만, 정답이 2위 이하인 질문에서는 애초에 답변 기회가 사라지는 새로운 실패 유형이 드러났다 — 이는 WO-02의 핵심 발견이자 다음 프로젝트(컨텍스트 선택 보정)의 출발점이 됐다.
+
 ## 데이터
 
 - **검색 평가**: [BEIR SciFact](https://github.com/beir-cellar/beir) test qrels, 5,183개 문서와 300개 질의
@@ -26,9 +36,9 @@ python run.py
 pytest -q
 ```
 
-첫 실행에는 Hugging Face 모델 다운로드가 필요하다. API 키나 외부 LLM 서비스는 사용하지 않는다.
+첫 실행에는 Hugging Face 모델 다운로드가 필요하다.
 
-## 접근 / 파이프라인
+## 파이프라인
 
 ```mermaid
 flowchart LR
@@ -42,7 +52,7 @@ flowchart LR
     G --> H[답변 + 문서#청크 인용]
 ```
 
-- WO-01에서 가장 좋았던 **128-token 청크**를 재사용하고 24-token overlap을 둔다.
+- 128-token 청크, 24-token overlap을 사용한다.
 - BM25와 `all-MiniLM-L6-v2` dense 검색이 각각 상위 50개 문서를 반환한다.
 - RRF(`k=60`)가 점수 정규화 없이 두 순위를 합친다.
 - `ms-marco-MiniLM-L-6-v2`가 상위 20개 후보를 재정렬한다.
@@ -74,7 +84,7 @@ docker compose run --rm hybrid-rag
 | faithfulness 분리 보고 | retrieval과 별도 | **0.5667** |
 | 검색 실패와 생성 실패 분리 | 별도 집계 | **53/300, 13/30** |
 
-RRF가 두 검색기의 상호 보완 효과를 가장 잘 냈다. Hybrid+rerank도 BM25 기준 Ship Gate는 통과했지만, RRF 단독과 비교하면 Recall@10은 1.49%p, nDCG@10은 0.62%p 낮아졌다. SciFact 운영 기본값으로는 **Hybrid RRF**를 선택하고, 리랭커는 과학 도메인 모델로 교체한 뒤 다시 평가하는 것이 합리적이다.
+운영 기본값은 **Hybrid RRF**다. RRF가 두 검색기의 상호 보완 효과를 가장 잘 냈고, Hybrid+rerank는 BM25 기준 Ship Gate는 통과했지만 RRF 단독 대비 Recall@10 -1.49%p, nDCG@10 -0.62%p로 낮았다.
 
 ### 생성 품질
 
@@ -87,6 +97,8 @@ RRF가 두 검색기의 상호 보완 효과를 가장 잘 냈다. Hybrid+rerank
 | Answer relevance cosine | 0.6261 | 질문과 답변 MiniLM 임베딩의 평균 cosine |
 | Verdict accuracy | 0.6333 | SUPPORT/CONTRADICT 판정 정확도 |
 
+Citation coverage(인용 형식 존재)와 faithfulness(근거의 실질적 정확성)는 서로 다른 품질 층이다 — coverage 100%가 자동으로 faithfulness를 보장하지 않는다.
+
 인용 답변 예시:
 
 > **Claim:** ALDH1 expression is associated with poorer prognosis in breast cancer.  
@@ -94,32 +106,20 @@ RRF가 두 검색기의 상호 보완 효과를 가장 잘 냈다. Hybrid+rerank
 
 전체 수치는 [`results/experiments.json`](results/experiments.json), 답변 30개는 [`results/answers.json`](results/answers.json), 읽기 쉬운 결과표는 [`results/report.md`](results/report.md)에 저장했다.
 
-## 시행착오와 해결
-
-- 처음에는 리랭킹 상위 5개 문서의 문장을 모두 NLI에 넣었다. 로컬 NLI가 비정답 문장의 높은 점수를 과신하면서 잘못된 문서를 인용하는 경우가 늘어 생성 컨텍스트를 1위 문서로 제한했다. 인용 정확도는 좋아졌지만 정답이 2위 이하일 때의 생성 실패가 남았다.
-- 리랭커를 추가하면 모든 검색 지표가 좋아질 것으로 예상했지만, 실제로는 MRR만 0.0008 상승하고 Recall@10과 nDCG@10은 하락했다. MS MARCO 웹 검색과 SciFact 과학 주장 검증의 도메인 차이를 결과에 그대로 기록하고 RRF 단독을 권장안으로 정했다.
-- sparse 점수와 dense cosine은 범위가 달라 직접 더하지 않고, 순위만 사용하는 RRF로 결합했다.
-- 생성 답변의 그럴듯함을 한 숫자로 합치지 않았다. 인용 포함, 인용 정확성, 추출 근거, 판정 정확도, answer relevance를 각각 저장하고 복합 faithfulness의 정의를 명시했다.
-
-## 한계
-
-- 30개 생성 질문은 SciFact 주장에 유형 라벨을 수작업으로 붙인 고정 평가셋이다. `calculation`은 자유 형식 산술 문제가 아니라 숫자·비율·기간을 포함한 주장 검증이다.
-- 정답 문서가 여러 개일 수 있는 검색 평가와 달리 생성기는 최상위 한 문서만 사용한다. 따라서 정답이 상위 10개 안에 있어도 1위가 아니면 잘못된 인용을 고를 수 있다.
-- faithfulness는 자동 지표이며 사람 평가를 대체하지 않는다. 특히 NLI 판정 오류가 복합 점수를 낮춘다.
-- HNSW와 로컬 모델 설정은 CPU 재현성을 우선했다. 지연시간, 메모리, 동시 처리량은 별도로 벤치마크하지 않았다.
-- 논문 표·그림의 축과 셀 정보는 텍스트 초록에 포함되지 않아 멀티모달 질의에는 대응하지 못한다.
-
 검색 실패 53건과 생성 실패 13건의 대표 사례, 원인, 다음 실험은 [`results/error_analysis.md`](results/error_analysis.md)에 정리했다.
+
+## 측정 경계
+
+30개 생성 질문은 SciFact 주장에 유형 라벨을 수작업으로 붙인 고정 평가셋이다. `calculation`은 자유 형식 산술이 아니라 숫자·비율·기간을 포함한 주장 검증이다. 생성기는 top-1 문서만 사용하므로 정답이 상위 10개 안에 있어도 1위가 아니면 인용 기회가 없다. Faithfulness는 자동 지표이며 사람 평가를 대체하지 않는다. HNSW·로컬 모델 설정은 CPU 재현성 기준이며 지연시간·동시 처리량은 별도 벤치마크 대상이다. 논문 표·그림은 텍스트 초록에 포함되지 않아 멀티모달 질의는 다루지 않는다.
+
+**다음 단계**: 상위 문서별 NLI 점수와 검색 점수를 함께 보정하는 context selection, 과학·의생명 도메인 특화 리랭커 재평가.
 
 ## 개발 방식 (AI 활용 구분)
 
 | 직접 작성한 것 | Codex가 생성한 것 |
 |---|---|
-| 문제 범위, WO-01의 128-token 설정 재사용, Ship Gate와 포트폴리오 요구사항 | BM25·FAISS·RRF·리랭킹 구현, 로컬 NLI 인용 생성기, 평가 및 오류 분석 코드 |
-| 단계별 비교와 실패 유형을 분리해야 한다는 평가 기준 | Docker Compose 환경, 데이터 검증 다운로드, pytest 테스트, 측정 결과 아티팩트와 문서 초안 |
-| 최종 채용 포트폴리오 관점의 기술 선택 판단 | 반복 실행, 수치 계산, 타입·독스트링 점검과 재현성 검증 |
-
-AI가 작성한 코드는 테스트와 실제 300개 질의 실행으로 검증했으며, README의 수치는 저장된 JSON 결과에서 반올림했다.
+| 문제 범위, WO-01의 128-token 설정 재사용, Ship Gate와 포트폴리오 요구사항, top-1 제한 결정 | BM25·FAISS·RRF·리랭킹 구현, 로컬 NLI 인용 생성기, 평가 및 오류 분석 코드 |
+| 단계별 비교와 실패 유형을 분리해야 한다는 평가 기준 | Docker Compose 환경, pytest 테스트, 측정 결과 아티팩트와 문서 초안 |
 
 ## 관련 개념
 
