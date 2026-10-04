@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="680" viewBox="0 0 1100 680">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="80" y="45" font-size="25" font-family="Arial" fill="#0f172a">WO-04 · Modeled cost per synthetic case</text>
+<text x="80" y="73" font-size="14" font-family="Arial" fill="#475569">Executed Redis workflow · fixed token estimates · no LLM API charges</text>
+<line x1="80" y1="540.0" x2="1080" y2="540.0" stroke="#cbd5e1"/>
+<text x="7" y="545.0" font-size="12" font-family="Arial" fill="#334155">$0.0000</text>
+<line x1="80" y1="457.6" x2="1080" y2="457.6" stroke="#cbd5e1"/>
+<text x="7" y="462.6" font-size="12" font-family="Arial" fill="#334155">$0.0010</text>
+<line x1="80" y1="375.2" x2="1080" y2="375.2" stroke="#cbd5e1"/>
+<text x="7" y="380.2" font-size="12" font-family="Arial" fill="#334155">$0.0020</text>
+<line x1="80" y1="292.8" x2="1080" y2="292.8" stroke="#cbd5e1"/>
+<text x="7" y="297.8" font-size="12" font-family="Arial" fill="#334155">$0.0030</text>
+<line x1="80" y1="210.4" x2="1080" y2="210.4" stroke="#cbd5e1"/>
+<text x="7" y="215.4" font-size="12" font-family="Arial" fill="#334155">$0.0040</text>
+<line x1="80" y1="128.0" x2="1080" y2="128.0" stroke="#cbd5e1"/>
+<text x="7" y="133.0" font-size="12" font-family="Arial" fill="#334155">$0.0050</text>
+<rect x="80" y="226.0" width="22" height="314.0" fill="#2563eb"/>
+<text x="84" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 84 563)">C001</text>
+<rect x="113" y="226.0" width="22" height="314.0" fill="#2563eb"/>
+<text x="117" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 117 563)">C002</text>
+<rect x="146" y="226.0" width="22" height="314.0" fill="#2563eb"/>
+<text x="150" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 150 563)">C003</text>
+<rect x="179" y="226.0" width="22" height="314.0" fill="#2563eb"/>
+<text x="183" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 183 563)">C004</text>
+<rect x="212" y="226.0" width="22" height="314.0" fill="#2563eb"/>
+<text x="216" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 216 563)">C005</text>
+<rect x="245" y="336.5" width="22" height="203.5" fill="#2563eb"/>
+<text x="249" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 249 563)">C006</text>
+<rect x="278" y="336.5" width="22" height="203.5" fill="#2563eb"/>
+<text x="282" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 282 563)">C007</text>
+<rect x="311" y="336.5" width="22" height="203.5" fill="#2563eb"/>
+<text x="315" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 315 563)">C008</text>
+<rect x="344" y="336.5" width="22" height="203.5" fill="#2563eb"/>
+<text x="348" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 348 563)">C009</text>
+<rect x="377" y="336.5" width="22" height="203.5" fill="#2563eb"/>
+<text x="381" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 381 563)">C010</text>
+<rect x="410" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="414" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 414 563)">C011</text>
+<rect x="443" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="447" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 447 563)">C012</text>
+<rect x="476" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="480" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 480 563)">C013</text>
+<rect x="509" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="513" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 513 563)">C014</text>
+<rect x="542" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="546" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 546 563)">C015</text>
+<rect x="575" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="579" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 579 563)">C016</text>
+<rect x="608" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="612" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 612 563)">C017</text>
+<rect x="641" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="645" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 645 563)">C018</text>
+<rect x="674" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="678" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 678 563)">C019</text>
+<rect x="707" y="361.2" width="22" height="178.8" fill="#dc2626"/>
+<text x="711" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 711 563)">C020</text>
+<rect x="740" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="744" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 744 563)">C021</text>
+<rect x="773" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="777" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 777 563)">C022</text>
+<rect x="806" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="810" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 810 563)">C023</text>
+<rect x="839" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="843" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 843 563)">C024</text>
+<rect x="872" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="876" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 876 563)">C025</text>
+<rect x="905" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="909" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 909 563)">C026</text>
+<rect x="938" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="942" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 942 563)">C027</text>
+<rect x="971" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="975" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 975 563)">C028</text>
+<rect x="1004" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="1008" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 1008 563)">C029</text>
+<rect x="1037" y="361.2" width="22" height="178.8" fill="#d97706"/>
+<text x="1041" y="563" font-size="9" font-family="Arial" fill="#334155" transform="rotate(55 1041 563)">C030</text>
+<line x1="80" y1="128.0" x2="1080" y2="128.0" stroke="#111827" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="80" y="642" font-size="13" font-family="Arial" fill="#334155">Blue: paid · Red: denied · Amber: needs information · Dashed line: enforced $0.005 cap</text>
+</svg>

@@ -1,0 +1,3101 @@
+{
+  "dataset": "30 entirely synthetic insurance claims",
+  "worker_boundary": "Deterministic rules with fixed estimated tokens; no LLM API calls",
+  "storage_boundary": "Redis snapshots and payout records executed",
+  "cases": [
+    {
+      "case_id": "C001",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 13,
+      "tokens": 2025,
+      "cost_usd": 0.00381,
+      "reviewer_returns": 1,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 10,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 11,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 12,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 13,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 14,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C002",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 13,
+      "tokens": 2025,
+      "cost_usd": 0.00381,
+      "reviewer_returns": 1,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 10,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 11,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 12,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 13,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 14,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C003",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 13,
+      "tokens": 2025,
+      "cost_usd": 0.00381,
+      "reviewer_returns": 1,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 10,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 11,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 12,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 13,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 14,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C004",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 13,
+      "tokens": 2025,
+      "cost_usd": 0.00381,
+      "reviewer_returns": 1,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 10,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 11,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 12,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 13,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 14,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C005",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 13,
+      "tokens": 2025,
+      "cost_usd": 0.00381,
+      "reviewer_returns": 1,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 10,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 11,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 12,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 13,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 14,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C006",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 9,
+      "tokens": 1315,
+      "cost_usd": 0.00247,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 10,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C007",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 9,
+      "tokens": 1315,
+      "cost_usd": 0.00247,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 10,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C008",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 9,
+      "tokens": 1315,
+      "cost_usd": 0.00247,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 10,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C009",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 9,
+      "tokens": 1315,
+      "cost_usd": 0.00247,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 10,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C010",
+      "gold_terminal": "PAID",
+      "terminal": "PAID",
+      "steps": 9,
+      "tokens": 1315,
+      "cost_usd": 0.00247,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor",
+        "human_approval",
+        "supervisor",
+        "payout"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "AWAITING_APPROVAL"
+        },
+        {
+          "cost_usd": 0.0,
+          "input_tokens": 0,
+          "node": "human_approval",
+          "outcome": "approved",
+          "output_tokens": 0,
+          "sequence": 8,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "approved",
+          "output_tokens": 30,
+          "sequence": 9,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0001,
+          "input_tokens": 40,
+          "node": "payout",
+          "outcome": "paid",
+          "output_tokens": 15,
+          "sequence": 10,
+          "status": "PAID"
+        }
+      ],
+      "approval": {
+        "actor": "synthetic-evaluation-approver",
+        "approved": true
+      },
+      "payout_count": 1
+    },
+    {
+      "case_id": "C011",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C012",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C013",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C014",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C015",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C016",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C017",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C018",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C019",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C020",
+      "gold_terminal": "DENIED",
+      "terminal": "DENIED",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "DENIED"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C021",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C022",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C023",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C024",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C025",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C026",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C027",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C028",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C029",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    },
+    {
+      "case_id": "C030",
+      "gold_terminal": "NEEDS_INFO",
+      "terminal": "NEEDS_INFO",
+      "steps": 7,
+      "tokens": 1150,
+      "cost_usd": 0.00217,
+      "reviewer_returns": 0,
+      "path": [
+        "supervisor",
+        "extractor",
+        "supervisor",
+        "investigator",
+        "supervisor",
+        "reviewer",
+        "supervisor"
+      ],
+      "trace": [
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "start",
+          "output_tokens": 30,
+          "sequence": 1,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00043,
+          "input_tokens": 150,
+          "node": "extractor",
+          "outcome": "extracted",
+          "output_tokens": 70,
+          "sequence": 2,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "extracted",
+          "output_tokens": 30,
+          "sequence": 3,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0005,
+          "input_tokens": 180,
+          "node": "investigator",
+          "outcome": "investigated",
+          "output_tokens": 80,
+          "sequence": 4,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "investigated",
+          "output_tokens": 30,
+          "sequence": 5,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.00044,
+          "input_tokens": 160,
+          "node": "reviewer",
+          "outcome": "reviewed",
+          "output_tokens": 70,
+          "sequence": 6,
+          "status": "RUNNING"
+        },
+        {
+          "cost_usd": 0.0002,
+          "input_tokens": 80,
+          "node": "supervisor",
+          "outcome": "reviewed",
+          "output_tokens": 30,
+          "sequence": 7,
+          "status": "NEEDS_INFO"
+        }
+      ],
+      "approval": null,
+      "payout_count": 0
+    }
+  ],
+  "correct_count": 30,
+  "reviewer_return_count": 5,
+  "approval_count": 10,
+  "payout_count": 10,
+  "max_cost_usd": 0.00381,
+  "cost_cap_usd": 0.005,
+  "resume_demo": {
+    "paused_after_events": 3,
+    "paused_next_node": "investigator",
+    "terminal": "PAID",
+    "same_terminal": true,
+    "same_trace_path": true,
+    "payout_count": 1
+  }
+}
