@@ -11,6 +11,18 @@ RAG 검색 설정을 바꿨을 때 개선 여부를 감이 아니라 반복 가�
 2. BM25와 Dense를 RRF로 결합하면 두 검색기의 상호 보완으로 단독 Dense보다 좋아질 것이다.
 3. 짧은 청크와 cross-encoder 리랭킹은 품질을 더 높이지만 계산 비용이 증가할 것이다.
 
+## 접근 — 시도 순서
+
+**1차 시도 (BM25 단독)**: 어휘 일치 기반 검색만으로 기준선을 잡았다. Recall@10 0.7575로, 표현이 다른 과학 주장-근거 쌍을 연결하지 못하는 사례가 다수 보였다 — 가설 1과 일치.
+
+**2차 시도 (Dense 단독)**: MiniLM 임베딩으로 전환하니 Recall@10이 0.8082로 올랐다. 다만 숫자·비교 표현이 섞인 쿼리에서는 BM25보다 오히려 낮았다 — 두 검색기가 서로 다른 실패를 가진다는 신호.
+
+**3차 시도 (Hybrid RRF)**: 가설 2를 검증하기 위해 두 순위를 RRF로 결합했다. Recall@10 0.8244로 Dense 단독 대비 1.63%p 개선, 카테고리별로도 고르게 향상 — 두 검색기의 상호 보완을 확인.
+
+**4차 시도 (청크 크기 비교)**: 작업지시서 예시였던 512-token 청크는 MiniLM의 256-token 입력 한도를 초과했다. 모델 한도 안에서 128과 240을 비교한 결과 128-token이 세 지표 모두 더 높아 이를 채택했다.
+
+**5차 시도 (리랭커 추가)**: 가설 3을 검증하기 위해 cross-encoder를 추가했다. Recall@10은 0.79%p 올랐지만 MRR은 0.12%p 내려갔고, 300개 쿼리에 45.96초가 추가로 들었다 — recall과 지연시간의 트레이드오프를 확인하고, 기본 경로에서는 제외하기로 결정.
+
 ## 데이터
 
 - 공식 BEIR SciFact test split: 문서 5,183개, 판정 쿼리 300개, 관련 문서 쌍 339개
@@ -21,7 +33,7 @@ RAG 검색 설정을 바꿨을 때 개선 여부를 감이 아니라 반복 가�
 
 SciFact가 검색 카테고리를 제공하지 않으므로, 쿼리 문장 형태를 상호 배타적인 세 그룹으로 나눴다. `negation`을 먼저 판별하고, 숫자나 비교 표현이 있으면 `numeric_or_comparative`, 나머지는 `other`로 분류한다. 이는 도메인 정답 라벨이 아니라 오류를 읽기 위한 분석용 휴리스틱이다.
 
-## 접근 / 파이프라인
+## 파이프라인
 
 ```mermaid
 flowchart LR
@@ -42,7 +54,6 @@ flowchart LR
 - Dense 모델은 `sentence-transformers/all-MiniLM-L6-v2`, 리랭커는 `cross-encoder/ms-marco-MiniLM-L-6-v2`다.
 - Hybrid는 BM25와 Dense의 문서 순위를 RRF(`k=60`)로 합친다.
 - Recall과 nDCG는 상위 10개 문서, MRR은 보존한 상위 50개 문서에서 계산한다. 모든 결과는 쿼리 단위 macro average다.
-- MiniLM의 최대 입력이 256 wordpiece이므로 512 대신 128과 240 토큰을 비교했고, overlap은 24 토큰으로 고정했다.
 
 로컬 실행:
 
@@ -60,7 +71,7 @@ Docker Compose에서는 `docker compose run --rm retrieval-eval` 한 명령으�
 
 ## 결과 (Ship Gate 표)
 
-2026-09-27, Python 3.11, Apple Silicon CPU에서 실행했다. 전체 결과 JSON과 카테고리별 표는 [`results/experiments.json`](results/experiments.json), [`results/table.md`](results/table.md)에 있다.
+전체 결과 JSON과 카테고리별 표는 [`results/experiments.json`](results/experiments.json), [`results/table.md`](results/table.md)에 있다.
 
 | Ship Gate | 목표 | 실제 |
 |---|---|---|
@@ -92,7 +103,7 @@ Docker Compose에서는 `docker compose run --rm retrieval-eval` 한 명령으�
 
 ### 추천과 트레이드오프
 
-기본 검색 설정으로 `hybrid_128`을 선택한다. Dense-128보다 Recall@10이 1.63%p, MRR이 1.98%p 높고, Hybrid-240보다 세 지표가 모두 높았다. 리랭커는 Recall@10을 0.79%p 높였지만 MRR을 0.12%p 낮췄고, warm-cache 실험에서 300개 쿼리에 45.96초를 추가로 사용했다. 따라서 지연시간과 순위 품질의 균형이 필요한 기본 경로에는 리랭커를 제외하고, recall이 최우선인 오프라인 검색에만 선택적으로 켜는 것이 합리적이다.
+기본 검색 설정으로 `hybrid_128`을 선택한다. 리랭커는 recall이 최우선인 오프라인 검색에만 선택적으로 켠다.
 
 ### CI 게이트
 
@@ -102,28 +113,17 @@ Docker Compose에서는 `docker compose run --rm retrieval-eval` 한 명령으�
 
 선택 설정에서 Recall@10이 불완전한 쿼리는 58개다. 그중 RRF가 좋은 dense hit을 10위 밖으로 민 사례, 부정·비교 의미를 놓친 사례, 긴 종합 논문과 짧은 주장 사이의 표현 불일치, 약어 오타, 숫자 중심 주장 등 5개를 [`results/error_analysis.md`](results/error_analysis.md)에 근거 문서 순위와 함께 분석했다.
 
-## 시행착오와 해결
+## 측정 경계
 
-- 작업지시서 예시의 512-token 청크는 MiniLM의 256-token 한도를 넘었다. 모델 입력 한도 안에서 차이가 충분히 나는 128/240으로 바꾸고 코드에서 초과 크기를 거부하게 했다.
-- 청크 순위를 그대로 평가하면 문서 단위 qrels와 단위가 어긋난다. 청크별 최고 점수로 부모 문서를 중복 제거한 뒤 평가했다.
-- 처음에는 전체 평균만으로 설정을 고를 수 있었지만 실패 유형을 설명하기 어려웠다. 문장 형태 기반의 세 카테고리를 상호 배타적으로 정의하고 각 그룹의 표본 수까지 함께 출력했다.
-- 모델·데이터 다운로드 결과가 바뀌지 않도록 패키지 버전과 SciFact archive checksum을 고정했다.
+카테고리는 SciFact 공식 메타데이터가 아닌 분석용 휴리스틱이다. SciFact 300개 쿼리는 통계적 유의성 검정을 하지 않았다. Dense 모델·리랭커는 일반 영어 검색 모델이며 과학·의생명 도메인 특화 모델이 아니다. 기록한 지연시간은 embedding cache가 준비된 warm 상태 기준이다. 이 프로젝트는 retrieval만 평가하며, generation 품질은 WO-02에서 다룬다.
 
-## 한계
-
-- 카테고리는 SciFact 공식 메타데이터가 아니라 정규식 휴리스틱이므로 주제별 성능을 뜻하지 않는다.
-- SciFact는 300개 test query의 작은 벤치마크다. 수치 차이에 대한 통계적 유의성 검정은 하지 않았다.
-- Dense 모델과 리랭커는 일반 영어 검색 모델이며 과학·의생명 도메인에 특화되지 않았다.
-- 기록한 dense 시간은 corpus embedding cache가 있는 상태다. 최초 임베딩 생성 비용과 운영 환경의 네트워크·모델 로딩 비용은 별도로 측정해야 한다.
-- 이 프로젝트는 retrieval만 평가한다. 답변 정확성, faithfulness, 인용 품질 같은 generation 지표는 포함하지 않는다.
+**다음 단계**: 도메인 특화 임베딩·리랭커 교체 시 재평가, adaptive fusion weight 실험.
 
 ## 개발 방식 (AI 활용 구분)
 
 | 직접 작성한 것 | Codex가 생성한 것 |
 |---|---|
-| SONG이 제공한 프로젝트 목표, 기술 제약, Ship Gate | 검색기·평가·리포트·회귀 게이트 구현, 실험 실행, 테스트, 문서 초안 |
-
-실험 수치와 로그는 로컬에서 실제 실행한 결과이며, README의 추천은 그 측정값을 바탕으로 작성했다.
+| 프로젝트 목표, 기술 제약, Ship Gate, 설정별 선택 근거 | 검색기·평가·리포트·회귀 게이트 구현, 실험 실행, 테스트, 문서 초안 |
 
 ## 관련 개념
 
