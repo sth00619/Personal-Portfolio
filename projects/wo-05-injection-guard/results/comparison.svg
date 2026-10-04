@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="70" y="45" font-size="26" font-family="Arial" fill="#0f172a">WO-05 · Prompt injection control-flow benchmark</text>
+<text x="70" y="75" font-size="15" font-family="Arial" fill="#475569">60 synthetic attacks · 100 benign resumes · deterministic mock agent and tools</text>
+<line x1="70" y1="475.0" x2="1060" y2="475.0" stroke="#cbd5e1"/>
+<text x="23" y="480.0" font-size="13" font-family="Arial" fill="#334155">0%</text>
+<line x1="70" y1="388.8" x2="1060" y2="388.8" stroke="#cbd5e1"/>
+<text x="23" y="393.8" font-size="13" font-family="Arial" fill="#334155">25%</text>
+<line x1="70" y1="302.5" x2="1060" y2="302.5" stroke="#cbd5e1"/>
+<text x="23" y="307.5" font-size="13" font-family="Arial" fill="#334155">50%</text>
+<line x1="70" y1="216.2" x2="1060" y2="216.2" stroke="#cbd5e1"/>
+<text x="23" y="221.2" font-size="13" font-family="Arial" fill="#334155">75%</text>
+<line x1="70" y1="130.0" x2="1060" y2="130.0" stroke="#cbd5e1"/>
+<text x="23" y="135.0" font-size="13" font-family="Arial" fill="#334155">100%</text>
+<rect x="140" y="130.0" width="60" height="345.0" fill="#dc2626"/>
+<rect x="210" y="475.0" width="60" height="0.0" fill="#2563eb"/>
+<text x="158" y="121.0" font-size="15" font-family="Arial" fill="#7f1d1d">100%</text>
+<text x="227" y="466.0" font-size="15" font-family="Arial" fill="#1e3a8a">0%</text>
+<text x="152" y="505" font-size="17" font-family="Arial" fill="#0f172a">body</text>
+<rect x="400" y="130.0" width="60" height="345.0" fill="#dc2626"/>
+<rect x="470" y="475.0" width="60" height="0.0" fill="#2563eb"/>
+<text x="418" y="121.0" font-size="15" font-family="Arial" fill="#7f1d1d">100%</text>
+<text x="487" y="466.0" font-size="15" font-family="Arial" fill="#1e3a8a">0%</text>
+<text x="412" y="505" font-size="17" font-family="Arial" fill="#0f172a">metadata</text>
+<rect x="660" y="130.0" width="60" height="345.0" fill="#dc2626"/>
+<rect x="730" y="475.0" width="60" height="0.0" fill="#2563eb"/>
+<text x="678" y="121.0" font-size="15" font-family="Arial" fill="#7f1d1d">100%</text>
+<text x="747" y="466.0" font-size="15" font-family="Arial" fill="#1e3a8a">0%</text>
+<text x="672" y="505" font-size="17" font-family="Arial" fill="#0f172a">tool_result</text>
+<rect x="955" y="468.1" width="60" height="6.9" fill="#d97706"/>
+<text x="973" y="459.1" font-size="15" font-family="Arial" fill="#92400e">2%</text>
+<text x="930" y="505" font-size="16" font-family="Arial" fill="#0f172a">benign FPR</text>
+<rect x="70" y="550" width="17" height="17" fill="#dc2626"/>
+<text x="94" y="564" font-size="14" font-family="Arial">Unguarded attack success</text>
+<rect x="320" y="550" width="17" height="17" fill="#2563eb"/>
+<text x="344" y="564" font-size="14" font-family="Arial">Guarded attack success</text>
+<rect x="560" y="550" width="17" height="17" fill="#d97706"/>
+<text x="584" y="564" font-size="14" font-family="Arial">Benign classifier alert</text>
+<text x="70" y="595" font-size="12" font-family="Arial" fill="#475569">Synthetic benchmark only: percentages do not estimate live LLM resistance.</text>
+</svg>
