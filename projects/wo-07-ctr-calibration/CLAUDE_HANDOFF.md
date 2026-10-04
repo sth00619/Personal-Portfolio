@@ -1,6 +1,5 @@
 # WO-07 전달 자료
 
-- 브랜치: `dev/wo-07`
 - 프로젝트: `projects/wo-07-ctr-calibration/`
 - 주 실험 데이터: [Criteo Click Logs 공식 배포](https://ailab.criteo.com/download-criteo-1tb-click-logs-dataset/) → `criteo/CriteoClickLogs`; CC BY-NC-SA 4.0. 처음에는 Kaggle 인증이 없어 공식 Criteo 데이터로 진행했다. 원본 Parquet 4개를 다운로드하고 SHA-256을 검증했다. 독립 검증에는 사용자가 별도로 제공한 Avazu 대회 로그를 사용했다. 모든 원본은 Git 추적에서 제외했다.
 - 표본: 날짜별 고정 조각 하나의 앞 40,000행, 총 160,000행. 전체 데이터 결과가 아니다.
@@ -54,3 +53,14 @@ README와 Notion 문구에는 “실제 광고비 절감”, “실제 과다지
 - 기준선 대비 ECE 감소의 날짜별 층화 부트스트랩 95% 구간: Platt **0.001898–0.004475**, Isotonic **0.006557–0.009134**. 모델 적합 불확실성은 포함하지 않음.
 - 두 평가 날짜 각각에서 보정법의 LogLoss·ECE 개선이 관측됨. Avazu에서는 Isotonic이 확률 지표에서 앞섰고 AUC는 소폭 낮았다. Criteo와 Avazu의 점수를 직접 대조해 우위를 주장하지 않는다.
 - 자료: `AVAZU_VALIDATION.md`, `results/avazu/report.json`, `metrics.csv`, `per_day_metrics.csv`, `calibration_curve.png`. 실행: `docker compose run --build --rm avazu`.
+
+## GitHub·Notion용 비교 서사의 핵심
+
+상세 비교와 근거 경로는 [COMPARISON_INSIGHTS.md](COMPARISON_INSIGHTS.md)에 있다. Criteo를 **첫 주 실험**, Avazu를 **다른 광고 로그에서의 독립 검증**으로 설명한다. Avazu를 같은 모델의 업그레이드나 Criteo 결과의 대체로 서술하지 않는다.
+
+1. **첫 관찰:** Criteo에서 Platt는 AUC `0.668754`를 유지하고 ECE를 `0.009388 → 0.002513`으로 낮췄다. Isotonic의 ECE는 `0.002525`로 거의 같지만 AUC는 `0.001286` 낮았다. 근거: `results/metrics.csv`.
+2. **확장 이유와 관찰:** 단일 로그·시간 분할의 결과가 다른 로그에서도 보이는지 확인하려 Avazu 원본을 감사하고 독립 분할했다. Avazu에서 Platt는 AUC `0.721701`을 유지하고 ECE를 `0.012503 → 0.009273`으로 낮췄다. Isotonic은 ECE `0.004175`, LogLoss `0.400570`으로 확률 지표가 가장 낮지만 AUC는 `0.000172` 낮았다. 근거: `AVAZU_VALIDATION.md`, `results/avazu/metrics.csv`.
+3. **재현된 방향과 차이:** 두 Avazu 평가 날짜 모두 보정 후 ECE·LogLoss가 낮았고, 기준선 대비 ECE 감소의 날짜별 층화 부트스트랩 95% 구간은 Platt `0.001898–0.004475`, Isotonic `0.006557–0.009134`이다. 이는 각 방법의 **기준선 대비** 구간이며 Isotonic과 Platt의 직접 비교 신뢰구간은 아니다. 근거: `results/avazu/per_day_metrics.csv`, `results/avazu/report.json`.
+4. **깨달음과 경계:** AUC 보존과 확률 보정은 별도의 목표다. Criteo에서 두 보정법의 ECE 차이 `0.000011`에 대한 신뢰구간은 없어 방법의 우열을 단정할 수 없다. 두 로그의 출처·표본화·피처·모델 설정이 달라 데이터셋 사이의 AUC·LogLoss·ECE 절댓값 비교로 개선을 주장하지 않는다.
+
+공개 문서에는 **문제 → 첫 실험 → 외부 검증을 추가한 이유 → 데이터셋별 변화와 근거 → 얻은 인사이트 → 해석 경계·다음 단계**의 흐름을 권장한다. 루트 README는 한두 문장으로 요약하고, 기존 Notion WO-07 페이지에는 표와 원 수치 링크를 담는다. 새 Notion 페이지를 만들기 전에 기존 페이지를 확인한다.
