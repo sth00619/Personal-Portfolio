@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from src.bidding import bidding_proxy
-from src.calibration import fit_calibrators
+from src.calibration import PREFERRED_METHOD, fit_calibrators
 from src.data import LABEL_COLUMN, ROWS_PER_DAY, load_split
 from src.features import MAX_CATEGORIES_PER_FEATURE, MIN_CATEGORY_COUNT, TrainOnlyFeatures
 from src.metrics import CURVE_BINS, ECE_BINS, calibration_bins, equal_count_curve, evaluate
@@ -48,6 +48,8 @@ def main() -> None:
         "dataset": "criteo/CriteoClickLogs",
         "sample_design": "first 40000 rows of one fixed Parquet shard per day",
         "rows_per_day": ROWS_PER_DAY,
+        "preferred_method": PREFERRED_METHOD,
+        "preferred_method_basis": "predeclared lower-complexity monotone parametric mapping; test is for comparison only",
         "split": {
             "train": split_summary(split.train, list(split.train_days)),
             "calibration": split_summary(split.calibration, [split.calibration_day]),

@@ -13,6 +13,12 @@ from src.report import MODEL_NAMES, validate_result_contract
 
 
 RESULT_DIR = Path(__file__).resolve().parents[1] / "results"
+README_PATH = RESULT_DIR.parent / "README.md"
+README_MODEL_LABELS = {
+    "baseline": "LightGBM 기준선",
+    "platt": "Platt scaling",
+    "isotonic": "Isotonic regression",
+}
 
 
 def test_measured_artifacts_have_matching_metrics() -> None:
@@ -35,3 +41,16 @@ def test_contract_rejects_missing_ece() -> None:
     del broken["metrics"]["platt"]["ece"]
     with pytest.raises(ValueError, match="Missing Ship Gate metric"):
         validate_result_contract(broken)
+
+
+def test_readme_ship_gate_values_match_measured_json() -> None:
+    """Published six-decimal metrics must match the raw measurement file."""
+    result = json.loads((RESULT_DIR / "experiment.json").read_text(encoding="utf-8"))
+    readme = README_PATH.read_text(encoding="utf-8")
+    for name, label in README_MODEL_LABELS.items():
+        expected = " | ".join(
+            f"{result['metrics'][name][metric]:.6f}"
+            for metric in ("auc", "log_loss", "ece")
+        )
+        normalized = readme.replace("**", "")
+        assert f"| {label} | {expected} |" in normalized

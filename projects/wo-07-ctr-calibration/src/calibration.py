@@ -11,6 +11,7 @@ from sklearn.linear_model import LogisticRegression
 
 PROBABILITY_EPSILON = 1e-6
 PLATT_MAX_ITER = 1000
+PREFERRED_METHOD = "platt"
 
 
 def as_probabilities(values: np.ndarray) -> np.ndarray:
