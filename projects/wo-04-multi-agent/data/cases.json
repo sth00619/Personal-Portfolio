@@ -1,0 +1,467 @@
+[
+  {
+    "case_id": "C001",
+    "claim_document": "Claim C001: medical expense of $125.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C002",
+    "claim_document": "Claim C002: medical expense of $150.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C003",
+    "claim_document": "Claim C003: medical expense of $175.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C004",
+    "claim_document": "Claim C004: medical expense of $200.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C005",
+    "claim_document": "Claim C005: medical expense of $225.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C006",
+    "claim_document": "Claim C006: medical expense of $250.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C007",
+    "claim_document": "Claim C007: medical expense of $275.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C008",
+    "claim_document": "Claim C008: medical expense of $300.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C009",
+    "claim_document": "Claim C009: medical expense of $325.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C010",
+    "claim_document": "Claim C010: medical expense of $350.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "PAID",
+    "synthetic": true
+  },
+  {
+    "case_id": "C011",
+    "claim_document": "Claim C011: medical expense of $375.",
+    "policy": {
+      "active": false,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C012",
+    "claim_document": "Claim C012: medical expense of $400.",
+    "policy": {
+      "active": true,
+      "limit_usd": 200
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C013",
+    "claim_document": "Claim C013: medical expense of $425.",
+    "policy": {
+      "active": false,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C014",
+    "claim_document": "Claim C014: medical expense of $450.",
+    "policy": {
+      "active": true,
+      "limit_usd": 200
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C015",
+    "claim_document": "Claim C015: medical expense of $475.",
+    "policy": {
+      "active": false,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C016",
+    "claim_document": "Claim C016: medical expense of $500.",
+    "policy": {
+      "active": true,
+      "limit_usd": 200
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C017",
+    "claim_document": "Claim C017: medical expense of $525.",
+    "policy": {
+      "active": false,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C018",
+    "claim_document": "Claim C018: medical expense of $550.",
+    "policy": {
+      "active": true,
+      "limit_usd": 200
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C019",
+    "claim_document": "Claim C019: medical expense of $575.",
+    "policy": {
+      "active": false,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C020",
+    "claim_document": "Claim C020: medical expense of $600.",
+    "policy": {
+      "active": true,
+      "limit_usd": 200
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": true
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "DENIED",
+    "synthetic": true
+  },
+  {
+    "case_id": "C021",
+    "claim_document": "Claim C021: medical expense of $310.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": false,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C022",
+    "claim_document": "Claim C022: medical expense of $320.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C023",
+    "claim_document": "Claim C023: medical expense of $330.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": false,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C024",
+    "claim_document": "Claim C024: medical expense of $340.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C025",
+    "claim_document": "Claim C025: medical expense of $350.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": false,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C026",
+    "claim_document": "Claim C026: medical expense of $360.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C027",
+    "claim_document": "Claim C027: medical expense of $370.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": false,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C028",
+    "claim_document": "Claim C028: medical expense of $380.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C029",
+    "claim_document": "Claim C029: medical expense of $390.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": false,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  },
+  {
+    "case_id": "C030",
+    "claim_document": "Claim C030: medical expense of $400.",
+    "policy": {
+      "active": true,
+      "limit_usd": 1000
+    },
+    "primary_evidence": {
+      "invoice_present": true,
+      "receipt_present": false
+    },
+    "supplemental_evidence": null,
+    "gold_terminal": "NEEDS_INFO",
+    "synthetic": true
+  }
+]
