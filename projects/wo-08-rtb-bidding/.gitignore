@@ -1,0 +1,14 @@
+data/*.zip
+data/*.bz2
+data/*.csv
+data/*.tsv
+data/*.txt
+data/raw/
+results/*.tmp
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pkl
+*.bin
+.env
