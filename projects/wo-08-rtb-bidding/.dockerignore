@@ -1,0 +1,14 @@
+.git
+.venv
+.pytest_cache
+__pycache__
+data/raw/
+data/*.zip
+data/*.bz2
+data/*.csv
+data/*.tsv
+data/*.txt
+results/
+*.pkl
+*.bin
+.env
