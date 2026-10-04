@@ -12,6 +12,18 @@ LLM 서비스에는 같은 의도의 질문이 표현만 바뀌어 반복된다.
 3. 응답을 재사용할 수 없는 요청도 정적 시스템 프롬프트 프리픽스를 재사용하면 입력 비용과 prefill 지연을 줄일 수 있다.
 4. 시스템 프롬프트 버전과 tenant 문맥을 키에 포함하면 정책 변경과 고객 간 답변 혼입을 막을 수 있다.
 
+## 접근 — 시도 순서
+
+**1차 (범용 임베딩)**: `all-MiniLM-L6-v2`로 L2 시맨틱 캐시를 구현했다. 임계값 0.98에서도 false hit 2.74%로 Ship Gate(<1%) 미달 — 범용 임베딩이 질문 중복 탐지라는 좁은 과제에는 충분히 정밀하지 않다는 신호.
+
+**2차 (도메인 특화 임베딩 교체)**: Quora 중복 질문으로 학습된 `quora-distilbert-base`로 교체했다. false hit가 즉시 개선됐고, 가설 2를 검증할 수 있는 precision-recall-threshold 곡선을 얻었다.
+
+**3차 (임계값 0.980 시도)**: precision 정책(99.5%)을 처음 만족하는 지점을 찾았다. 튜닝셋 false hit는 0.91%로 기준은 통과했지만 분포 변화에 대한 여유가 작다고 판단.
+
+**4차 (안전 마진 적용)**: 0.990에 0.003 마진을 더한 0.993을 운영점으로 선택했다. coverage는 2.60%로 낮아지지만, 별도 재생셋에서 false hit 0/9를 확인 — 잘못된 hit 1건의 비용이 miss 여러 건보다 큰 고객지원 시나리오에 맞춘 결정.
+
+**5차 (hit rate 지표 분해)**: 초기에는 전체 hit rate 하나로 보고하려 했으나, exact 응답 재사용(159건)과 prefix 보조(839건)를 합치면 효과가 과장된다는 것을 발견해 response hit rate와 cache assist rate를 분리했다.
+
 ## 데이터
 
 - **원본**: Quora Question Pairs의 `sentence1`, `sentence2`, `is_duplicate` 사람 라벨
@@ -38,7 +50,7 @@ pytest -q
 docker compose run --rm semantic-cache
 ```
 
-## 접근 / 파이프라인
+## 파이프라인
 
 ```mermaid
 flowchart LR
@@ -67,7 +79,6 @@ model + temperature + tool set + system prompt version + tenant ID + customer ti
 - Redis L1과 L3는 `SETEX`로 1시간 TTL을 적용한다.
 - FAISS L2는 각 scope별 `IndexFlatIP`를 사용하고, 만료된 메타데이터와 벡터를 함께 제거한다.
 - 프롬프트 버전 변경은 키 공간을 자동 분리하며, `invalidate_prompt_version()`으로 이전 Redis·FAISS 항목을 명시적으로 지울 수 있다.
-- 비용과 지연은 결정적 LLM workload simulator로 비교한다. Redis와 FAISS 적중은 실제 실행하지만, API 비용과 지연은 공급자 실측값이 아니다.
 
 ## 결과 (Ship Gate 표)
 
@@ -86,6 +97,8 @@ model + temperature + tool set + system prompt version + tenant ID + customer ti
 
 캐시 단계별 요청 수는 exact 150, semantic 9, prefix 839, cold miss 2였다. 응답 캐시 적중은 모델 생성을 생략하고, prefix 적중은 모델링된 시스템 프롬프트 입력 비용의 90%와 prefill 260ms를 절감한다.
 
+**측정 방식**: Redis·FAISS 적중은 실제 실행, 비용·지연은 토큰 단가·prefill 절감 가정 기반 시뮬레이션.
+
 ### 임계값 결정
 
 ![Semantic cache precision curve](results/precision_curve.png)
@@ -98,35 +111,20 @@ model + temperature + tool set + system prompt version + tenant ID + customer ti
 | 0.990 | 100.00% | 9.67% | 0.00% | 4.85% |
 | **0.993** | **100.00%** | **5.18%** | **0.00%** | **2.60%** |
 
-0.980도 튜닝셋에서 1% 미만이지만 표본 변화에 대한 여유가 작다. 99.5% precision 정책을 처음 만족한 0.990에 0.003 안전 마진을 더해 **0.993**을 운영점으로 선택했다. 별도 재생셋에서도 false hit는 0건이었지만 semantic hit가 9건으로 줄었다. 이 프로젝트에서는 잘못된 답변 비용이 캐시 miss 비용보다 크다는 보수적 고객지원 시나리오를 가정했다.
-
 상세 수치는 [`results/experiment.json`](results/experiment.json), 1,000개 요청 결과는 [`results/replay_records.json`](results/replay_records.json), 전체 곡선은 [`results/precision_curve.csv`](results/precision_curve.csv), 브라우저 대시보드는 [`results/dashboard.html`](results/dashboard.html)에 있다.
 
-## 시행착오와 해결
+## 측정 경계
 
-- 범용 `all-MiniLM-L6-v2`는 0.98에서도 false hit가 2.74%여서 Ship Gate를 만족하지 못했다. Quora 중복 질문에 맞춰 학습된 `quora-distilbert-base`로 교체했다.
-- 원본 negative 라벨 중 “Hushed (app)”의 대소문자와 괄호 공백만 다른 완전 동일 질문이 있었다. 데이터셋 설명이 라벨 노이즈를 명시하므로, 영숫자 정규화 후 완전히 같은 경우만 안전한 재사용으로 보정하고 보정 수를 공개했다.
-- 임계값 0.980은 튜닝셋 false hit 0.91%로 기준을 간신히 통과했지만 운영 변동에 취약했다. 0.993으로 올려 별도 재생에서 0%를 확인했다.
-- 전체 hit rate 하나로 exact 응답 재사용과 prefix 보조를 합치면 효과를 과장할 수 있다. 응답 hit rate 15.9%와 cache assist 99.8%를 분리 보고했다.
-- 실제 LLM API를 호출하지 않고도 재현되도록 비용·지연을 결정적으로 모델링했다. 대시보드와 결과표에 실측값이 아니라는 경계를 표시했다.
+각 Quora 쌍을 별도 tenant scope로 격리해 false hit를 라벨 기준으로 정확히 판정했다 — 실서비스에서는 한 tenant 안에 후보가 여러 개이므로 ANN 후보 충돌을 추가 평가해야 한다. semantic hit가 9건뿐이라 0% false hit의 통계적 신뢰 구간은 넓다. 비용·p50/p95는 고정 가격·토큰·지연 가정 기반 시뮬레이션이며 실제 모델·리전·동시성에 따라 달라진다. Redis 영속성, multi-process FAISS 동기화, eviction 정책, cache stampede 방지는 구현 범위 밖이다. Quora 문장은 고객지원 대화의 사용자·주문·권한 문맥을 포함하지 않는다.
 
-## 한계
-
-- 각 Quora 쌍을 별도 tenant scope로 격리해 라벨로 false hit를 정확히 판정했다. 실제 서비스의 한 tenant 안에는 후보가 여러 개이므로 ANN 후보 충돌을 추가 평가해야 한다.
-- semantic hit가 9건뿐이어서 0% false hit의 통계적 신뢰 구간은 넓다. 더 큰 재생셋과 온라인 shadow traffic이 필요하다.
-- 비용과 p50/p95는 고정 가격·토큰·지연 가정으로 만든 시뮬레이션이다. 실제 모델, 리전, 동시성, 네트워크에 따라 달라진다.
-- Redis 영속성, multi-process FAISS 동기화, eviction 정책, stampede 방지는 구현 범위에 포함하지 않았다.
-- Quora 문장은 고객지원 대화의 사용자·주문·권한 문맥을 포함하지 않는다. 실제 도입 전 도메인 로그로 임계값을 다시 튜닝해야 한다.
+**다음 단계**: 더 큰 재생셋과 온라인 shadow traffic으로 threshold·tenant 내 ANN 충돌 재검증, 도메인 로그 기반 임계값 재튜닝.
 
 ## 개발 방식 (AI 활용 구분)
 
 | 직접 작성한 것 | Codex가 생성한 것 |
 |---|---|
-| 3단 캐시 요구사항, false hit 1% 기준, 시스템 프롬프트 버전과 고객 문맥 격리 원칙 | Redis exact/prefix, FAISS semantic cache, TTL·무효화, 재생 하네스 구현 |
+| 3단 캐시 요구사항, false hit 1% 기준, 시스템 프롬프트 버전과 고객 문맥 격리 원칙, 안전 마진 결정 | Redis exact/prefix, FAISS semantic cache, TTL·무효화, 재생 하네스 구현 |
 | 임계값을 품질 위험과 비용 사이의 비즈니스 결정으로 평가하는 기준 | 데이터 검증 다운로드, 임계값 곡선, 비용·지연 시뮬레이터, 대시보드와 테스트 |
-| 포트폴리오에서 강조할 Ship Gate와 결과 해석 | 반복 실행, 실패 원인 분석, 타입·독스트링 검사, Docker 재현성 검증 |
-
-AI가 생성한 코드는 실제 Redis·FAISS 실행, 1,000요청 재생, 회귀 테스트로 검증했다. 측정 경계와 라벨 보정은 결과물에 명시했다.
 
 ## 관련 개념
 
