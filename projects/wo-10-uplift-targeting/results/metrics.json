@@ -1,0 +1,324 @@
+{
+  "dataset": {
+    "source_rows": 13979592,
+    "source_treated": 11882655,
+    "source_control": 2096937,
+    "source_conversions": 40774,
+    "source_visits": 656929,
+    "source_exposures": 428212,
+    "source_control_exposures": 0,
+    "sample_rows": 1397106,
+    "sample_treated": 1188171,
+    "sample_conversions": 4032,
+    "sample_fraction_requested": 0.1,
+    "sample_seed": 42,
+    "splits": {
+      "train": {
+        "rows": 838263,
+        "treated": 712902,
+        "control": 125361,
+        "conversions": 2419
+      },
+      "validation": {
+        "rows": 279421,
+        "treated": 237634,
+        "control": 41787,
+        "conversions": 806
+      },
+      "test": {
+        "rows": 279422,
+        "treated": 237635,
+        "control": 41787,
+        "conversions": 807
+      }
+    },
+    "max_abs_standardized_mean_difference": 0.05073785089788682,
+    "feature_missing_values_before_imputation": 0
+  },
+  "model_config": {
+    "class_transformation_balanced_rows": 250722,
+    "uplift_tree_train_rows": 100000
+  },
+  "validation": {
+    "response": {
+      "qini_auc": 0.18000525334294268,
+      "uplift_auc": 0.005757331353957933,
+      "top20": {
+        "selected": 55885,
+        "treated": 47879,
+        "control": 8006,
+        "treated_rate": 0.014369556590572067,
+        "control_rate": 0.009617786660004997,
+        "uplift_rate": 0.004751769930567071,
+        "incremental_conversions": 265.55266256974073,
+        "ci95_low": 132.04719485885158,
+        "ci95_high": 399.05813028062994,
+        "net_value_proxy": 209.66766256974074
+      }
+    },
+    "t_model": {
+      "qini_auc": 0.040678110376824644,
+      "uplift_auc": 0.0012826662395061855,
+      "top20": {
+        "selected": 55885,
+        "treated": 47794,
+        "control": 8091,
+        "treated_rate": 0.011361258735406119,
+        "control_rate": 0.008157211716722283,
+        "uplift_rate": 0.0032040470186838355,
+        "incremental_conversions": 179.05816763914615,
+        "ci95_low": 57.333151271818956,
+        "ci95_high": 300.78318400647333,
+        "net_value_proxy": 123.17316763914614
+      }
+    },
+    "s_model": {
+      "qini_auc": 0.06744604222767163,
+      "uplift_auc": 0.0021473076459881148,
+      "top20": {
+        "selected": 55885,
+        "treated": 47751,
+        "control": 8134,
+        "treated_rate": 0.010512868840443132,
+        "control_rate": 0.007007622326038849,
+        "uplift_rate": 0.0035052465144042822,
+        "incremental_conversions": 195.89070145748332,
+        "ci95_low": 82.41101957244805,
+        "ci95_high": 309.37038334251855,
+        "net_value_proxy": 140.00570145748333
+      }
+    },
+    "class_transformation": {
+      "qini_auc": -0.18708888699120887,
+      "uplift_auc": -0.0060290227935577536,
+      "top20": {
+        "selected": 55885,
+        "treated": 47405,
+        "control": 8480,
+        "treated_rate": 0.0036283092500791056,
+        "control_rate": 0.003066037735849057,
+        "uplift_rate": 0.0005622715142300488,
+        "incremental_conversions": 31.422543572746275,
+        "ci95_low": -40.96261789289045,
+        "ci95_high": 103.807705038383,
+        "net_value_proxy": -24.462456427253727
+      }
+    },
+    "uplift_tree": {
+      "qini_auc": 0.1018466248097187,
+      "uplift_auc": 0.0031996380070892904,
+      "top20": {
+        "selected": 55885,
+        "treated": 48029,
+        "control": 7856,
+        "treated_rate": 0.010035603489558393,
+        "control_rate": 0.006109979633401222,
+        "uplift_rate": 0.003925623856157171,
+        "incremental_conversions": 219.38348920134348,
+        "ci95_low": 110.95824404472674,
+        "ci95_high": 327.8087343579602,
+        "net_value_proxy": 163.4984892013435
+      }
+    },
+    "x_model": {
+      "qini_auc": 0.11377627140074544,
+      "uplift_auc": 0.003620284188306948,
+      "top20": {
+        "selected": 55885,
+        "treated": 47943,
+        "control": 7942,
+        "treated_rate": 0.012410570886260767,
+        "control_rate": 0.008310249307479225,
+        "uplift_rate": 0.004100321578781542,
+        "incremental_conversions": 229.1464714302065,
+        "ci95_low": 104.57908861055259,
+        "ci95_high": 353.7138542498604,
+        "net_value_proxy": 173.26147143020648
+      }
+    }
+  },
+  "selected_uplift_policy": "x_model",
+  "test": {
+    "response": {
+      "qini_auc": 0.20196825775940855,
+      "uplift_auc": 0.006491919009218789,
+      "top20": {
+        "selected": 55885,
+        "treated": 47914,
+        "control": 7971,
+        "treated_rate": 0.014484284342780816,
+        "control_rate": 0.009283653243005896,
+        "uplift_rate": 0.00520063109977492,
+        "incremental_conversions": 290.6372690109214,
+        "ci95_low": 158.6589790327794,
+        "ci95_high": 422.6155589890634,
+        "net_value_proxy": 234.7522690109214
+      }
+    },
+    "t_model": {
+      "qini_auc": 0.14999315065415755,
+      "uplift_auc": 0.004821155658016857,
+      "top20": {
+        "selected": 55885,
+        "treated": 47850,
+        "control": 8035,
+        "treated_rate": 0.01168234064785789,
+        "control_rate": 0.00672059738643435,
+        "uplift_rate": 0.00496174326142354,
+        "incremental_conversions": 277.28702216465456,
+        "ci95_low": 163.8731068630896,
+        "ci95_high": 390.70093746621944,
+        "net_value_proxy": 221.40202216465454
+      }
+    },
+    "s_model": {
+      "qini_auc": 0.11895603173504002,
+      "uplift_auc": 0.0038165646111623184,
+      "top20": {
+        "selected": 55885,
+        "treated": 47763,
+        "control": 8122,
+        "treated_rate": 0.01092896174863388,
+        "control_rate": 0.006525486333415415,
+        "uplift_rate": 0.004403475415218465,
+        "incremental_conversions": 246.08822357948392,
+        "ci95_low": 135.21959801736034,
+        "ci95_high": 356.9568491416075,
+        "net_value_proxy": 190.20322357948393
+      }
+    },
+    "class_transformation": {
+      "qini_auc": -0.10277098823197854,
+      "uplift_auc": -0.0033160428036521257,
+      "top20": {
+        "selected": 55885,
+        "treated": 47330,
+        "control": 8555,
+        "treated_rate": 0.003105852524825692,
+        "control_rate": 0.001870251315020456,
+        "uplift_rate": 0.0012356012098052361,
+        "incremental_conversions": 69.05157360996562,
+        "ci95_low": 10.717477977720774,
+        "ci95_high": 127.38566924221047,
+        "net_value_proxy": 13.16657360996562
+      }
+    },
+    "uplift_tree": {
+      "qini_auc": 0.049267220551822,
+      "uplift_auc": 0.0015417504537846754,
+      "top20": {
+        "selected": 55885,
+        "treated": 47902,
+        "control": 7983,
+        "treated_rate": 0.009435931693874995,
+        "control_rate": 0.006138043342101967,
+        "uplift_rate": 0.003297888351773029,
+        "incremental_conversions": 184.3024905388357,
+        "ci95_low": 77.02034264619819,
+        "ci95_high": 291.58463843147325,
+        "net_value_proxy": 128.41749053883572
+      }
+    },
+    "x_model": {
+      "qini_auc": 0.13164851395734545,
+      "uplift_auc": 0.004210384526462366,
+      "top20": {
+        "selected": 55885,
+        "treated": 47872,
+        "control": 8013,
+        "treated_rate": 0.012324532085561498,
+        "control_rate": 0.007987021090727568,
+        "uplift_rate": 0.00433751099483393,
+        "incremental_conversions": 242.40180194629417,
+        "ci95_low": 120.2782644121582,
+        "ci95_high": 364.52533948043015,
+        "net_value_proxy": 186.51680194629415
+      }
+    }
+  },
+  "top20_incremental_conversions_uplift_minus_response": -48.235467064627215,
+  "top20_paired_policy_difference": {
+    "difference": -48.23546706462724,
+    "ci95_low": -111.51343700413426,
+    "ci95_high": 6.263039883099945,
+    "method": "paired Poisson bootstrap over held-out rows"
+  },
+  "segment_thresholds_from_validation": {
+    "p0_median": 0.00010829733363303625,
+    "uplift_p80": 0.00037484233125811405
+  },
+  "model_implied_segments": {
+    "lost_cause_like": {
+      "share": 0.4867905891447345,
+      "selected": 136020,
+      "treated": 115493,
+      "control": 20527,
+      "treated_rate": 4.3292667088048624e-05,
+      "control_rate": 9.743264968090807e-05,
+      "uplift_rate": -5.4139982592859445e-05,
+      "incremental_conversions": -7.364120432280742,
+      "ci95_low": -26.44214419034477,
+      "ci95_high": 11.71390332578329,
+      "net_value_proxy": -143.38412043228075
+    },
+    "persuadable_like": {
+      "share": 0.20055686381172563,
+      "selected": 56040,
+      "treated": 47979,
+      "control": 8061,
+      "treated_rate": 0.011650930615477605,
+      "control_rate": 0.0068229748170202205,
+      "uplift_rate": 0.0048279557984573845,
+      "incremental_conversions": 270.5586429455518,
+      "ci95_low": 156.37701414688095,
+      "ci95_high": 384.7402717442227,
+      "net_value_proxy": 214.51864294555182
+    },
+    "sleeping_dog_like": {
+      "share": 0.2119052902062114,
+      "selected": 59211,
+      "treated": 50330,
+      "control": 8881,
+      "treated_rate": 0.0029803298231670973,
+      "control_rate": 0.0022519986488008107,
+      "uplift_rate": 0.0007283311743662866,
+      "incremental_conversions": 43.1252171654022,
+      "ci95_low": -21.70325455587726,
+      "ci95_high": 107.95368888668165,
+      "net_value_proxy": -16.085782834597804
+    },
+    "sure_thing_like": {
+      "share": 0.10074725683732849,
+      "selected": 28151,
+      "treated": 23833,
+      "control": 4318,
+      "treated_rate": 0.000545462174296144,
+      "control_rate": 0.0006947660954145438,
+      "uplift_rate": -0.0001493039211183998,
+      "incremental_conversions": -4.203054683404073,
+      "ci95_low": -27.84919170075771,
+      "ci95_high": 19.44308233394957,
+      "net_value_proxy": -32.35405468340407
+    },
+    "persuadable_feature_differences": [
+      {
+        "feature": "f8",
+        "standardized_difference": -1.6965931530895393,
+        "segment_mean": 3.8610994815826416,
+        "other_mean": 3.9517440795898438
+      },
+      {
+        "feature": "f9",
+        "standardized_difference": 1.6364624679384159,
+        "segment_mean": 25.256834030151367,
+        "other_mean": 13.721983909606934
+      },
+      {
+        "feature": "f0",
+        "standardized_difference": -0.9379788147195659,
+        "segment_mean": 15.583349227905273,
+        "other_mean": 20.639907836914062
+      }
+    ]
+  }
+}
