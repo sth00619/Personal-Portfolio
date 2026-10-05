@@ -1,0 +1,15 @@
+{
+  "upstream": "https://github.com/cartanova-ai/sonamu",
+  "upstream_commit": "968acc7da5843a234d471ca2d4c0ad5d905e63d7",
+  "scope": "local Miomock example smoke check",
+  "checks": {
+    "postgres_host_port": 15432,
+    "development_public_tables": 21,
+    "http_status": {
+      "admin": 200,
+      "sonamu_ui": 200,
+      "get_my_ip": 200
+    },
+    "get_my_ip_response_has_ip": true
+  }
+}

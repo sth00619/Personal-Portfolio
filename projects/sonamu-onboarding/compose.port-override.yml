@@ -1,0 +1,5 @@
+# 호스트의 기존 PostgreSQL과 포트가 겹칠 때 예제 DB만 다른 포트로 공개한다.
+services:
+  pg:
+    ports: !override
+      - "127.0.0.1:15432:5432"
