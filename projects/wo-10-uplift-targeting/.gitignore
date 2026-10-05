@@ -1,0 +1,10 @@
+data/*.csv
+data/*.csv.gz
+data/*.parquet
+data/*.zip
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.pkl
+*.joblib

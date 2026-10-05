@@ -1,0 +1,8 @@
+causalml==0.17.0
+lightgbm==4.7.0
+matplotlib==3.10.7
+numpy==2.3.3
+pandas==2.3.3
+pytest==8.4.2
+scikit-learn==1.7.2
+scikit-uplift==0.5.1
