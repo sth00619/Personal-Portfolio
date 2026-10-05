@@ -1,0 +1,4 @@
+instance,customers,best_known_vehicles,best_known_distance,greedy_vehicles,greedy_vehicle_gap,greedy_distance,greedy_distance_gap_percent,greedy_total_route_time,greedy_feasible,greedy_unserved,ortools_vehicles,ortools_vehicle_gap,ortools_distance,ortools_distance_gap_percent,ortools_total_route_time,ortools_feasible,ortools_unserved
+c101,100,10,828.94,20,10,1628.4300911654602,96.44728100531523,18148.521154201717,True,0,10,0,828.9368669428342,0.0,9828.936866942835,True,0
+c104,100,10,824.78,14,4,1576.7919311008025,91.17727528562799,14703.136986460147,True,0,10,0,899.1627607789485,9.018497148202979,10139.181448777383,True,0
+c107,100,10,828.94,17,7,2049.5891920949152,147.2542273379153,14811.33846677148,True,0,10,0,854.3140355322731,3.0610219717076106,9997.551244797714,True,0

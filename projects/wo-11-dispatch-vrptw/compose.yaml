@@ -1,0 +1,11 @@
+services:
+  experiment:
+    build: .
+    volumes:
+      - .:/app
+    command: python run.py
+  test:
+    build: .
+    volumes:
+      - .:/app
+    command: python -m pytest -q
