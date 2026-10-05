@@ -37,6 +37,16 @@
 
 ---
 
+## 실무 프레임워크 적응·검증 사례
+
+| 프로젝트 | 검증 결과 | 초점 |
+|---|---|---|
+| [Sonamu 예제 환경 진단](./projects/sonamu-onboarding/) | 개발 DB 테이블 **21개** · 관리자 화면·Sonamu UI·API **3경로 HTTP 200** | 에이전트의 오류 가설을 실제 접속 대상과 실행 결과로 판정 |
+
+공식 Miomock 예제의 로컬 실행을 바탕으로 호스트 PostgreSQL 포트 충돌을 진단하고, 예제 DB만 재매핑해 검증했다. 업스트림 구현과 별도로 작성한 것은 [포트 오버라이드](./projects/sonamu-onboarding/compose.port-override.yml), [점검 스크립트](./projects/sonamu-onboarding/scripts/smoke_miomock.py), [판단 기록](./projects/sonamu-onboarding/SESSION_REVIEW.md)이다.
+
+---
+
 ## Data Profolio — 데이터 분석·엔지니어링
 
 | # | 프로젝트 | 스택 | 상태 |
@@ -68,6 +78,7 @@ Personal-Portfolio/
 │   ├── wo-07-ctr-calibration/  # ✅ 광고 CTR 캘리브레이션
 │   ├── wo-08-rtb-bidding/      # ✅ RTB 입찰 전략 & 예산 페이싱
 │   ├── wo-09-ope-recommender/  # ✅ 2단 추천 + 반사실 평가
+│   ├── sonamu-onboarding/      # ✅ Sonamu 예제 환경 진단
 │   └── ...
 └── track-d-sql/           # SQL·DB 학습 기록
 ```
