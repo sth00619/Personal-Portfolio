@@ -1,0 +1,39 @@
+{
+  "config": {
+    "data_dir": "data/raw",
+    "results_dir": "results",
+    "store_id": "CA_1",
+    "category_id": "FOODS",
+    "quantiles": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "horizon": 28,
+    "fold_count": 3,
+    "training_days": 420,
+    "intermittent_zero_threshold": 0.5,
+    "random_seed": 12,
+    "n_estimators": 220,
+    "learning_rate": 0.05,
+    "num_leaves": 31,
+    "min_child_samples": 40,
+    "chunk_rows": 2000
+  },
+  "dataset": {
+    "items": 1437,
+    "days": 1941,
+    "store_id": "CA_1",
+    "category_id": "FOODS",
+    "evaluation_observations": 120708
+  },
+  "ship_gate": {
+    "item_coverage": 0.8681694668124731,
+    "item_coverage_numerator": 104795,
+    "item_coverage_denominator": 120708,
+    "coverage_gap_pp": 6.8169466812473045,
+    "point_baseline_mean_pinball": 0.7313505928115388,
+    "quantile_mean_pinball": 0.4521735256449014,
+    "pinball_improvement_percent": 38.17280930796734
+  }
+}
