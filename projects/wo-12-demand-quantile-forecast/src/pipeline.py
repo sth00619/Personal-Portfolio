@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .config import ExperimentConfig
+from .config import PROJECT_DIR, ExperimentConfig
 from .data import MIN_HISTORY, M5Subset, assign_intermittency, build_feature_frame, load_subset
 from .metrics import (
     interval_coverage,
@@ -30,6 +30,15 @@ from .modeling import (
 NOMINAL_COVERAGE = 0.8
 PLOT_DPI = 160
 FIGURE_SIZE = (8.0, 4.8)
+
+
+def _portable_path(path: Path) -> str:
+    """Prefer a project-relative path while preserving valid external overrides."""
+
+    try:
+        return str(path.relative_to(PROJECT_DIR))
+    except ValueError:
+        return str(path)
 
 
 def fold_bounds(total_days: int, horizon: int, fold_count: int) -> list[tuple[int, int]]:
@@ -351,8 +360,8 @@ def run_experiment(config: ExperimentConfig) -> dict[str, object]:
     summary: dict[str, object] = {
         "config": {
             **asdict(config),
-            "data_dir": str(config.data_dir),
-            "results_dir": str(config.results_dir),
+            "data_dir": _portable_path(config.data_dir),
+            "results_dir": _portable_path(config.results_dir),
         },
         "dataset": {
             "items": int(len(subset.item_ids)),
