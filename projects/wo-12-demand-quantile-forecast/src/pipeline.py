@@ -388,4 +388,3 @@ def run_experiment(config: ExperimentConfig) -> dict[str, object]:
         json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     return summary
-

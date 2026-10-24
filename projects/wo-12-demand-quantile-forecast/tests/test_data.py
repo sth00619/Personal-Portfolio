@@ -44,4 +44,3 @@ def test_intermittency_excludes_structural_prelaunch_zeros() -> None:
     segments = assign_intermittency(values, np.array(["a", "b"]), 6, 0.5)
     assert segments.set_index("item_id").loc["a", "segment"] == "intermittent"
     assert segments.set_index("item_id").loc["b", "segment"] == "regular"
-

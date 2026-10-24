@@ -15,4 +15,3 @@ python data/download.py
 Downloaded files and the local manifest stay under `data/raw/` and are excluded
 from Git. The experiment loads only the `CA_1` store and `FOODS` category in
 chunks; it never melts the complete M5 matrix.
-

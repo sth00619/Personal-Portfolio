@@ -43,4 +43,3 @@ def test_rearrangement_removes_crossing_and_reports_rate() -> None:
     ordered, crossing_rate = rearrange_quantiles(raw)
     assert crossing_rate == 0.5
     assert np.array_equal(ordered[0], np.array([2.0, 3.0, 4.0]))
-

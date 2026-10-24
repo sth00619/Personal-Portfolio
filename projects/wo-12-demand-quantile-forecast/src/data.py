@@ -150,4 +150,3 @@ def assign_intermittency(
             }
         )
     return pd.DataFrame.from_records(records)
-

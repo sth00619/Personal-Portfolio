@@ -85,4 +85,3 @@ def predict_quantiles(
         [np.clip(models[q].predict(frame[columns]), 0.0, None) for q in quantiles]
     )
     return np.asarray(matrix, dtype=float)
-

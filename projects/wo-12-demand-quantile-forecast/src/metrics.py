@@ -60,4 +60,3 @@ def rearrange_quantiles(predictions: np.ndarray) -> tuple[np.ndarray, float]:
     matrix = np.asarray(predictions, dtype=float)
     crossing = np.any(np.diff(matrix, axis=1) < 0, axis=1)
     return np.sort(matrix, axis=1), float(np.mean(crossing))
-

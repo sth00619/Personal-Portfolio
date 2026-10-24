@@ -62,4 +62,3 @@ def test_segment_and_hierarchy_evidence_is_present() -> None:
     aggregate = select_row(metrics, "aggregate", "all", "quantile")
     assert 0.0 <= aggregate["coverage"] <= 1.0
     assert not np.isclose(aggregate["coverage"], NOMINAL_COVERAGE)
-

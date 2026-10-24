@@ -30,4 +30,3 @@ class ExperimentConfig:
     num_leaves: int = 31
     min_child_samples: int = 40
     chunk_rows: int = 2_000
-
