@@ -31,4 +31,3 @@ class ExperimentConfig:
     num_leaves: int = 31
     min_child_samples: int = 80
     latency_samples: int = 500
-

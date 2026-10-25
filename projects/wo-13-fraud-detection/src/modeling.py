@@ -82,4 +82,3 @@ def measure_latency(
         "single_row_p50_ms": float(np.percentile(values, 50)),
         "single_row_p95_ms": float(np.percentile(values, 95)),
     }
-

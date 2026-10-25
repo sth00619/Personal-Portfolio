@@ -35,4 +35,3 @@ def test_cost_ratio_changes_selected_threshold() -> None:
         actual, probability, thresholds, 1.0, 10.0
     )
     assert high_fn_threshold < low_fn_threshold
-

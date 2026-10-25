@@ -90,4 +90,3 @@ def select_cost_threshold(
         ascending=[True, False, False],
     )
     return float(ranked.iloc[0]["threshold"]), sweep
-

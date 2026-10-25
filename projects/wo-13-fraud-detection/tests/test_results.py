@@ -63,4 +63,3 @@ def test_missing_feature_ablation_has_both_policies() -> None:
         "drop_gt_90pct_missing",
     }
     assert set(ablation["metric"]) == {"pr_auc", "roc_auc"}
-

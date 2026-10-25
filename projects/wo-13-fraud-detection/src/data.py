@@ -191,4 +191,3 @@ def temporal_inner_split(
 
     cut = int(len(time_train_indices) * inner_train_fraction)
     return time_train_indices[:cut], time_train_indices[cut:]
-

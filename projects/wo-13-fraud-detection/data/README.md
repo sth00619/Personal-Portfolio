@@ -13,4 +13,3 @@ python data/download.py
 
 The downloaded transaction and identity files remain in `data/raw/` and are
 excluded from Git. The project does not redistribute the competition data.
-

@@ -53,4 +53,3 @@ def test_missingness_and_categories_are_fit_on_training_rows() -> None:
     )
     assert set(encoded.x_train["ProductCD"]) == {0, 1}
     assert set(encoded.x_test["ProductCD"]) == {2}
-
