@@ -1,0 +1,8 @@
+{
+  "batch_rows": 118108,
+  "batch_total_ms": 298.59725,
+  "batch_ms_per_row": 0.002528171250042334,
+  "single_row_samples": 500,
+  "single_row_p50_ms": 0.042625,
+  "single_row_p95_ms": 0.05447049999999999
+}

@@ -1,0 +1,9 @@
+experiment,split,feature_policy,metric,value,observations
+split_comparison,temporal,drop_gt_90pct_missing,pr_auc,0.5615472405283765,118108
+split_comparison,temporal,drop_gt_90pct_missing,roc_auc,0.908559018663055,118108
+split_comparison,random,drop_gt_90pct_missing,pr_auc,0.7907399291844006,118108
+split_comparison,random,drop_gt_90pct_missing,roc_auc,0.9613588222316466,118108
+missing_ablation,temporal,include_all,pr_auc,0.563202138568483,118108
+missing_ablation,temporal,include_all,roc_auc,0.9098229740707204,118108
+missing_ablation,temporal,drop_gt_90pct_missing,pr_auc,0.5615472405283765,118108
+missing_ablation,temporal,drop_gt_90pct_missing,roc_auc,0.908559018663055,118108
