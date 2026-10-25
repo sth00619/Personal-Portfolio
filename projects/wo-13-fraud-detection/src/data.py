@@ -155,12 +155,12 @@ def _encode_matrix(
 
     matrix = frame.iloc[indices][features].copy()
     for column, levels in category_levels.items():
-        matrix[column] = pd.Categorical(matrix[column], categories=levels).codes.astype(
-            np.int32
-        )
+        codes = pd.Categorical(matrix[column], categories=levels).codes.astype(np.int32)
+        codes[codes < 0] = len(levels)
+        matrix[column] = codes
     numeric_columns = [column for column in features if column not in category_levels]
     matrix[numeric_columns] = matrix[numeric_columns].astype(np.float32)
-    return matrix
+    return matrix.copy()
 
 
 def encode_split(

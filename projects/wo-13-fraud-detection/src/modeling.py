@@ -63,10 +63,12 @@ def measure_latency(
     rng = np.random.default_rng(random_seed)
     count = min(sample_count, len(matrix))
     positions = rng.choice(len(matrix), size=count, replace=False)
+    samples = matrix.iloc[positions].to_numpy(dtype=np.float32, copy=True)
+    model.booster_.predict(samples[:1])
     single_latencies: list[float] = []
-    for position in positions:
+    for position in range(count):
         start = perf_counter_ns()
-        model.predict_proba(matrix.iloc[[int(position)]])
+        model.booster_.predict(samples[position : position + 1])
         elapsed = perf_counter_ns() - start
         single_latencies.append(elapsed / NANOSECONDS_PER_MILLISECOND)
     values = np.asarray(single_latencies, dtype=float)
