@@ -86,6 +86,12 @@ def _plot_missing_ablation(frame: pd.DataFrame, destination: Path) -> None:
     """Plot temporal metrics with high-missing features included and removed."""
 
     pivot = frame.pivot(index="feature_policy", columns="metric", values="value")
+    pivot = pivot.rename(
+        index={
+            "drop_gt_90pct_missing": "drop >90% missing",
+            "include_all": "include all",
+        }
+    )
     axis = pivot[["pr_auc", "roc_auc"]].plot.bar(
         figsize=FIGURE_SIZE,
         color=["#16a34a", "#94a3b8"],
