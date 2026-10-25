@@ -1,0 +1,60 @@
+{
+  "config": {
+    "data_dir": "data/raw",
+    "results_dir": "results",
+    "target_column": "isFraud",
+    "id_column": "TransactionID",
+    "time_column": "TransactionDT",
+    "train_fraction": 0.8,
+    "inner_train_fraction": 0.8,
+    "missing_threshold": 0.9,
+    "false_positive_cost": 1.0,
+    "false_negative_cost": 10.0,
+    "random_seed": 13,
+    "n_estimators": 260,
+    "learning_rate": 0.05,
+    "num_leaves": 31,
+    "min_child_samples": 80,
+    "latency_samples": 500
+  },
+  "dataset": {
+    "rows": 590540,
+    "fraud_count": 20663,
+    "fraud_rate": 0.03499000914417313,
+    "joined_columns": 434,
+    "predictor_count": 432,
+    "high_missing_feature_count": 12,
+    "retained_feature_count": 420,
+    "time_train_rows": 472432,
+    "time_test_rows": 118108
+  },
+  "ship_gate": {
+    "temporal_pr_auc": 0.5615472405283765,
+    "temporal_roc_auc": 0.908559018663055,
+    "random_pr_auc": 0.7907399291844006,
+    "random_roc_auc": 0.9613588222316466,
+    "random_minus_temporal_pr_auc_pp": 22.919268865602415,
+    "include_high_missing_pr_auc": 0.563202138568483,
+    "drop_high_missing_pr_auc": 0.5615472405283765,
+    "drop_minus_include_pr_auc_pp": -0.1654898040106545,
+    "selected_threshold": 0.09,
+    "selected_threshold_source": "chronological validation inside training window",
+    "false_positive_cost": 1.0,
+    "false_negative_cost": 10.0,
+    "default_threshold_cost": 25751.0,
+    "selected_threshold_cost": 19038.0,
+    "cost_saving_percent": 26.068890528523163,
+    "selected_precision": 0.38017381057593164,
+    "selected_recall": 0.6350885826771654,
+    "selected_false_positives": 4208,
+    "selected_false_negatives": 1483
+  },
+  "latency": {
+    "batch_rows": 118108,
+    "batch_total_ms": 298.59725,
+    "batch_ms_per_row": 0.002528171250042334,
+    "single_row_samples": 500,
+    "single_row_p50_ms": 0.042625,
+    "single_row_p95_ms": 0.05447049999999999
+  }
+}
