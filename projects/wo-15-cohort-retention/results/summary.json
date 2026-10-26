@@ -1,0 +1,64 @@
+{
+  "customer_id_effect": {
+    "all_orders_customer_id_customers": 99441,
+    "all_orders_customer_unique_id_customers": 96096,
+    "all_orders_repeat_customers": 2997,
+    "all_orders_repeat_rate": 0.0311875624375624,
+    "delivered_customer_id_repeat_rate": 0.0,
+    "customer_unique_id_customers": 93358,
+    "customer_unique_id_repeat_customers": 2801,
+    "customer_unique_id_repeat_rate": 0.0300027849782557
+  },
+  "largest_revenue_decline": {
+    "purchase_month": "2017-12-01 00:00:00",
+    "change_rate": -0.2690258637403746,
+    "customer_count_log_contribution": -0.27610151441751185,
+    "frequency_log_contribution": -0.0031559083750177346,
+    "aov_log_contribution": -0.034119778379544274
+  },
+  "survival": {
+    "customers": 93358,
+    "repeat_events": 2801,
+    "censored_customers": 90557,
+    "median_days_without_second_purchase": null,
+    "survival_at_90_days": 0.9786552034748185,
+    "survival_at_180_days": 0.9723857101531461
+  },
+  "experience": {
+    "review": {
+      "one_time_n": 89955,
+      "repeat_n": 2780,
+      "one_time_mean": 4.151998221332889,
+      "repeat_mean": 4.200179856115108,
+      "difference_repeat_minus_one_time": 0.04818163478221926,
+      "welch_t_statistic": -1.9890046274291966,
+      "p_value": 0.04679255345170192
+    },
+    "delivery_delay": {
+      "one_time_n": 90549,
+      "repeat_n": 2801,
+      "one_time_rate": 0.08186727628135043,
+      "repeat_rate": 0.06854694751874331,
+      "difference_repeat_minus_one_time": -0.013320328762607123,
+      "chi_square": 6.265404731414982,
+      "degrees_of_freedom": 1,
+      "p_value": 0.012311804168683169,
+      "contingency": {
+        "false": {
+          "false": 83136,
+          "true": 2609
+        },
+        "true": {
+          "false": 7413,
+          "true": 192
+        }
+      }
+    }
+  },
+  "highest_repeat_category": {
+    "category": "home_appliances",
+    "customers": 676,
+    "repeat_rate": 0.0887573964497041
+  },
+  "rfm_segments": 50
+}
