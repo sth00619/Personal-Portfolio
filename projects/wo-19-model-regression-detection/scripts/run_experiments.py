@@ -345,9 +345,14 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     if not rows:
         raise ValueError("Cannot write an empty measurement table")
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
-        writer.writerows(rows)
+        for row in rows:
+            writer.writerow({
+                key: json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+                if isinstance(value, (list, dict)) else value
+                for key, value in row.items()
+            })
 
 
 def main() -> None:
@@ -405,8 +410,9 @@ def main() -> None:
             "monte_carlo_repetitions": MONTE_CARLO_REPETITIONS,
             "bootstrap_repetitions_per_simulated_sample": BOOTSTRAP_REPETITIONS,
             "sampling": "independent with-replacement draws from the fixed WO-07 holdout segment rows",
-            "false_positive_definition": "at least one eligible segment is flagged as worse under version C",
-            "power_definition": f"target segment {TARGET_SEGMENT} is flagged as worse under version B",
+            "false_positive_definition": "at least one eligible segment is flagged under version C using both the adjusted significance and minimum-effect rules",
+            "significance_only_false_positive_definition": "at least one eligible segment passes the adjusted significance rule under version C, without the minimum-effect rule",
+            "power_definition": f"target segment {TARGET_SEGMENT} passes both rules under version B",
         },
     })
     result = {
