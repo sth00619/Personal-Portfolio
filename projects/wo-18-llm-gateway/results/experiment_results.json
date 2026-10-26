@@ -1,0 +1,209 @@
+{
+  "environment": {
+    "stack": "Spring Boot 3.5.16, Java 21 containers, Redis 7.4",
+    "provider_read_timeout_ms": 250,
+    "bucket_capacity": 5,
+    "bucket_refill_tokens_per_second": 5,
+    "queue_timeout_ms": 1200,
+    "concurrent_rate_limit_requests": 20
+  },
+  "failover_and_circuit": {
+    "controlled_outage_requests": 6,
+    "outage_status_counts": {
+      "200": 6
+    },
+    "outage_fallback_providers": [
+      "backup",
+      "backup",
+      "backup",
+      "backup",
+      "backup",
+      "backup"
+    ],
+    "first_failover_latency_ms": 80,
+    "failover_successes_during_outage": 6,
+    "lost_client_requests": 0,
+    "circuit_state_after_outage": {
+      "backup": {
+        "state": "CLOSED",
+        "consecutiveFailures": 0,
+        "remainingOpenMs": 0
+      },
+      "slow": {
+        "state": "CLOSED",
+        "consecutiveFailures": 0,
+        "remainingOpenMs": 0
+      },
+      "primary": {
+        "state": "OPEN",
+        "consecutiveFailures": 0,
+        "remainingOpenMs": 1758
+      }
+    },
+    "provider_after_mode_recovery_before_cooldown": "backup",
+    "provider_after_half_open_probe": "primary",
+    "recovery_probe_elapsed_ms": 2335.56,
+    "circuit_transitions_from_gateway_logs": [
+      "provider=primary transition=OPEN consecutiveFailures=3",
+      "provider=primary transition=HALF_OPEN",
+      "provider=primary transition=CLOSED"
+    ],
+    "final_circuit_state": {
+      "backup": {
+        "state": "CLOSED",
+        "consecutiveFailures": 0,
+        "remainingOpenMs": 0
+      },
+      "slow": {
+        "state": "CLOSED",
+        "consecutiveFailures": 0,
+        "remainingOpenMs": 0
+      },
+      "primary": {
+        "state": "CLOSED",
+        "consecutiveFailures": 0,
+        "remainingOpenMs": 0
+      }
+    }
+  },
+  "rate_limit_comparison": {
+    "immediate_reject": [
+      {
+        "offered_requests": 20,
+        "successful_responses": 5,
+        "rate_limited_responses": 15,
+        "unexpected_responses": 0,
+        "wall_seconds": 0.053,
+        "successful_throughput_per_second": 94.186,
+        "all_response_mean_ms": 20.86,
+        "latencies_include_429_responses": true,
+        "response_status_counts": {
+          "200": 5,
+          "429": 15
+        },
+        "observed_p95_ms": 47.83
+      },
+      {
+        "offered_requests": 20,
+        "successful_responses": 5,
+        "rate_limited_responses": 15,
+        "unexpected_responses": 0,
+        "wall_seconds": 0.051,
+        "successful_throughput_per_second": 97.736,
+        "all_response_mean_ms": 19.54,
+        "latencies_include_429_responses": true,
+        "response_status_counts": {
+          "200": 5,
+          "429": 15
+        },
+        "observed_p95_ms": 50.18
+      },
+      {
+        "offered_requests": 20,
+        "successful_responses": 5,
+        "rate_limited_responses": 15,
+        "unexpected_responses": 0,
+        "wall_seconds": 0.052,
+        "successful_throughput_per_second": 95.963,
+        "all_response_mean_ms": 19.74,
+        "latencies_include_429_responses": true,
+        "response_status_counts": {
+          "200": 5,
+          "429": 15
+        },
+        "observed_p95_ms": 50.63
+      }
+    ],
+    "bounded_wait_queue": [
+      {
+        "offered_requests": 20,
+        "successful_responses": 10,
+        "rate_limited_responses": 10,
+        "unexpected_responses": 0,
+        "wall_seconds": 1.228,
+        "successful_throughput_per_second": 8.14,
+        "all_response_mean_ms": 791.64,
+        "latencies_include_429_responses": true,
+        "response_status_counts": {
+          "200": 10,
+          "429": 10
+        },
+        "observed_p95_ms": 1223.19
+      },
+      {
+        "offered_requests": 20,
+        "successful_responses": 10,
+        "rate_limited_responses": 10,
+        "unexpected_responses": 0,
+        "wall_seconds": 1.226,
+        "successful_throughput_per_second": 8.157,
+        "all_response_mean_ms": 792.62,
+        "latencies_include_429_responses": true,
+        "response_status_counts": {
+          "200": 10,
+          "429": 10
+        },
+        "observed_p95_ms": 1222.28
+      },
+      {
+        "offered_requests": 20,
+        "successful_responses": 11,
+        "rate_limited_responses": 9,
+        "unexpected_responses": 0,
+        "wall_seconds": 1.262,
+        "successful_throughput_per_second": 8.714,
+        "all_response_mean_ms": 788.33,
+        "latencies_include_429_responses": true,
+        "response_status_counts": {
+          "200": 11,
+          "429": 9
+        },
+        "observed_p95_ms": 1219.03
+      }
+    ]
+  },
+  "cost_accounting": {
+    "normal_run_response_statuses": [
+      200,
+      200,
+      200,
+      200
+    ],
+    "normal_run_exact_usage_match": true,
+    "normal_run_gateway_usage": {
+      "requests": 4,
+      "promptTokens": 28,
+      "completionTokens": 64,
+      "totalTokens": 92,
+      "costMicroUsd": 568
+    },
+    "normal_run_provider_actual_usage": {
+      "requests": 4,
+      "promptTokens": 28,
+      "completionTokens": 64,
+      "totalTokens": 92,
+      "costMicroUsd": 568
+    },
+    "slow_provider_timeout_response_status": 200,
+    "slow_provider_timeout_fallback": "backup",
+    "gateway_usage_after_timeout": {
+      "requests": 5,
+      "promptTokens": 35,
+      "completionTokens": 80,
+      "totalTokens": 115,
+      "costMicroUsd": 710
+    },
+    "provider_actual_usage_after_timeout": {
+      "requests": 7,
+      "promptTokens": 49,
+      "completionTokens": 112,
+      "totalTokens": 161,
+      "costMicroUsd": 994
+    },
+    "gateway_cost_delta_after_timeout_micro_usd": 142,
+    "provider_actual_cost_delta_after_timeout_micro_usd": 426,
+    "cost_understatement_after_timeout_micro_usd": 284,
+    "timeout_scenario_accounting_accuracy_fraction": 0.333333,
+    "note": "Provider-side usage includes mock generations that finished after the gateway client timed out."
+  }
+}

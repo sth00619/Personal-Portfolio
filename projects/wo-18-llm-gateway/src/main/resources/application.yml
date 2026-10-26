@@ -1,0 +1,27 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  application:
+    name: wo18-llm-gateway
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+gateway:
+  provider-definitions: ${GATEWAY_PROVIDERS:primary=http://localhost:8081,backup=http://localhost:8082,slow=http://localhost:8083}
+  bucket-capacity: ${GATEWAY_BUCKET_CAPACITY:5}
+  refill-per-second: ${GATEWAY_REFILL_PER_SECOND:5}
+  queue-timeout-ms: ${GATEWAY_QUEUE_TIMEOUT_MS:1200}
+  read-timeout-ms: ${GATEWAY_READ_TIMEOUT_MS:250}
+  circuit-failure-threshold: ${GATEWAY_CIRCUIT_FAILURE_THRESHOLD:3}
+  circuit-open-ms: ${GATEWAY_CIRCUIT_OPEN_MS:2000}
+mock-provider:
+  id: ${PROVIDER_ID:local}
+  mode: ${MOCK_MODE:NORMAL}
+  delay-ms: ${MOCK_DELAY_MS:35}
+  failure-count: ${MOCK_FAILURE_COUNT:0}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

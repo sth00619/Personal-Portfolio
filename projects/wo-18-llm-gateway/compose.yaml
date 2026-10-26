@@ -1,0 +1,54 @@
+services:
+  gateway:
+    build: .
+    environment:
+      APP_ROLE: gateway
+      REDIS_HOST: redis
+      GATEWAY_PROVIDERS: primary=http://provider-primary:8080,backup=http://provider-backup:8080,slow=http://provider-slow:8080
+      GATEWAY_READ_TIMEOUT_MS: 250
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      provider-primary:
+        condition: service_started
+      provider-backup:
+        condition: service_started
+      provider-slow:
+        condition: service_started
+
+  provider-primary:
+    build: .
+    environment:
+      APP_ROLE: provider
+      SERVER_PORT: 8080
+      PROVIDER_ID: primary
+      MOCK_MODE: NORMAL
+      MOCK_DELAY_MS: 35
+
+  provider-backup:
+    build: .
+    environment:
+      APP_ROLE: provider
+      SERVER_PORT: 8080
+      PROVIDER_ID: backup
+      MOCK_MODE: NORMAL
+      MOCK_DELAY_MS: 35
+
+  provider-slow:
+    build: .
+    environment:
+      APP_ROLE: provider
+      SERVER_PORT: 8080
+      PROVIDER_ID: slow
+      MOCK_MODE: SLOW
+      MOCK_DELAY_MS: 600
+
+  redis:
+    image: redis:7.4-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
