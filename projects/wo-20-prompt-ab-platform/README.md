@@ -22,7 +22,7 @@
 4. **자동 채점:** SQuAD 정규화 기반 EM과 token F1을 계산하고, 무응답 지시어를 빈 답으로 처리해 불가능 문항의 정확한 abstention을 별도 측정한다.
 5. **통계 비교:** B−A 문항별 차이의 쌍체 t-검정과 paired bootstrap 95% 구간을 계산한다. 답변 가능/불가능 세그먼트의 F1 p-value에는 Holm 보정을 적용한다.
 6. **소표본·judge 비교:** 문항별 F1 차이 재표집으로 크기별 사후 검정력을 추정한다. 30문항(각 세그먼트 15개)은 후보 순서를 섞어 LLM-as-judge 1~5점을 받고, 자동 F1과 winner 일치율·Cohen's kappa·Spearman 상관을 비교한다.
-7. **실행 전 선택:** 기본은 균형 300문항으로 두고, `SAMPLE_SIZE=0`이면 전체 dev 11,873문항을 처리한다. 모델 공급자·API 키가 없어 실제 응답 생성과 Ship Gate 결과 표는 실행 대기 상태다.
+7. **비용 상한을 둔 전체 실행:** 사용자가 전체 dev를 요청했고, 현재 고용량 모델 `gpt-6-luna` 가격 기준 최악 상한 추정은 약 $4.48이다. 각 API 시도 전에 입력 byte 상한과 최대 출력 토큰을 예약해 로컬 누적 상한 $8에서 차단한다. 전용 API 프로젝트의 hard limit도 $8로 설정하는 전제를 둔다.
 
 ## 데이터
 
@@ -32,21 +32,21 @@ SQuAD 2.0 dev에는 **11,873문항**이 있고, 고정된 공식 파일에서 �
 
 ## 파이프라인
 
-`data/download.py` 공식 파일 다운로드·체크섬 검증 → `src/dataset.py` 문항 평탄화·균형 표본 선택 → `src/prompts.py` 동일 질문용 A/B 프롬프트 → `src/llm.py` 사용자가 선택한 API endpoint에서 생성·judge → 로컬 JSONL 체크포인트 → `src/scoring.py` EM/F1/abstention 채점 → `src/evaluation.py` 쌍체 검정·bootstrap·power → `results/` 집계 JSON/CSV.
+`data/download.py` 공식 파일 다운로드·체크섬 검증 → `src/dataset.py` 문항 평탄화·표본 선택 → `src/prompts.py` 동일 질문용 A/B 프롬프트 → `src/llm.py` OpenAI Chat Completions 생성·judge와 요청 전 비용 예약 → 로컬 JSONL 체크포인트 → `src/scoring.py` EM/F1/abstention 채점 → `src/evaluation.py` 쌍체 검정·bootstrap·power → `results/` 집계 JSON/CSV.
 
-API 키는 프로젝트의 로컬 `.env`에서만 읽으며 Git에 포함하지 않는다. `SAMPLE_SIZE=300`은 생성 600회와 judge 30회를 요청한다. 전체 설정 `SAMPLE_SIZE=0`은 답변 생성 23,746회와 judge 30회를 요청하므로 비용은 공급자·모델 가격에 따라 달라진다. 행 단위 답변 캐시는 로컬에만 저장된다.
+API 키는 프로젝트의 로컬 `.env`에서만 읽으며 Git에 포함하지 않는다. 현재 실행은 전체 dev 11,873문항에 답변 생성 23,746회와 judge 30회를 요청한다. `gpt-6-luna` 표준 가격($0.10/백만 입력 토큰, $0.50/백만 출력 토큰) 기준으로 실제 provider token 사용량 비용을 결과에 기록하고, 각 호출 전 UTF-8 byte 수를 입력 토큰 상한으로 간주한 보수적 예약 비용은 로컬 $8에서 막는다. 전용 OpenAI API 프로젝트에 $8 hard limit을 두면 나머지 충전 잔액을 여유로 남긴다. 플랫폼 한도는 집계 반영이 즉시가 아닐 수 있으므로 예산 경보만으로 비용을 통제하지 않는다. 행 단위 답변과 예약 캐시는 로컬에만 저장된다.
 
 ## 결과 (Ship Gate 표)
 
 | 지표 | 목표 | 실제 |
 |---|---|---|
-| A vs B 전체 EM/F1 평균, B−A 95% 구간·paired t p-value | 같은 평가 문항, paired 비교 | 실행 대기 — LLM endpoint/model 설정 필요 |
+| A vs B 전체 EM/F1 평균, B−A 95% 구간·paired t p-value | 같은 평가 문항, paired 비교 | 실행 대기 — 로컬 API 키 입력 필요 |
 | Answerable / unanswerable EM·F1 및 p-value | 두 세그먼트 분리, F1 Holm 보정 | 실행 대기 — LLM 응답 생성 후 계산 |
 | 불가능 질문 abstention 비율, 가능 질문 false-abstention 비율 | 세그먼트별 A/B 비교 | 실행 대기 — LLM 응답 생성 후 계산 |
-| 자동 채점–LLM judge 일치 | judge 30건, 일치율·κ·ρ | 실행 대기 — 생성 및 judge 설정 필요 |
+| 자동 채점–LLM judge 일치 | judge 30건, 일치율·κ·ρ | 실행 대기 — 생성 및 judge 호출 필요 |
 | 표본 크기별 검정력·소표본 방향 일치 | paired 재표집, 2,000회 | 실행 대기 — 전체 관측 F1 차이 필요 |
 
-**측정 방식**: 현재 확인된 수치는 데이터 무결성·행 수·세그먼트 구성뿐이며, 모델 품질·비용·통계 결과는 아직 측정하지 않았다.
+**측정 방식**: 데이터 행 수와 세그먼트는 로컬 검증했다. 약 $4.48은 모델 토큰 사용량 실측이 아닌 UTF-8 byte 상한·최대 응답 토큰 기반의 보수 추정이며, 실제 품질·비용·통계 결과는 API 실행 후 채운다.
 
 ## 시행착오와 의사결정
 
@@ -54,20 +54,20 @@ API 키는 프로젝트의 로컬 `.env`에서만 읽으며 Git에 포함하지 
 
 ## 측정 경계 (한계)
 
-**다음 단계**: 공급자·모델·평가 규모를 확정하고 응답 생성과 judge를 실행한다. 현재 비교 대상은 같은 기본 모델의 프롬프트 지시 변화이며, 모델 간 성능 비교는 아니다. LLM-as-judge는 자동 F1과 같은 모델이 선택될 수 있어 독립적인 사람 평가와 다를 수 있다. power 수치는 관측된 결과 차이를 고정한 사후 재표집 추정으로 보고한다.
+**다음 단계**: 전용 API 프로젝트의 $8 hard spend limit을 확인하고 `.env`에 발급 키를 입력한 뒤 전체 응답 생성과 judge를 실행한다. 현재 비교 대상은 같은 기본 모델의 프롬프트 지시 변화이며, 모델 간 성능 비교는 아니다. LLM-as-judge는 자동 F1과 같은 모델이 선택될 수 있어 독립적인 사람 평가와 다를 수 있다. power 수치는 관측된 결과 차이를 고정한 사후 재표집 추정으로 보고한다.
 
 ## 재현
 
 ```bash
 cd projects/wo-20-prompt-ab-platform
-cp .env.example .env
-# .env에 공급자, 모델, API 키를 설정하고 기본 균형 300문항 규모를 확인합니다.
+# .env.example에서 생성한 .env에 키를 추가하고 gpt-6-luna 전체 split 설정을 확인합니다.
+${EDITOR:-nano} .env
 docker compose run --build --rm download
 docker compose run --build --rm test
 docker compose run --build --rm experiment
 ```
 
-OpenAI 호환 API는 `LLM_PROVIDER=openai-compatible`, Anthropic Messages API는 `LLM_PROVIDER=anthropic`과 해당 endpoint를 설정한다. 전체 dev 평가에는 `.env`의 `SAMPLE_SIZE=0`을 지정한다. 통계 결과 파일은 실행이 끝나면 `results/experiment_results.json`, `results/judge_summary.json`, `results/sample_size_power.csv`에 생성된다.
+현재 `.env`는 `LLM_PROVIDER=openai-compatible`, `LLM_MODEL=gpt-6-luna`, `JUDGE_MODEL=gpt-6-luna`, `SAMPLE_SIZE=0`, `COST_LIMIT_USD=8`로 준비되어 있다. `LLM_API_KEY=` 뒤에 프로젝트 키를 넣는다. 결과는 `results/experiment_results.json`, `results/judge_summary.json`, `results/sample_size_power.csv`에 저장된다.
 
 ## 개발 방식 (AI 활용 구분)
 
@@ -75,7 +75,7 @@ OpenAI 호환 API는 `LLM_PROVIDER=openai-compatible`, Anthropic Messages API는
 |---|---|
 | 프로젝트 정의·Ship Gate·SQuAD 데이터셋 지침 | 체크섬 다운로드, 데이터 검증, 프롬프트 실행기·채점·통계·judge 파이프라인 및 테스트 |
 
-공급자·모델·표본 규모에 대한 사용자의 선택은 아직 반영되지 않았다. 실행 전 비용이 달라지는 구간을 `.env` 설정으로 드러냈다.
+사용자는 OpenAI API와 전체 dev 실행, 총 $10을 넘기지 않는 범위를 선택했다. Codex는 현재 공개 가격과 전체 입력 크기로 `gpt-6-luna` 및 $8의 보수적 로컬 상한을 제안했다. 비밀 키는 사용자가 로컬 `.env`에만 추가하며, 전용 프로젝트 key와 spend limit을 별도로 설정해야 한다.
 
 ## 용어집
 

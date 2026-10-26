@@ -1,6 +1,7 @@
 """Exercise both supported API wire formats without making network calls."""
 
 import asyncio
+import json
 
 import httpx
 
@@ -20,13 +21,17 @@ def test_openai_compatible_response_and_usage_parsing() -> None:
 
     async def run() -> tuple[str, int | None]:
         async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
-            settings = LLMSettings("openai-compatible", "https://llm.test/v1", "secret", "model-a", "judge", 1, 20)
+            settings = LLMSettings("openai-compatible", "https://llm.test/v1", "secret", "gpt-6-luna", "gpt-6-luna", 1, 96)
             result = await LLMClient(settings, client).complete("system", "question")
             return result.text, result.prompt_tokens
 
     assert asyncio.run(run()) == ("Paris", 10)
     assert str(requests[0].url) == "https://llm.test/v1/chat/completions"
     assert requests[0].headers["authorization"] == "Bearer secret"
+    request_body = json.loads(requests[0].content)
+    assert request_body["max_completion_tokens"] == 96
+    assert request_body["reasoning_effort"] == "none"
+    assert "temperature" not in request_body
 
 
 def test_anthropic_response_and_usage_parsing() -> None:

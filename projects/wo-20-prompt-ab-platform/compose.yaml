@@ -18,7 +18,8 @@ services:
       JUDGE_MODEL: ${JUDGE_MODEL:-}
       LLM_CONCURRENCY: ${LLM_CONCURRENCY:-4}
       LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-96}
-      SAMPLE_SIZE: ${SAMPLE_SIZE:-300}
+      SAMPLE_SIZE: ${SAMPLE_SIZE:-0}
+      COST_LIMIT_USD: ${COST_LIMIT_USD:-8}
     volumes:
       - ./data:/app/data:ro
       - ./results:/app/results

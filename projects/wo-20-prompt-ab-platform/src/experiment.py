@@ -15,7 +15,14 @@ from scipy.stats import spearmanr
 
 from src.dataset import DATA_PATH, SAMPLE_SEED, QAExample, load_examples, select_examples
 from src.evaluation import score_all
-from src.llm import LLMClient, LLMSettings, new_http_client
+from src.llm import (
+    INPUT_USD_PER_MILLION,
+    OUTPUT_USD_PER_MILLION,
+    CostBudget,
+    LLMClient,
+    LLMSettings,
+    new_http_client,
+)
 from src.prompts import (
     ANSWER_PROMPTS,
     PROMPT_HASH_VERSION,
@@ -138,7 +145,7 @@ async def generate_one(
 
 
 async def generate_answers(
-    examples: list[QAExample], settings: LLMSettings
+    examples: list[QAExample], settings: LLMSettings, cost_budget: CostBudget
 ) -> dict[str, dict[str, str]]:
     """Generate A/B responses with bounded concurrency and restart-safe checkpoints."""
     prompt_hashes = {key: prompt_fingerprint(value) for key, value in ANSWER_PROMPTS.items()}
@@ -158,7 +165,7 @@ async def generate_answers(
     write_lock = asyncio.Lock()
     semaphore = asyncio.Semaphore(settings.concurrency)
     async with new_http_client() as http_client:
-        api = LLMClient(settings, http_client)
+        api = LLMClient(settings, http_client, cost_budget)
         for offset in range(0, len(pending), GENERATION_BATCH_SIZE):
             batch = pending[offset:offset + GENERATION_BATCH_SIZE]
             results = await asyncio.gather(*[
@@ -268,6 +275,7 @@ async def score_judge_sample(
     examples: list[QAExample],
     predictions: dict[str, dict[str, str]],
     settings: LLMSettings,
+    cost_budget: CostBudget,
 ) -> list[dict[str, Any]]:
     """Resume the stratified judge sample while randomizing candidate order."""
     sample = select_judge_sample(examples)
@@ -295,7 +303,7 @@ async def score_judge_sample(
     semaphore = asyncio.Semaphore(settings.concurrency)
     write_lock = asyncio.Lock()
     async with new_http_client() as http_client:
-        api = LLMClient(settings, http_client)
+        api = LLMClient(settings, http_client, cost_budget)
         results = await asyncio.gather(*[
             judge_one(
                 example, predictions, settings, api, semaphore, write_lock,
@@ -429,6 +437,9 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 async def main() -> None:
     """Run prompt generation, automated scoring, and judge evaluation."""
     settings = LLMSettings.from_environment()
+    cost_budget = CostBudget(
+        RESULTS_DIR / "budget_reservations.json", settings.model, settings.cost_limit_usd
+    )
     raw_examples = load_examples(DATA_PATH)
     sample_size = int(os.getenv("SAMPLE_SIZE", "300"))
     examples = select_examples(raw_examples, sample_size)
@@ -438,12 +449,14 @@ async def main() -> None:
     }
     print(
         f"Evaluation set: n={len(examples)}, answerable={segment_counts['answerable']}, "
-        f"unanswerable={segment_counts['unanswerable']}",
+        f"unanswerable={segment_counts['unanswerable']}; model={settings.model}; "
+        f"conservative_budget_reserved=${cost_budget.reserved_usd:.4f}/"
+        f"${settings.cost_limit_usd:.2f}",
         flush=True,
     )
-    predictions = await generate_answers(examples, settings)
+    predictions = await generate_answers(examples, settings, cost_budget)
     automatic = score_all(examples, predictions)
-    judge_rows = await score_judge_sample(examples, predictions, settings)
+    judge_rows = await score_judge_sample(examples, predictions, settings, cost_budget)
     judge_summary = summarize_judge(examples, predictions, judge_rows)
     selected_ids = {example.question_id for example in examples}
     selected_records = [
@@ -465,7 +478,21 @@ async def main() -> None:
             if record.get("completion_tokens") is not None
         )),
         "judge_calls": len(judge_rows),
+        "judge_prompt_tokens": int(sum(
+            int(record["prompt_tokens"]) for record in judge_rows
+            if record.get("prompt_tokens") is not None
+        )),
+        "judge_completion_tokens": int(sum(
+            int(record["completion_tokens"]) for record in judge_rows
+            if record.get("completion_tokens") is not None
+        )),
     }
+    total_prompt_tokens = usage["provider_prompt_tokens"] + usage["judge_prompt_tokens"]
+    total_completion_tokens = usage["provider_completion_tokens"] + usage["judge_completion_tokens"]
+    estimated_cost_usd = (
+        total_prompt_tokens * INPUT_USD_PER_MILLION
+        + total_completion_tokens * OUTPUT_USD_PER_MILLION
+    ) / 1_000_000
     metadata = {
         "dataset": "SQuAD 2.0 dev",
         "dataset_url": "https://rajpurkar.github.io/SQuAD-explorer/",
@@ -491,6 +518,9 @@ async def main() -> None:
         "segment_test_correction": "Holm correction across answerable and unanswerable F1 comparisons",
         "sample_size_power": "post-hoc paired t-test power estimated by resampling observed F1 deltas; 2,000 repetitions",
         "usage": usage,
+        "estimated_cost_usd_from_provider_token_usage": estimated_cost_usd,
+        "conservative_budget_reserved_usd": cost_budget.reserved_usd,
+        "conservative_budget_limit_usd": cost_budget.limit_usd,
     }
     result = {
         "metadata": metadata,
