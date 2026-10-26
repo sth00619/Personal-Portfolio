@@ -1,0 +1,354 @@
+{
+  "dataset": {
+    "source_project": "WO-07 Avazu independent temporal evaluation",
+    "sample_file": "projects/wo-07-ctr-calibration/data/avazu_sample.csv.gz",
+    "sample_sha256": "4b8a7e35b270e8b7eaca5c1cde31c8d3dd0927d7795d9a33fcd131bbf12855b3",
+    "split_days": [
+      "141029",
+      "141030"
+    ],
+    "test_rows": 201137,
+    "test_clicks": 32879,
+    "test_click_rate": 0.1634656975096576,
+    "segment_column": "device_type",
+    "segment_counts": {
+      "0": 10236,
+      "1": 186600,
+      "4": 3660,
+      "5": 641
+    },
+    "minimum_segment_rows": 1000,
+    "eligible_segments": [
+      "0",
+      "1",
+      "4"
+    ],
+    "excluded_segments": {
+      "5": 641
+    },
+    "base_model": {
+      "implementation": "WO-07 src/avazu.py fit_avazu_baseline",
+      "trees": 160,
+      "leaves": 31,
+      "min_child_samples": 100,
+      "learning_rate": 0.05,
+      "random_state": 7,
+      "decision_threshold": 0.5
+    },
+    "golden_set_methodology": "Reuse WO-07's audited Avazu temporal holdout; regression detector claims are benchmarked by label-guided synthetic correctness mutations",
+    "target_definition": {
+      "segment": {
+        "device_type": "0"
+      },
+      "metric": "binary accuracy at probability threshold 0.5",
+      "regression": "at least 5.0 percentage-point observed decrease plus adjusted p < 0.05",
+      "minimum_effect_for_flag": "observed accuracy decrease >= 5.0 percentage points",
+      "alternative": "one-sided paired test of model-version correctness differences < 0",
+      "alpha": 0.05,
+      "multiple_testing": "Holm step-down for paired t-tests; Bonferroni family-wise upper bootstrap bound"
+    },
+    "synthetic_versions": {
+      "A": "WO-07 LightGBM raw-probability baseline thresholded at 0.5",
+      "B": "Flip target-segment correct decisions to wrong; offset equal count of errors in control segments to preserve global accuracy",
+      "C": "Swap equal correct/error decisions inside each eligible segment to preserve each segment's accuracy",
+      "label_guided_injection": true,
+      "limitation": "Mutations use held-out labels and validate detector behavior, not realistic retraining or deployable model versions",
+      "random_seed": 19071,
+      "regression_points": 0.1,
+      "minimum_detectable_effect_points": 0.05,
+      "neutral_swap_fraction": 0.05
+    },
+    "simulation": {
+      "sample_sizes_per_segment": [
+        50,
+        200,
+        1000
+      ],
+      "monte_carlo_repetitions": 2000,
+      "bootstrap_repetitions_per_simulated_sample": 1000,
+      "sampling": "independent with-replacement draws from the fixed WO-07 holdout segment rows",
+      "false_positive_definition": "at least one eligible segment is flagged under version C using both the adjusted significance and minimum-effect rules",
+      "significance_only_false_positive_definition": "at least one eligible segment passes the adjusted significance rule under version C, without the minimum-effect rule",
+      "power_definition": "target segment 0 passes both rules under version B"
+    }
+  },
+  "versions": [
+    {
+      "segment": "ALL",
+      "rows": 201137,
+      "baseline_accuracy": 0.8390251420673471,
+      "no_regression_accuracy": 0.8390251420673471,
+      "injected_regression_accuracy": 0.8390251420673471,
+      "regression_drop_percentage_points": 0.0
+    },
+    {
+      "segment": "0",
+      "rows": 10236,
+      "baseline_accuracy": 0.7968933177022274,
+      "no_regression_accuracy": 0.7968933177022274,
+      "injected_regression_accuracy": 0.6968542399374755,
+      "regression_drop_percentage_points": 10.003907776475184
+    },
+    {
+      "segment": "1",
+      "rows": 186600,
+      "baseline_accuracy": 0.8402250803858521,
+      "no_regression_accuracy": 0.8402250803858521,
+      "injected_regression_accuracy": 0.8456377277599143,
+      "regression_drop_percentage_points": -0.5412647374062218
+    },
+    {
+      "segment": "4",
+      "rows": 3660,
+      "baseline_accuracy": 0.885792349726776,
+      "no_regression_accuracy": 0.885792349726776,
+      "injected_regression_accuracy": 0.8896174863387978,
+      "regression_drop_percentage_points": -0.38251366120217734
+    }
+  ],
+  "full_holdout_paired_tests": {
+    "no_regression": {
+      "target_segment": "0",
+      "target_rows": 10236,
+      "accuracy_difference": 0.0,
+      "accuracy_difference_percentage_points": 0.0,
+      "paired_t_test_one_sided_p": 0.5,
+      "holm_adjusted_p": 1.0,
+      "paired_bootstrap_95_percentile_interval": [
+        -0.00605705353653771,
+        0.006350136772176632
+      ],
+      "paired_bootstrap_family_adjusted_upper_bound": 0.007131692067213756,
+      "bootstrap_repetitions": 1000,
+      "segment_raw_p_values": {
+        "0": 0.5,
+        "1": 0.5,
+        "4": 0.5
+      }
+    },
+    "injected_regression": {
+      "target_segment": "0",
+      "target_rows": 10236,
+      "accuracy_difference": -0.10003907776475186,
+      "accuracy_difference_percentage_points": -10.003907776475186,
+      "paired_t_test_one_sided_p": 6.838004514807558e-237,
+      "holm_adjusted_p": 2.0514013544422676e-236,
+      "paired_bootstrap_95_percentile_interval": [
+        -0.10599843688940992,
+        -0.09446805392731536
+      ],
+      "paired_bootstrap_family_adjusted_upper_bound": -0.0933958577569363,
+      "bootstrap_repetitions": 1000,
+      "segment_raw_p_values": {
+        "0": 6.838004514807558e-237,
+        "1": 1.0,
+        "4": 0.9999096144781795
+      }
+    }
+  },
+  "sample_size_simulation": [
+    {
+      "sample_size_per_segment": 50,
+      "monte_carlo_repetitions": 2000,
+      "method": "paired_t_holm",
+      "family_false_positive_rate": 0.0365,
+      "family_false_positive_rate_95_wilson": [
+        0.029129631650884488,
+        0.045647536364791005
+      ],
+      "family_significance_only_false_positive_rate": 0.0365,
+      "family_significance_only_false_positive_rate_95_wilson": [
+        0.029129631650884488,
+        0.045647536364791005
+      ],
+      "target_detection_power": 0.562,
+      "target_detection_power_95_wilson": [
+        0.5401573239406752,
+        0.5836049534768613
+      ],
+      "target_significance_only_power": 0.562,
+      "target_significance_only_power_95_wilson": [
+        0.5401573239406752,
+        0.5836049534768613
+      ],
+      "target_segment": "0",
+      "segments_in_family": [
+        "0",
+        "1",
+        "4"
+      ],
+      "family_alpha": 0.05,
+      "bootstrap_repetitions": null
+    },
+    {
+      "sample_size_per_segment": 50,
+      "monte_carlo_repetitions": 2000,
+      "method": "paired_bootstrap_bonferroni",
+      "family_false_positive_rate": 0.0545,
+      "family_false_positive_rate_95_wilson": [
+        0.04537820318220411,
+        0.06532994859985292
+      ],
+      "family_significance_only_false_positive_rate": 0.0545,
+      "family_significance_only_false_positive_rate_95_wilson": [
+        0.04537820318220411,
+        0.06532994859985292
+      ],
+      "target_detection_power": 0.6915,
+      "target_detection_power_95_wilson": [
+        0.6709064247584434,
+        0.7113593192005602
+      ],
+      "target_significance_only_power": 0.6915,
+      "target_significance_only_power_95_wilson": [
+        0.6709064247584434,
+        0.7113593192005602
+      ],
+      "target_segment": "0",
+      "segments_in_family": [
+        "0",
+        "1",
+        "4"
+      ],
+      "family_alpha": 0.05,
+      "bootstrap_repetitions": 1000
+    },
+    {
+      "sample_size_per_segment": 200,
+      "monte_carlo_repetitions": 2000,
+      "method": "paired_t_holm",
+      "family_false_positive_rate": 0.043,
+      "family_false_positive_rate_95_wilson": [
+        0.03495093941533012,
+        0.0528013060715387
+      ],
+      "family_significance_only_false_positive_rate": 0.0545,
+      "family_significance_only_false_positive_rate_95_wilson": [
+        0.04537820318220411,
+        0.06532994859985292
+      ],
+      "target_detection_power": 0.9965,
+      "target_detection_power_95_wilson": [
+        0.992792712268253,
+        0.9983035899544378
+      ],
+      "target_significance_only_power": 1.0,
+      "target_significance_only_power_95_wilson": [
+        0.9980828823994873,
+        1.0
+      ],
+      "target_segment": "0",
+      "segments_in_family": [
+        "0",
+        "1",
+        "4"
+      ],
+      "family_alpha": 0.05,
+      "bootstrap_repetitions": null
+    },
+    {
+      "sample_size_per_segment": 200,
+      "monte_carlo_repetitions": 2000,
+      "method": "paired_bootstrap_bonferroni",
+      "family_false_positive_rate": 0.0385,
+      "family_false_positive_rate_95_wilson": [
+        0.03091420302425215,
+        0.047855296521021294
+      ],
+      "family_significance_only_false_positive_rate": 0.049,
+      "family_significance_only_false_positive_rate_95_wilson": [
+        0.040373396150675284,
+        0.0593558439249874
+      ],
+      "target_detection_power": 0.9965,
+      "target_detection_power_95_wilson": [
+        0.992792712268253,
+        0.9983035899544378
+      ],
+      "target_significance_only_power": 1.0,
+      "target_significance_only_power_95_wilson": [
+        0.9980828823994873,
+        1.0
+      ],
+      "target_segment": "0",
+      "segments_in_family": [
+        "0",
+        "1",
+        "4"
+      ],
+      "family_alpha": 0.05,
+      "bootstrap_repetitions": 1000
+    },
+    {
+      "sample_size_per_segment": 1000,
+      "monte_carlo_repetitions": 2000,
+      "method": "paired_t_holm",
+      "family_false_positive_rate": 0.0,
+      "family_false_positive_rate_95_wilson": [
+        0.0,
+        0.0019171176005129348
+      ],
+      "family_significance_only_false_positive_rate": 0.0515,
+      "family_significance_only_false_positive_rate_95_wilson": [
+        0.042644572015083454,
+        0.06207508247257665
+      ],
+      "target_detection_power": 1.0,
+      "target_detection_power_95_wilson": [
+        0.9980828823994873,
+        1.0
+      ],
+      "target_significance_only_power": 1.0,
+      "target_significance_only_power_95_wilson": [
+        0.9980828823994873,
+        1.0
+      ],
+      "target_segment": "0",
+      "segments_in_family": [
+        "0",
+        "1",
+        "4"
+      ],
+      "family_alpha": 0.05,
+      "bootstrap_repetitions": null
+    },
+    {
+      "sample_size_per_segment": 1000,
+      "monte_carlo_repetitions": 2000,
+      "method": "paired_bootstrap_bonferroni",
+      "family_false_positive_rate": 0.0,
+      "family_false_positive_rate_95_wilson": [
+        0.0,
+        0.0019171176005129348
+      ],
+      "family_significance_only_false_positive_rate": 0.0465,
+      "family_significance_only_false_positive_rate_95_wilson": [
+        0.038108929066699306,
+        0.05662989659696593
+      ],
+      "target_detection_power": 1.0,
+      "target_detection_power_95_wilson": [
+        0.9980828823994873,
+        1.0
+      ],
+      "target_significance_only_power": 1.0,
+      "target_significance_only_power_95_wilson": [
+        0.9980828823994873,
+        1.0
+      ],
+      "target_segment": "0",
+      "segments_in_family": [
+        "0",
+        "1",
+        "4"
+      ],
+      "family_alpha": 0.05,
+      "bootstrap_repetitions": 1000
+    }
+  ],
+  "measurement_boundary": [
+    "The 0.5 threshold turns a CTR probability model into a deliberately narrow accuracy-only detector benchmark.",
+    "The synthetic C and B variants use the held-out labels; measured power and false-positive rates are conditional on this injection design.",
+    "A fixed sampled holdout and repeated resampling do not estimate performance across future traffic distributions or retraining seeds."
+  ]
+}
