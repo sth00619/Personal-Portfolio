@@ -1,0 +1,5 @@
+[project]
+name = "wo-17-hybrid-search-ltr"
+version = "0.1.0"
+description = "Hybrid product search and LambdaMART evaluation on Amazon ESCI"
+requires-python = ">=3.11,<3.12"

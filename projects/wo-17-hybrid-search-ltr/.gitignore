@@ -1,0 +1,12 @@
+.venv/
+data/*
+!data/README.md
+!data/.gitignore
+cache/
+results/*.parquet
+results/*.csv
+!results/feature_importance.csv
+results/*.jsonl
+__pycache__/
+*.py[cod]
+.DS_Store

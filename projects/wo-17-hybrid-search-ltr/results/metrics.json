@@ -1,0 +1,168 @@
+{
+  "dataset": "Amazon Science Shopping Queries Dataset, Task 1 small_version, US",
+  "dataset_revision": "7916cdf6ab75a462e77f20ab40428a10923998d5",
+  "embedding_model": {
+    "name": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+  },
+  "ltr_model": "LightGBM LambdaMART; graded labels E=3, S=2, C=1, I=0",
+  "evaluation": {
+    "test_queries": 8956,
+    "train_queries": 20888,
+    "test_query_product_pairs": 181701,
+    "train_query_product_pairs": 419653,
+    "max_candidates_per_query": 188,
+    "features": [
+      "bm25_score",
+      "dense_cosine",
+      "bm25_rank",
+      "dense_rank",
+      "rrf_score",
+      "brand_match",
+      "title_overlap",
+      "query_token_count",
+      "title_token_count",
+      "product_text_token_count"
+    ],
+    "binary_positive_label": "E only",
+    "graded_relevance": {
+      "E": 3,
+      "S": 2,
+      "C": 1,
+      "I": 0
+    },
+    "ndcg_gain": "2^relevance - 1; discount log2(rank + 1)",
+    "mrr_binary": "reciprocal rank of the first Exact (E), cutoff 10",
+    "mrr_graded": "reciprocal rank of first non-I item, cutoff 10",
+    "hybrid_rrf": {
+      "queries": 8956,
+      "binary_exact_ndcg_at_10": 0.6879333261893924,
+      "binary_exact_mrr_at_10": 0.7772990262801511,
+      "graded_esci_ndcg_at_10": 0.7923645432607167,
+      "graded_esci_mrr_at_10": 0.9510547597779608
+    },
+    "hybrid_plus_ltr": {
+      "queries": 8956,
+      "binary_exact_ndcg_at_10": 0.7033927309054315,
+      "binary_exact_mrr_at_10": 0.7923237148812132,
+      "graded_esci_ndcg_at_10": 0.8032223631800789,
+      "graded_esci_mrr_at_10": 0.9538909802420289
+    },
+    "ltr_minus_hybrid_delta": {
+      "binary_exact_ndcg_at_10": 0.015459404716039127,
+      "binary_exact_mrr_at_10": 0.015024688601062097,
+      "graded_esci_ndcg_at_10": 0.010857819919362188,
+      "graded_esci_mrr_at_10": 0.002836220464068062
+    },
+    "ndcg_conclusion": {
+      "binary_exact": "improved",
+      "graded_esci": "improved"
+    },
+    "max_train_candidates_per_query": 188,
+    "max_test_candidates_per_query": 95,
+    "test_candidate_depth": {
+      "min": 8,
+      "mean": 20.288186690486825,
+      "median": 16.0,
+      "p90": 40.0,
+      "p95": 40.0,
+      "p99": 42.0,
+      "max": 95
+    },
+    "train_unique_products": 351961,
+    "test_unique_products": 164900,
+    "unique_products_across_splits": 482105
+  },
+  "feature_importance_gain": [
+    {
+      "feature": "rrf_score",
+      "gain": 69854.71569561958,
+      "gain_share_pct": 42.094839163767496
+    },
+    {
+      "feature": "dense_rank",
+      "gain": 22465.802709817886,
+      "gain_share_pct": 13.538017331219601
+    },
+    {
+      "feature": "dense_cosine",
+      "gain": 19950.4061293602,
+      "gain_share_pct": 12.022225398877703
+    },
+    {
+      "feature": "title_overlap",
+      "gain": 18406.739144206047,
+      "gain_share_pct": 11.092003110870358
+    },
+    {
+      "feature": "bm25_score",
+      "gain": 11345.962698578835,
+      "gain_share_pct": 6.837140058458944
+    },
+    {
+      "feature": "title_token_count",
+      "gain": 10147.709144234657,
+      "gain_share_pct": 6.115065819873305
+    },
+    {
+      "feature": "product_text_token_count",
+      "gain": 7233.361972212791,
+      "gain_share_pct": 4.358864048067454
+    },
+    {
+      "feature": "query_token_count",
+      "gain": 2636.103094935417,
+      "gain_share_pct": 1.5885303475277692
+    },
+    {
+      "feature": "bm25_rank",
+      "gain": 2219.821874499321,
+      "gain_share_pct": 1.3376769749722333
+    },
+    {
+      "feature": "brand_match",
+      "gain": 1685.410549879074,
+      "gain_share_pct": 1.0156377463651387
+    }
+  ],
+  "label_distribution_train": {
+    "C": 19090,
+    "E": 181819,
+    "I": 71116,
+    "S": 147628
+  },
+  "label_distribution_test": {
+    "C": 8099,
+    "E": 79708,
+    "I": 30331,
+    "S": 63563
+  },
+  "source_sha256": {
+    "shopping_queries_dataset_examples.parquet": "4a735b693b4a424a6fc67f5be6e4c811495c488bbf66d02a602d308b2744263a",
+    "shopping_queries_dataset_products.parquet": "25124442d064d64b26f74082d6fa09438d679efc0c183cf28d19064a2b65a265",
+    "shopping_queries_dataset_sources.csv": "a5fed8ecc016443de40bf3c63098f0e3f23bbe4daa4236f1c38b8c3184778c50"
+  },
+  "embedding_device": "mps",
+  "retrieval_parameters": {
+    "bm25": "rank_bm25.BM25Okapi defaults",
+    "rrf_rank_constant": 60,
+    "embedding_max_sequence_length": 192,
+    "embedding_batch_size": 128,
+    "candidate_scope": "all judged products for each query only"
+  },
+  "ltr_parameters": {
+    "objective": "lambdarank",
+    "n_estimators": 300,
+    "learning_rate": 0.05,
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "label_gain": [
+      0,
+      1,
+      3,
+      7
+    ],
+    "random_state": 1707,
+    "n_jobs": -1
+  }
+}
