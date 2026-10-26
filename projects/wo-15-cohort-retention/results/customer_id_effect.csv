@@ -1,0 +1,5 @@
+population,identifier,customers,repeat_customers,repeat_rate
+all_orders,customer_id,99441,0,0.000000000000000000000000
+delivered_orders,customer_id,96478,0,0.000000000000000000000000
+delivered_orders,customer_unique_id,93358,2801,0.03000278497825574670
+all_orders,customer_unique_id,96096,2997,0.03118756243756243756

@@ -1,0 +1,9 @@
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+data/raw/*
+!data/raw/.gitkeep
+results/first_order_experience.csv
+results/survival.csv
+
