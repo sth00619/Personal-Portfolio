@@ -23,7 +23,7 @@ services:
     volumes:
       - ./data:/app/data:ro
       - ./results:/app/results
-    command: python src/experiment.py
+    command: python -m src.experiment
 
   test:
     build: .

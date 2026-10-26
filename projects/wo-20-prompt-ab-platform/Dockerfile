@@ -10,4 +10,4 @@ COPY data/download.py data/download.py
 COPY tests/ tests/
 COPY pytest.ini .
 
-CMD ["python", "src/experiment.py"]
+CMD ["python", "-m", "src.experiment"]
