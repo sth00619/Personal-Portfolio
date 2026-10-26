@@ -2,71 +2,75 @@
 
 ## 근거 장부
 
-| 주장 후보 | 코드·커밋·로그·측정 근거 | 실제 관측값 | 누가 질문/구현/시험/결정했나 | 상태 |
+| 주장 후보 | 코드·결과 근거 | 실제 관측값 | 누가 질문/구현/시험/결정했나 | 상태 |
 |---|---|---|---|---|
-| 공식 SQuAD 2.0 dev 파일을 고정했다 | `data/download.py`; 로컬 `data/squad_v2_dev.json` | 4,370,528 bytes; SHA-256 `80a5225e94905956a6446d296ca1093975c4d3b3260f1d6c8f68bc2ab77182d8` 일치 | 작업지시서가 데이터셋 지정; Codex가 다운로드·해시 확인 | 확인됨 |
-| dev split을 문항 단위로 읽고 세그먼트를 분리했다 | `src/dataset.py`, `tests/test_dataset.py`; 컨테이너 pytest 출력 | 11,873문항, answerable 5,928, unanswerable 5,945; 10 tests passed | Codex가 로더 구현·시험; 사용자는 결과를 아직 별도 판단하지 않음 | 확인됨 |
-| 답변 생성과 통계 분석을 재현 가능하게 만들었다 | `src/prompts.py`, `src/experiment.py`, `src/evaluation.py`, `src/scoring.py`; pytest 출력 | 결정적 층화 표본·JSONL 재개·EM/F1·paired t-test·bootstrap·Holm·사후 power 산출 코드 구현 | Codex가 구현·단위 시험; inference endpoint 호출은 미실행 | 일부 |
-| 모델 품질과 judge의 일치 결과를 얻었다 | `results/` 출력 예정; 현재 결과 파일 없음 | 실제 API 생성·judge 0건; 품질 지표 미측정 | API 모델/자격 증명 미설정; 사용자가 선택할 때까지 실행 보류 | 근거 없음 |
-| 300문항 균형 표본을 대안으로 검토했다 | `.env.example` 이력, `src/dataset.py`, README 비용 규모 설명 | 대안은 150 answerable + 150 unanswerable; A/B 생성 최대 600회와 judge 30회 | Codex가 비용 대안을 비교했고 사용자가 전체 split을 선택 | 확인됨 |
-| 전체 실행을 $10 이내로 제한할 수 있는 구성을 마련했다 | SQuAD 원문 바이트 산출; `src/llm.py` `CostBudget`; `results/budget_reservations.json` | 전체 23,746 답변 요청+30 judge; UTF-8 byte를 입력 토큰 상한으로 쓴 예상 예약 상한 약 $4.4788; 실행 상한 $8 | 사용자가 OpenAI API·전체 세트·$10 이하를 요청; Codex가 `gpt-6-luna` 현행 공개 가격 기준을 선택하고 로컬 가드 구현 | 일부 |
+| 공식 SQuAD 2.0 dev 파일을 고정했다 | `data/download.py`; `tests/test_dataset.py` | 4,370,528 bytes; SHA-256 `80a5225e94905956a6446d296ca1093975c4d3b3260f1d6c8f68bc2ab77182d8` 일치 | 작업지시서가 데이터셋 지정; Codex가 다운로드·해시 확인 | 확인됨 |
+| 전체 평가셋을 동일 모델로 A/B 생성했다 | `results/experiment_results.json` metadata, `results/predictions.jsonl` 로컬 캐시 | 11,873문항; A/B 23,746 응답; answerable 5,928, unanswerable 5,945; 모델 `gpt-6-luna` | 사용자가 OpenAI·전체 dev 선택; Codex가 API 실행 | 확인됨 |
+| 최종 전체 F1에서 B가 높았다 | `results/experiment_results.json` → `automatic_evaluation.metrics.all.f1` | A 0.51559, B 0.72521; 차이 +20.9621%p; paired bootstrap 95% CI [+20.2093, +21.7153]%p; paired t-test JSON p=0.0(부동소수점 underflow) | Codex가 실행·채점; 해석은 아래 판단 장면 참고 | 확인됨 |
+| 세그먼트별 abstention trade-off가 있다 | 동일 result JSON → answerable/unanswerable | 불가능 F1 A 31.51%, B 68.09%; 가능 false abstention A 0.54%, B 3.34% | Codex가 측정 | 확인됨 |
+| 첫 채점은 A의 문장형 abstention을 놓쳤다 | 초기 실행 결과와 현행 `src/scoring.py`, 재계산 결과 | 불가능 split에서 A의 문장형 거부 1,873/5,945건(31.51%)을 초기 채점기가 0점 처리; 수정 후 전체 F1 효과 +35.60%p에서 +20.96%p로 변경 | 초기 실패와 규칙 수정·재채점은 Codex | 확인됨 |
+| 작은 표본 power 추정과 30건 judge 비교가 완료됐다 | `results/sample_size_power.csv`, `results/judge_summary.json` | 사후 power n=10 18.5%, n=30 84.8%; 소표본 n=10 방향 일치 95.7%; judge pairwise 일치 21/30=70%, κ=0.366, Spearman ρ=0.704 | Codex가 실행·분석; 사용자는 결과를 아직 별도 채택하지 않음 | 확인됨 |
+| 토큰 사용량 추정액이 $10 미만이다 | result JSON metadata; `src/llm.py` `CostBudget`; `results/budget_reservations.json` | 생성 5,192,784 input + 290,163 output token; judge 8,955 input + 420 output token; 표준 단가 적용 추정 $0.6655; 보수 예약 누계 $4.8201/$8 local cap | 사용자가 전체 데이터와 $10 ceiling 지정; Codex가 `gpt-6-luna`·예약 상한을 설정 | 일부—플랫폼 usage 화면의 실제 결제액은 확인하지 않음 |
+| 키와 원본 데이터는 저장소에 포함되지 않는다 | `.gitignore`, `git check-ignore`, `data/squad_v2_dev.json` | `.env`, SQuAD 원본, JSONL 원시 출력, budget ledger는 ignore 대상 | Codex가 설정·검증; 키는 사용자가 로컬 `.env`에 입력 | 확인됨 |
 
 ## 판단 장면
 
-### 원본 데이터 형식과 파서 가정
+### Dataset parser가 원본과 정규화된 `answers`를 다르게 표현했다
 
-- 상태: 이번 작업에서 실제로 검증
-- 맥락: 공식 JSON의 `answers` 필드는 일반 JSON dict처럼 보이지만 Hugging Face `datasets` JSON 로더를 거치면서 answer record 목록 형태로 표현될 수 있었다.
-- 첫 가설: 원본의 `{text, answer_start}` 구조를 그대로 읽으면 된다고 가정했다.
-- 대안: 원본 JSON을 직접 순회하거나 `datasets`의 정규화 결과 양쪽을 지원한다.
-- 판단 기준: 지정 기술 스택을 유지하면서 원본과 정규화된 표현을 모두 정확히 처리하는가.
-- 실험: 실제 dev 파일을 로드하고 `docker compose run --build --rm test`에서 전체 데이터셋 수와 answerable/unanswerable 수를 검증했다.
-- 관측: 첫 로더는 `answers` 타입 가정으로 테스트에 실패했다. dict와 list를 모두 처리하도록 수정한 뒤 10개 테스트가 통과했다. 전체는 11,873문항(5,928/5,945)으로 확인했다.
-- 뜻밖의 결과: 로더 라이브러리가 answer 필드를 정규화해 코드의 입력 형태가 원본 JSON과 달랐다.
-- 결정: 두 표현을 모두 받도록 로더를 보완했다. 구현·수정·재시험은 Codex가 수행했다.
-- 한계: 허용한 구조는 현재 원본과 사용 라이브러리 결과를 위한 것이며, 임의의 SQuAD 변형까지 지원한다고 주장하지 않는다.
+- 상태: 이번 작업에서 실제로 확인·수정
+- 맥락: 공식 JSON의 `answers`는 `{text, answer_start}` 모양이지만 Hugging Face `datasets` JSON reader는 이를 answer record 목록으로 정규화했다.
+- 첫 가설: 로더에서 원본 dict 모양만 읽으면 된다고 봤다.
+- 대안: 원본 JSON을 직접 순회하거나 dict와 list 두 표현을 모두 받는다.
+- 판단 기준: 지정된 `datasets` 기술을 유지하면서 실제 dev split을 손실 없이 읽는가.
+- 실험: 전체 파일을 로드하고 데이터셋 통합 테스트에서 문항·세그먼트 수를 assertion했다.
+- 관측: 첫 가정으로 테스트가 실패했다. 두 표현을 모두 지원하도록 수정 후 13개 테스트가 통과했고 11,873문항을 확인했다.
+- 뜻밖의 결과: 라이브러리의 기능은 원본 JSON 구조와 같은 파이썬 타입을 보장하지 않았다.
+- 결정: dict/list를 모두 파싱하도록 수정했다. Codex가 구현·시험했다.
+- 한계: 임의의 SQuAD 변형을 지원한다고 확장 주장하지 않는다.
 
-### 실험 규모와 비용 상한
+### 문장형 보류 응답을 채점기가 오답으로 오분류했다
 
-- 상태: 사용자가 OpenAI API, 전체 split, $10 이하 조건을 선택; 모델·가드 구현은 Codex가 판단
-- 맥락: 전체 dev 11,873문항에 A/B를 각각 실행하면 생성 호출만 23,746회이며 judge 호출이 추가된다.
-- 첫 가설: 전체 split 실행이 가장 강한 결과를 제공한다.
-- 대안: 즉시 전체 실행, 300문항 균형 표본 실행, 전체 실행에 보수 비용 가드를 두는 방법을 비교했다.
-- 판단 기준: 결과의 해석 가능성과 사용자가 부담하는 호출량·비용을 함께 고려한다.
-- 실험: 공식 원본으로 전체 질문의 input prompt UTF-8 바이트 수를 합산하고 요청당 512바이트 프로토콜 여유와 96 output token 최대치를 더했다. 현재 공식 `gpt-6-luna` 단가를 적용했고, 각 재시도 전에 호출별 최악 예약액을 저장해 로컬 $8에서 차단하도록 했다.
-- 관측: 11,873건의 A/B 입력 바이트 합계는 21,202,614 bytes다. judge 요청 30건까지 포함한 23,776회 입력의 보수 추정은 33,375,926 토큰 상한, 최대 출력 예약은 2,282,496토큰이며, 입력 $0.10/백만·출력 $0.50/백만 기준 합계 약 $4.4788다.
-- 뜻밖의 결과: 작업지시서에는 답변 불가능 비율이 약 1/3이라고 적혀 있지만 고정된 파일의 실제 구성은 5,945/11,873, 약 50%였다.
-- 결정: 사용자는 전체 set과 $10 이하 조건을 선택했다. Codex는 전용 OpenAI project hard limit $8와 앱 내부 persistent reservation cap $8을 권장하고 `gpt-6-luna`로 설정했다. 사용자가 발급받은 키는 로컬 `.env`에 직접 추가하도록 했다.
-- 한계: 실제 가격·모델 품질·검정력은 모델과 응답 결과가 없으므로 아직 알 수 없다.
+- 상태: 실데이터 실행 결과를 검토해 수정하고 전체 재채점
+- 맥락: 첫 점수기는 `NO_ANSWER`, `I don't know` 등 표준 짧은 표현 위주로만 abstention을 인식했다. Prompt A도 별도 지시 없이 자연어로 “The passage does not specify ...”라고 보류하는 문항이 있었다.
+- 첫 가설: 규칙형 표현만 무응답으로 처리해도 비교가 공정하다고 가정했다.
+- 대안: 문자열 전체를 빈 답으로 처리하거나, passage/context/text가 요청 정보를 제공·특정·언급하지 않는다는 명시적 거부 문장을 인식한다.
+- 판단 기준: 사람이 읽었을 때 분명한 정보 부족 응답이 문장 형태 때문에 오답으로만 계산되지 않는가. 동시에 answerable 문항의 잘못된 거부를 false abstention으로 남기는가.
+- 실험: 전체 prediction JSONL을 문항 ID에 따라 나누어 확인했다. `src/scoring.py`에 거부 표현 패턴을 추가하고 테스트 후 전체 experiment를 재실행했다. 재실행 로그는 A/B 응답 23,746건 cached, judge 30건 cached, pending 0이었다.
+- 관측: 초기 전체 F1 차이는 +35.60%p, 초기 unanswerable A F1은 0%였다. 수정 후 A unanswerable 문장형 거부 1,873/5,945건을 반영했고 전체 F1은 A 51.56%, B 72.52%, 차이 +20.96%p로 바뀌었다. A unanswerable F1은 31.51%가 됐다. Answerable false abstention은 A 0.54%, B 3.34%로 나타났다. judge agreement도 초기 채점 기준 50%·κ=0.157에서 수정 채점 기준 70%·κ=0.366으로 달라졌다.
+- 뜻밖의 결과: 채점 형식 차이 하나가 비교 효과를 14.60%p 바꾸고 judge 일치도까지 달리 보이게 했다.
+- 결정: 표현이 자연어 문장이더라도 명시적으로 passage가 답을 제공하지 않는다고 하면 abstention으로 채점한다. answerable에서 같은 표현은 false abstention으로 표시하고 점수는 0으로 둔다. 구현·수정·재시험은 Codex가 했다.
+- 한계: 이는 규칙 기반 구문 인식이지 사람 adjudication은 아니다. 규칙 추가에 따른 오탐은 향후 오류 표본 감사로 검토할 수 있다.
 
-### Ship Gate 지표의 해석 범위
+### 방향을 맞히는 소표본과 유의성을 검출하는 표본은 달랐다
 
-- 상태: 구현에 반영; 실측 대기
-- 맥락: 전체 평균만으로는 답변 불가능 질문의 abstention 품질과 답변 가능한 질문의 불필요한 거부가 가려질 수 있다.
-- 첫 가설: Prompt B의 `NO_ANSWER` 규칙은 불가능 문항을 더 잘 다루지만 answerable에서 false abstention이 늘 수도 있다.
-- 대안: 하나의 전체 F1만 비교하거나, EM/F1과 두 세그먼트 및 abstention 지표를 모두 비교한다.
-- 판단 기준: 작업지시서의 가장 강한 질문(소표본·전체 판단 차이, 자동 점수·judge 일치, 세그먼트 차이)을 직접 관찰할 수 있는가.
-- 실험: 같은 질문을 두 prompt에 넣는 코드와 지표·paired 통계·30건 judge 분석을 구현하고 mock/단위 테스트를 실행했다. 실제 모델 응답은 생성하지 않았다.
-- 관측: 코드 경로와 단위 테스트는 확인됐다. `results/`는 비어 있어 성능 수치가 없다.
-- 결정: 성능표를 실행 대기로 표시하고 관측 결과처럼 꾸미지 않는다. 지표 구현은 Codex가 했고 결과 해석 및 prompt 채택은 아직 이뤄지지 않았다.
-- 한계: 소수 judge 표본의 κ·상관은 불확실성이 크며, judge가 생성 모델과 독립적인 평가자인지도 모델 선택에 달려 있다.
+- 상태: 전체 응답 및 judge 실험 뒤 새로 분석
+- 맥락: 작은 샘플에서 B가 더 좋아 보이는 것과, 쌍체 검정이 차이를 유의하다고 검출하는 것은 별도 질문이다.
+- 첫 가설: n=10에서 전체 데이터의 방향을 자주 맞히면 해당 규모도 충분한 비교 표본일 수 있다고 볼 여지가 있었다.
+- 대안: 소표본 방향 일치율과 paired t-test 검정력을 각각 산출하고, judge pairwise tie 분포도 함께 확인한다.
+- 판단 기준: 측정한 양(방향 재현 vs 유의성 검정력)을 분리해 주장하는가.
+- 실험: 관측된 전체 F1 차이 0.2096을 기준으로 2,000회 복원 재표집해 표본 크기별 two-sided alpha=0.05 검정력을 계산했다. n=10 표본도 2,000회 추출해 방향 일치율을 계산했다. Judge는 answerable/unanswerable 각 15개로 구성했다.
+- 관측: n=10 방향 일치율은 95.7%지만 검정력은 18.5%였다. n=30 검정력은 84.8%, n=50은 97.25%였다. Judge는 pairwise 21/30 일치, κ=0.366, Spearman ρ=0.704였고 30개 중 24개에서 두 후보 점수가 동점이었다.
+- 뜻밖의 결과: 표본의 10개 질문만으로 B 방향을 자주 맞혀도, 유의성 검정력이 높다는 뜻은 아니었다. Judge 평균 점수는 B가 높았지만 다수의 tie가 선호 비교를 약하게 했다.
+- 결정: n=10 방향 일치와 power 추정을 별도 결과로 보고한다. Judge 결과는 작은 same-model cross-check로만 서술하고 독립적 평가로 취급하지 않는다.
+- 한계: power는 측정 후 관측효과를 고정한 사후 재표집이므로 새로운 환경에 대한 사전 보장치가 아니다. Judge 표본 30건도 작고 자동 채점과 같은 모델을 사용했다.
 
 ## 사용자 의사결정 지점
 
-사용자는 OpenAI API, 전체 dev split, $10 이하 예산 한도를 선택했다. Codex가 공개 토큰 단가를 기준으로 `gpt-6-luna`를 설정했다. 사용자는 키를 채팅에 보내지 않고 프로젝트 로컬 `.env`에 직접 설정한다. OpenAI의 hard spend limit은 추적·차단 집계가 약간 늦을 수 있어, $8 프로젝트 한도와 로컬 호출 전 예약 상한을 함께 사용한다.
+사용자는 OpenAI API와 SQuAD 전체 dev 실행, 지출 $10 이하를 선택했다. Codex는 현재 공식 공개 가격에 맞춰 `gpt-6-luna`를 택하고 로컬 비용 예약 가드를 $8로 뒀다. 사용자는 API 키를 채팅에 붙이지 않고 프로젝트 로컬 `.env`에 추가했다. OpenAI 프로젝트 spend limit 설정 여부는 확인되지 않았으며, 자동화는 각 요청의 보수 비용 예약으로 자체 차단한다.
 
-## 실행 및 검증 상태
+## 실행·검증 상태
 
-- 컨테이너 pytest: 11 passed. 데이터셋 통합 검증과 예산 초과 차단·재개 시험을 포함한다.
-- 공식 파일 크기·SHA-256: 확인됨.
+- API 생성: 23,746/23,746 answer completion, judge 30/30 완료; generation 실패 로그 0.
+- API 호출 후 채점 수정 재실행: 23,746 generation cached, 30 judge cached, pending 0; 추가 API 요청 없이 집계만 재계산.
+- 컨테이너 pytest: 13 passed.
 - `docker compose config --quiet`: exit 0.
-- `python3 -m py_compile src/*.py data/download.py`: exit 0.
-- `git check-ignore data/squad_v2_dev.json .env`: 데이터와 로컬 키 파일 경로가 ignore 규칙에 매치됨.
-- OpenAI Chat Completions 요청 형식: mock 기반 시험만 수행; 실제 endpoint 호출은 없음.
-- 실제 성능·judge·토큰·비용 결과: 미측정. `results/` 출력은 API 실행 후 생성된다.
+- `python3 -m py_compile src/*.py tests/*.py data/download.py`: exit 0.
+- 토큰 usage 기반 표준 가격 적용 추정: $0.6655; 보수 예약 누계 $4.8201/$8 local cap. OpenAI billing dashboard와 결제 영수증은 확인하지 않았다.
+- `.env`, 원본 SQuAD, prediction/judge JSONL, budget ledger는 Git ignore 대상이다. 집계 JSON/CSV는 재현 아티팩트로 제공한다.
 
 ## Claude가 이어서 할 일
 
-1. API 실행 후 `results/experiment_results.json`, `results/judge_summary.json`, `results/sample_size_power.csv`를 확인해 Ship Gate 수치와 표본 경계를 README에 반영한다.
-2. 30건 judge 결과를 자동 F1과 비교하되, 상관·일치 수치만으로 사람 평가의 대체라고 주장하지 않는다.
-3. 루트 README·Notion 갱신 시 이 근거 장부와 판단 장면을 활용하고, 시간 표현 및 근거 없는 성능 주장을 추가하지 않는다.
+1. 이 전달 메모와 `results/experiment_results.json`, `results/judge_summary.json`, `results/sample_size_power.csv`를 기준으로 GitHub README 및 Notion 사례를 정리한다.
+2. 효과 크기 수정 원인을 숨기지 말고, 초기에 문장형 abstention을 놓친 채점기 가정과 이를 고친 후 결과가 어떻게 변했는지를 사고 과정으로 쓴다.
+3. Judge 수치의 소표본·same-model·tie 경계와 power 수치의 사후 재표집 해석을 결과 가까이에 표시한다.
+4. 루트 README·Notion 갱신 시 날짜·근거 없는 비용 및 성능 주장을 넣지 않는다.

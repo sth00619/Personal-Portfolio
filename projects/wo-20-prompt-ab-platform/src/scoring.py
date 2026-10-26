@@ -15,6 +15,7 @@ ABSTENTION_PATTERNS = tuple(re.compile(pattern, flags=re.IGNORECASE) for pattern
     r"^(?:i )?(?:cannot|can't|am unable to) answer(?:\b.*)?$",
     r"^(?:there is )?not enough (?:information|context)(?:\b.*)?$",
     r"^(?:the )?answer (?:is )?(?:not (?:in|given by|provided by|stated in|mentioned in) (?:the )?(?:passage|context|text)|cannot be determined)(?:\b.*)?$",
+    r"^(?:the )?(?:passage|context|text)\b.*\b(?:does not|doesn't|doesnt|cannot|can't)\s+(?:specify|state|say|mention|provide|contain|include|identify|give|indicate|name|tell|explain|describe|confirm|cover|address|reveal)\b.*$",
 ))
 
 
@@ -64,7 +65,9 @@ def score_answer(
         score = float(abstained)
         return {"em": score, "f1": score, "abstained": abstained}
     if abstained:
-        return {"em": 0.0, "f1": 0.0, "abstained": True}
+        overlap = max((token_f1(prediction, reference) for reference in references), default=0.0)
+        if overlap == 0.0:
+            return {"em": 0.0, "f1": 0.0, "abstained": True}
     em = exact_match(prediction, references)
     f1 = max((token_f1(prediction, reference) for reference in references), default=0.0)
     return {"em": em, "f1": f1, "abstained": False}

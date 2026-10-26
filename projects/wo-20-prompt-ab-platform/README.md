@@ -19,10 +19,10 @@
 1. **공식 원본 고정:** SQuAD 2.0의 공식 dev JSON을 내려받고 크기와 SHA-256을 확인한다. 데이터 로더는 Hugging Face `datasets`의 JSON 기능으로 읽어 문항 단위로 펼친다.
 2. **쌍체 프롬프트 구성:** A는 지문에 근거해 간결히 답한다. B는 같은 입력과 출력 형식을 쓰고, 답이 지문에 없을 때만 `NO_ANSWER`를 내도록 지시를 추가한다.
 3. **동일 질문·동일 모델 비교:** 같은 모델이 두 프롬프트로 각 질문에 답한다. 결과는 로컬 JSONL에 행 단위로 체크포인트해 중단 후 이어서 생성한다.
-4. **자동 채점:** SQuAD 정규화 기반 EM과 token F1을 계산하고, 무응답 지시어를 빈 답으로 처리해 불가능 문항의 정확한 abstention을 별도 측정한다.
+4. **자동 채점:** SQuAD 정규화 기반 EM과 token F1을 계산한다. 첫 채점에서는 `NO_ANSWER`처럼 짧은 형식만 무응답으로 잡았으나, A가 `The passage does not specify ...`처럼 문장으로 보류한 응답을 틀린 답으로 분류하는 문제가 확인됐다. 해당 표현을 채점 규칙에 추가하고 저장된 답변을 다시 채점했다.
 5. **통계 비교:** B−A 문항별 차이의 쌍체 t-검정과 paired bootstrap 95% 구간을 계산한다. 답변 가능/불가능 세그먼트의 F1 p-value에는 Holm 보정을 적용한다.
 6. **소표본·judge 비교:** 문항별 F1 차이 재표집으로 크기별 사후 검정력을 추정한다. 30문항(각 세그먼트 15개)은 후보 순서를 섞어 LLM-as-judge 1~5점을 받고, 자동 F1과 winner 일치율·Cohen's kappa·Spearman 상관을 비교한다.
-7. **비용 상한을 둔 전체 실행:** 사용자가 전체 dev를 요청했고, 현재 고용량 모델 `gpt-6-luna` 가격 기준 최악 상한 추정은 약 $4.48이다. 각 API 시도 전에 입력 byte 상한과 최대 출력 토큰을 예약해 로컬 누적 상한 $8에서 차단한다. 전용 API 프로젝트의 hard limit도 $8로 설정하는 전제를 둔다.
+7. **비용 상한을 둔 전체 실행:** 사용자가 전체 dev를 선택했다. `gpt-6-luna` 실제 응답 usage로 산출한 토큰 비용 추정은 약 $0.67이며, 각 API 시도 전에 입력 byte 상한과 최대 출력 토큰을 예약해 로컬 누적 상한 $8에서 차단한다. 보수 예약 누계는 $4.82였다.
 
 ## 데이터
 
@@ -34,27 +34,29 @@ SQuAD 2.0 dev에는 **11,873문항**이 있고, 고정된 공식 파일에서 �
 
 `data/download.py` 공식 파일 다운로드·체크섬 검증 → `src/dataset.py` 문항 평탄화·표본 선택 → `src/prompts.py` 동일 질문용 A/B 프롬프트 → `src/llm.py` OpenAI Chat Completions 생성·judge와 요청 전 비용 예약 → 로컬 JSONL 체크포인트 → `src/scoring.py` EM/F1/abstention 채점 → `src/evaluation.py` 쌍체 검정·bootstrap·power → `results/` 집계 JSON/CSV.
 
-API 키는 프로젝트의 로컬 `.env`에서만 읽으며 Git에 포함하지 않는다. 현재 실행은 전체 dev 11,873문항에 답변 생성 23,746회와 judge 30회를 요청한다. `gpt-6-luna` 표준 가격($0.10/백만 입력 토큰, $0.50/백만 출력 토큰) 기준으로 실제 provider token 사용량 비용을 결과에 기록하고, 각 호출 전 UTF-8 byte 수를 입력 토큰 상한으로 간주한 보수적 예약 비용은 로컬 $8에서 막는다. 전용 OpenAI API 프로젝트에 $8 hard limit을 두면 나머지 충전 잔액을 여유로 남긴다. 플랫폼 한도는 집계 반영이 즉시가 아닐 수 있으므로 예산 경보만으로 비용을 통제하지 않는다. 행 단위 답변과 예약 캐시는 로컬에만 저장된다.
+API 키는 프로젝트의 로컬 `.env`에서만 읽으며 Git에 포함하지 않는다. 전체 dev 11,873문항에 답변 생성 23,746회와 judge 30회를 요청했다. 결과에 기록된 5,201,739 입력 토큰과 290,583 출력 토큰에 `gpt-6-luna` 표준 가격($0.10/백만 입력 토큰, $0.50/백만 출력 토큰)을 적용한 사용량 비용 추정은 $0.6655다. 각 호출 전 UTF-8 byte 수를 입력 토큰 상한으로 간주한 보수 예약 누계는 $4.82이며, 로컬 가드는 $8에서 새 요청을 막는다. OpenAI 사용량 화면의 청구 집계는 별도로 확인한다. 행 단위 답변과 예약 캐시는 로컬에만 저장된다.
 
 ## 결과 (Ship Gate 표)
 
 | 지표 | 목표 | 실제 |
 |---|---|---|
-| A vs B 전체 EM/F1 평균, B−A 95% 구간·paired t p-value | 같은 평가 문항, paired 비교 | 실행 대기 — 로컬 API 키 입력 필요 |
-| Answerable / unanswerable EM·F1 및 p-value | 두 세그먼트 분리, F1 Holm 보정 | 실행 대기 — LLM 응답 생성 후 계산 |
-| 불가능 질문 abstention 비율, 가능 질문 false-abstention 비율 | 세그먼트별 A/B 비교 | 실행 대기 — LLM 응답 생성 후 계산 |
-| 자동 채점–LLM judge 일치 | judge 30건, 일치율·κ·ρ | 실행 대기 — 생성 및 judge 호출 필요 |
-| 표본 크기별 검정력·소표본 방향 일치 | paired 재표집, 2,000회 | 실행 대기 — 전체 관측 F1 차이 필요 |
+| 전체 EM | paired 평균, B−A 95% bootstrap 구간 | A 37.83% → B 60.95%; +23.12%p [22.30, 23.91] |
+| 전체 F1 | paired 평균, B−A 95% bootstrap 구간·t 검정 | A 51.56% → B 72.52%; +20.96%p [20.21, 21.72], p < 0.001 |
+| Answerable F1 (n=5,928) | paired 비교, F1 Holm 보정 | A 71.67% → B 76.96%; +5.29%p [4.71, 5.86], Holm p = 4.88×10⁻⁷² |
+| Unanswerable F1 (n=5,945) | paired 비교, F1 Holm 보정 | A 31.51% → B 68.09%; +36.59%p [35.32, 37.81], Holm p < 0.001 |
+| Abstention / false abstention | 세그먼트별 A/B 비교 | Unanswerable: 31.51% → 68.09%; answerable false abstention: 0.54% → 3.34% |
+| 자동 F1–LLM judge | 층화 표본 30건, 15/15 | judge 평균 A 3.83, B 4.63; pairwise 일치 21/30 (70%), κ=0.366, Spearman ρ=0.704 |
+| 표본 크기별 검정력 | paired 재표집, 2,000회 | 사후 추정: n=10 18.5%, n=30 84.8%, n=50 97.25%; n=10에서 전체 방향 일치는 95.7% |
 
-**측정 방식**: 데이터 행 수와 세그먼트는 로컬 검증했다. 약 $4.48은 모델 토큰 사용량 실측이 아닌 UTF-8 byte 상한·최대 응답 토큰 기반의 보수 추정이며, 실제 품질·비용·통계 결과는 API 실행 후 채운다.
+**측정 방식**: 공식 전체 dev에서 같은 모델·질문으로 A/B 응답 23,746건을 생성했다. p-value가 JSON에서 `0.0`으로 저장된 비교는 부동소수점 하한에 닿아 표에서 `p < 0.001`로 표시했다. 약 $0.67은 API 응답의 토큰 사용량과 현재 단가로 계산한 추정치이고, $4.82는 UTF-8 byte·최대 출력 길이를 예약한 보수 상한이다. Power와 소표본 방향 일치는 관측된 점수차이를 재표집한 사후 추정이다.
 
 ## 시행착오와 의사결정
 
-공식 JSON을 Hugging Face `datasets`로 처음 읽었을 때 `answers`가 원본의 딕셔너리가 아니라 answer record 목록으로 정규화되어 테스트가 실패했다. 두 구조를 모두 읽도록 로더를 고친 뒤 **10개 테스트가 통과**하고 전체 11,873문항·세그먼트 수를 재검증했다. 통계 결과와 사용자/에이전트 판단 장면은 [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md)에 갱신한다.
+두 종류의 시행착오가 결과 해석을 바꿨다. Hugging Face `datasets`가 `answers`를 원본 dict 대신 answer record 목록으로 정규화해 초기 로더 테스트가 실패했고, 두 형식을 모두 읽도록 수정했다. 이어 첫 채점에서는 A의 1,873개 문장형 보류 응답을 불가능 문항의 오답으로 세어 전체 F1 차이를 +35.60%p로 계산했다. 실제 응답과 judge 예시를 확인해 채점 규칙을 고치고 캐시를 다시 채점하자 차이는 +20.96%p로 수정됐다. 프롬프트 B는 여전히 높았지만, 효과 크기는 첫 채점 때보다 작았다. 현재 **13개 테스트 통과**.
 
 ## 측정 경계 (한계)
 
-**다음 단계**: 전용 API 프로젝트의 $8 hard spend limit을 확인하고 `.env`에 발급 키를 입력한 뒤 전체 응답 생성과 judge를 실행한다. 현재 비교 대상은 같은 기본 모델의 프롬프트 지시 변화이며, 모델 간 성능 비교는 아니다. LLM-as-judge는 자동 F1과 같은 모델이 선택될 수 있어 독립적인 사람 평가와 다를 수 있다. power 수치는 관측된 결과 차이를 고정한 사후 재표집 추정으로 보고한다.
+**다음 단계**: 사람 평가자 표본을 추가해 LLM judge의 tie 편향과 자동 점수 일치를 확인한다. judge 30건 중 두 응답 모두 5점을 받은 동점이 많았고 pairwise agreement는 70%, κ는 0.366이었다. 생성과 judge에 같은 모델을 사용했으므로 독립적 검증으로 보지 않는다. Power 수치는 관측된 결과 차이를 고정한 사후 재표집 추정이다.
 
 ## 재현
 
@@ -96,4 +98,4 @@ docker compose run --build --rm experiment
 
 ## English Technical Summary
 
-WO-20 compares two prompts on SQuAD 2.0 dev using paired exact match and token F1, answerable/unanswerable segments, and abstention rates. The verified official file contains 11,873 questions (5,928 answerable and 5,945 unanswerable). Prompt B adds an explicit `NO_ANSWER` rule when the passage does not support an answer. The pipeline includes paired t-tests, bootstrap intervals, Holm-corrected segment tests, post-hoc sample-size power estimates, and a blinded 30-item LLM judge sample. The official data and automated unit checks are verified; model quality and judge metrics remain pending a configured inference endpoint and model.
+WO-20 compares paired prompt variants on all 11,873 SQuAD 2.0 dev questions. Prompt B improved overall token F1 by 20.96 percentage points (95% paired bootstrap CI [20.21, 21.72]); its unanswerable F1 gain was 36.59 points, while answerable false abstention rose from 0.54% to 3.34%. An initial scoring pass missed 1,873 natural-language abstentions from prompt A; a revised refusal recognizer changed the estimated overall gain from 35.60 to 20.96 points. A 30-item same-model judge sample gave 70% pairwise agreement and κ=0.366, so this is a weak cross-check rather than an independent validation. Provider-reported token usage implies an estimated $0.67 at standard GPT-6 Luna rates; the conservative local request reservation was $4.82 under an $8 cap.

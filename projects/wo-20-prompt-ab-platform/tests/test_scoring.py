@@ -21,3 +21,19 @@ def test_impossible_question_requires_an_abstention() -> None:
     assert score_answer("NO_ANSWER", (), True)["em"] == 1.0
     assert score_answer("Paris", (), True)["f1"] == 0.0
     assert score_answer("NO_ANSWER", ("Paris",), False)["f1"] == 0.0
+
+
+def test_context_limited_explanation_counts_as_abstention() -> None:
+    """A full sentence refusing unsupported information maps to empty answer."""
+    response = "The passage does not specify packet switching's bit rate."
+    assert is_abstention(response)
+    assert score_answer(response, (), True)["f1"] == 1.0
+    assert score_answer(response, ("10 Mbps",), False)["f1"] == 0.0
+
+
+def test_context_caveat_does_not_hide_an_answer_in_the_same_response() -> None:
+    """A refusal-like preface remains scorable when the response contains the gold."""
+    response = "The passage does not say they secured the right; it says they petitioned in 1697."
+    score = score_answer(response, ("1697",), False)
+    assert score["f1"] > 0.0
+    assert score["abstained"] is False

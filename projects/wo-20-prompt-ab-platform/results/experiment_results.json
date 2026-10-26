@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "dataset": "SQuAD 2.0 dev",
+    "dataset_url": "https://rajpurkar.github.io/SQuAD-explorer/",
+    "dataset_sha256": "80a5225e94905956a6446d296ca1093975c4d3b3260f1d6c8f68bc2ab77182d8",
+    "full_dev_rows": 11873,
+    "evaluation_rows": 11873,
+    "segment_counts": {
+      "answerable": 5928,
+      "unanswerable": 5945
+    },
+    "evaluation_design": "entire official dev split",
+    "answer_model": "gpt-6-luna",
+    "provider": "openai-compatible",
+    "endpoint": "https://api.openai.com/v1",
+    "judge_model": "gpt-6-luna",
+    "prompts": {
+      "A": {
+        "system": "Answer the question using only the supplied passage. Return a concise answer and no explanation.",
+        "sha256_prefix": "df835932684a30c3"
+      },
+      "B": {
+        "system": "Answer the question using only the supplied passage. Return a concise answer and no explanation. If the passage does not contain enough information to answer, respond exactly: NO_ANSWER.",
+        "sha256_prefix": "6e2522c700a011da"
+      }
+    },
+    "primary_metric": "paired F1 difference B minus A",
+    "primary_test": "two-sided paired t-test; paired percentile bootstrap 95% CI",
+    "bootstrap_repetitions": 2000,
+    "segment_test_correction": "Holm correction across answerable and unanswerable F1 comparisons",
+    "sample_size_power": "post-hoc paired t-test power estimated by resampling observed F1 deltas; 2,000 repetitions",
+    "usage": {
+      "generation_records": 23746,
+      "provider_prompt_tokens": 5192784,
+      "provider_completion_tokens": 290163,
+      "judge_calls": 30,
+      "judge_prompt_tokens": 8955,
+      "judge_completion_tokens": 420
+    },
+    "estimated_cost_usd_from_provider_token_usage": 0.6654654,
+    "conservative_budget_reserved_usd": 4.8201101,
+    "conservative_budget_limit_usd": 8.0
+  },
+  "automatic_evaluation": {
+    "metrics": {
+      "all": {
+        "segment": "all",
+        "n": 11873,
+        "em": {
+          "mean_a": 0.37833740419439066,
+          "mean_b": 0.609534237345237,
+          "difference_b_minus_a": 0.23119683315084646,
+          "difference_percentage_points": 23.119683315084647,
+          "paired_t_p_value_two_sided": 0.0,
+          "paired_bootstrap_95_ci": [
+            0.22302493051461297,
+            0.2391139560347006
+          ]
+        },
+        "f1": {
+          "mean_a": 0.5155909957895449,
+          "mean_b": 0.7252120479788084,
+          "difference_b_minus_a": 0.20962105218926352,
+          "difference_percentage_points": 20.962105218926354,
+          "paired_t_p_value_two_sided": 0.0,
+          "paired_bootstrap_95_ci": [
+            0.20209305373880176,
+            0.21715259741692342
+          ]
+        }
+      },
+      "answerable": {
+        "segment": "answerable",
+        "n": 5928,
+        "em": {
+          "mean_a": 0.4418016194331984,
+          "mean_b": 0.5379554655870445,
+          "difference_b_minus_a": 0.09615384615384616,
+          "difference_percentage_points": 9.615384615384617,
+          "paired_t_p_value_two_sided": 1.1356990755893618e-94,
+          "paired_bootstrap_95_ci": [
+            0.08737769905533065,
+            0.1050944669365722
+          ]
+        },
+        "f1": {
+          "mean_a": 0.7167024111014283,
+          "mean_b": 0.769642821466328,
+          "difference_b_minus_a": 0.05294041036489978,
+          "difference_percentage_points": 5.294041036489978,
+          "paired_t_p_value_two_sided": 4.875228728650987e-72,
+          "paired_bootstrap_95_ci": [
+            0.047052046428577646,
+            0.05860544481182737
+          ],
+          "holm_adjusted_p_value_two_sided": 4.875228728650987e-72
+        },
+        "a_false_abstention_rate": 0.005398110661268556,
+        "b_false_abstention_rate": 0.03340080971659919
+      },
+      "unanswerable": {
+        "segment": "unanswerable",
+        "n": 5945,
+        "em": {
+          "mean_a": 0.3150546677880572,
+          "mean_b": 0.6809083263246426,
+          "difference_b_minus_a": 0.36585365853658536,
+          "difference_percentage_points": 36.58536585365854,
+          "paired_t_p_value_two_sided": 0.0,
+          "paired_bootstrap_95_ci": [
+            0.3534062237174096,
+            0.3777964676198486
+          ]
+        },
+        "f1": {
+          "mean_a": 0.3150546677880572,
+          "mean_b": 0.6809083263246426,
+          "difference_b_minus_a": 0.36585365853658536,
+          "difference_percentage_points": 36.58536585365854,
+          "paired_t_p_value_two_sided": 0.0,
+          "paired_bootstrap_95_ci": [
+            0.35323380992430614,
+            0.37813708999158957
+          ],
+          "holm_adjusted_p_value_two_sided": 0.0
+        },
+        "a_abstention_rate": 0.3150546677880572,
+        "b_abstention_rate": 0.6809083263246426
+      }
+    },
+    "sample_size_power": [
+      {
+        "sample_size": 10,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 0.184,
+        "estimated_power_95_wilson": [
+          0.16762932898245075,
+          0.20158224489930104
+        ]
+      },
+      {
+        "sample_size": 30,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 0.848,
+        "estimated_power_95_wilson": [
+          0.8315993113023692,
+          0.8630664237898786
+        ]
+      },
+      {
+        "sample_size": 50,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 0.9725,
+        "estimated_power_95_wilson": [
+          0.964376888484893,
+          0.978811501834323
+        ]
+      },
+      {
+        "sample_size": 100,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 0.9995,
+        "estimated_power_95_wilson": [
+          0.9971731374967338,
+          0.9999117322692944
+        ]
+      },
+      {
+        "sample_size": 200,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 1.0,
+        "estimated_power_95_wilson": [
+          0.9980829527187469,
+          0.9999999999999998
+        ]
+      },
+      {
+        "sample_size": 300,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 1.0,
+        "estimated_power_95_wilson": [
+          0.9980829527187469,
+          0.9999999999999998
+        ]
+      },
+      {
+        "sample_size": 500,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 1.0,
+        "estimated_power_95_wilson": [
+          0.9980829527187469,
+          0.9999999999999998
+        ]
+      },
+      {
+        "sample_size": 1000,
+        "repetitions": 2000,
+        "alpha_two_sided": 0.05,
+        "observed_effect_mean_f1_delta": 0.20962105218926352,
+        "estimated_power": 1.0,
+        "estimated_power_95_wilson": [
+          0.9980829527187469,
+          0.9999999999999998
+        ]
+      }
+    ],
+    "small_sample_impression": {
+      "sample_size": 10,
+      "repetitions": 2000,
+      "full_set_mean_difference": 0.20962105218926352,
+      "fraction_matching_full_set_direction": 0.957,
+      "sample_mean_difference_p05": 0.004444444444444445,
+      "sample_mean_difference_median": 0.2,
+      "sample_mean_difference_p95": 0.4325416666666666
+    }
+  },
+  "llm_as_judge": {
+    "n": 30,
+    "sample_design": "15 answerable and 15 unanswerable rows; deterministic stratified sample",
+    "judge_model": "gpt-6-luna",
+    "mean_scores": {
+      "all": {
+        "n": 30,
+        "mean_judge_score_a": 3.8333333333333335,
+        "mean_judge_score_b": 4.633333333333334
+      },
+      "answerable": {
+        "n": 15,
+        "mean_judge_score_a": 4.733333333333333,
+        "mean_judge_score_b": 5.0
+      },
+      "unanswerable": {
+        "n": 15,
+        "mean_judge_score_a": 2.933333333333333,
+        "mean_judge_score_b": 4.266666666666667
+      }
+    },
+    "pairwise_winner_agreement_rate": 0.7,
+    "pairwise_winner_cohen_kappa": 0.3661971830985914,
+    "spearman_rho_auto_f1_vs_judge_score": 0.7035015873530914,
+    "spearman_p_value_descriptive": 3.643890484606718e-10
+  }
+}
