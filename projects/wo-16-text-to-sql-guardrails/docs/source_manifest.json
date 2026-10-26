@@ -1,0 +1,12 @@
+{
+  "dataset": "BIRD Mini-Dev SQLite, official 500-question subset",
+  "dataset_repository": "https://huggingface.co/datasets/birdsql/bird_mini_dev",
+  "dataset_repository_revision": "f65faf4ae3b638c1fa6df1d3370c8d92c8366301",
+  "dataset_file_sha256": "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2",
+  "database_archive_source": "https://bird-bench.oss-cn-beijing.aliyuncs.com/minidev.zip",
+  "database_archive_sha256": "cc48ba16838204e4e214512030cb572eeb5f7bcdd999bae4b9b6ff12ec13b92f",
+  "dataset_license": "CC BY-SA 4.0; follow BIRD source terms and cite the benchmark",
+  "model": "mlx-community/Qwen2.5-Coder-3B-Instruct-4bit",
+  "model_license": "qwen-research",
+  "model_revision": "3dd939c621c08e5753d5b89f35a2642cd83b98ca"
+}

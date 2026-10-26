@@ -1,0 +1,461 @@
+{
+  "n": 200,
+  "stages": {
+    "baseline_no_guard": {
+      "n": 200,
+      "gold_executable_n": 196,
+      "gold_execution_exclusions": 4,
+      "exact_matches": 56,
+      "execution_accuracy": 0.2857142857142857,
+      "executed": 116,
+      "blocked": 0,
+      "execution_errors": 84
+    },
+    "baseline_with_guard": {
+      "n": 200,
+      "gold_executable_n": 196,
+      "gold_execution_exclusions": 4,
+      "exact_matches": 56,
+      "execution_accuracy": 0.2857142857142857,
+      "executed": 116,
+      "blocked": 18,
+      "execution_errors": 66
+    },
+    "improved_prompt_with_guard": {
+      "n": 200,
+      "gold_executable_n": 196,
+      "gold_execution_exclusions": 4,
+      "exact_matches": 63,
+      "execution_accuracy": 0.32142857142857145,
+      "executed": 126,
+      "blocked": 4,
+      "execution_errors": 70
+    }
+  },
+  "dataset": "BIRD Mini-Dev SQLite, official 500-question subset",
+  "dataset_repository_revision": "f65faf4ae3b638c1fa6df1d3370c8d92c8366301",
+  "dataset_file_sha256": "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2",
+  "database_archive_sha256": "cc48ba16838204e4e214512030cb572eeb5f7bcdd999bae4b9b6ff12ec13b92f",
+  "dataset_license": "CC BY-SA 4.0; follow BIRD source terms and cite the benchmark",
+  "model": "mlx-community/Qwen2.5-Coder-3B-Instruct-4bit",
+  "model_revision": "3dd939c621c08e5753d5b89f35a2642cd83b98ca",
+  "model_license": "qwen-research",
+  "generation": {
+    "decoding": [
+      "greedy"
+    ],
+    "max_new_tokens": [
+      256
+    ],
+    "prompt_profiles": [
+      "baseline",
+      "schema_grounded"
+    ]
+  },
+  "sampling": {
+    "strategy": "difficulty_stratified_fixed_seed_with_audit_anchors",
+    "seed": 1607,
+    "difficulty_counts": {
+      "challenging": 67,
+      "simple": 66,
+      "moderate": 67
+    },
+    "audit_anchor_ids": [
+      46,
+      62,
+      92
+    ],
+    "question_ids": [
+      "28",
+      "5",
+      "23",
+      "41",
+      "25",
+      "83",
+      "17",
+      "36",
+      "39",
+      "47",
+      "62",
+      "46",
+      "352",
+      "469",
+      "465",
+      "356",
+      "408",
+      "346",
+      "528",
+      "484",
+      "480",
+      "412",
+      "397",
+      "402",
+      "368",
+      "371",
+      "487",
+      "415",
+      "416",
+      "424",
+      "440",
+      "707",
+      "639",
+      "587",
+      "629",
+      "549",
+      "532",
+      "568",
+      "694",
+      "555",
+      "671",
+      "598",
+      "531",
+      "1505",
+      "1521",
+      "1526",
+      "1483",
+      "1486",
+      "1481",
+      "1514",
+      "1515",
+      "1524",
+      "1084",
+      "1031",
+      "1057",
+      "1096",
+      "1037",
+      "1141",
+      "1025",
+      "1032",
+      "1105",
+      "1028",
+      "1044",
+      "1036",
+      "1042",
+      "1147",
+      "1144",
+      "1029",
+      "1114",
+      "1139",
+      "1145",
+      "98",
+      "136",
+      "118",
+      "125",
+      "115",
+      "120",
+      "93",
+      "173",
+      "159",
+      "95",
+      "94",
+      "92",
+      "128",
+      "194",
+      "152",
+      "169",
+      "129",
+      "940",
+      "865",
+      "862",
+      "881",
+      "962",
+      "977",
+      "951",
+      "945",
+      "944",
+      "898",
+      "930",
+      "988",
+      "884",
+      "897",
+      "954",
+      "950",
+      "1014",
+      "967",
+      "892",
+      "904",
+      "948",
+      "1001",
+      "861",
+      "960",
+      "955",
+      "959",
+      "933",
+      "937",
+      "912",
+      "868",
+      "902",
+      "1011",
+      "906",
+      "989",
+      "1457",
+      "1394",
+      "1359",
+      "1401",
+      "1334",
+      "1381",
+      "1435",
+      "1411",
+      "1338",
+      "1427",
+      "1380",
+      "1361",
+      "1344",
+      "1312",
+      "1356",
+      "1389",
+      "1387",
+      "1464",
+      "761",
+      "753",
+      "744",
+      "791",
+      "785",
+      "801",
+      "745",
+      "765",
+      "786",
+      "788",
+      "824",
+      "819",
+      "772",
+      "717",
+      "724",
+      "806",
+      "781",
+      "726",
+      "739",
+      "750",
+      "775",
+      "794",
+      "829",
+      "773",
+      "738",
+      "1270",
+      "1275",
+      "1238",
+      "1252",
+      "1267",
+      "1243",
+      "1242",
+      "1185",
+      "1302",
+      "1198",
+      "1251",
+      "1171",
+      "1175",
+      "1192",
+      "1239",
+      "1232",
+      "1220",
+      "1168",
+      "1166",
+      "1169",
+      "228",
+      "247",
+      "253",
+      "248",
+      "268",
+      "230",
+      "207",
+      "263",
+      "201",
+      "219",
+      "273",
+      "282",
+      "218",
+      "231",
+      "212"
+    ]
+  },
+  "execution_limits": {
+    "max_result_rows": 10000,
+    "sqlite_vm_steps": 20000000
+  },
+  "unsafe_generated_sql_candidates": 1,
+  "unsafe_generated_sql_blocked": 1,
+  "unsafe_generated_sql_block_rate": 1.0,
+  "valid_select_false_positive_rejections": 0,
+  "adversarial_static_evaluation": {
+    "attack_cases": 10,
+    "attacks_blocked": 10,
+    "block_rate": 1.0,
+    "benign_cases": 3,
+    "benign_false_positives": 0,
+    "blocked_reasons": {
+      "drop": [
+        "select_only"
+      ],
+      "delete": [
+        "select_only"
+      ],
+      "update": [
+        "select_only"
+      ],
+      "insert": [
+        "select_only"
+      ],
+      "create": [
+        "select_only"
+      ],
+      "alter": [
+        "select_only"
+      ],
+      "attach": [
+        "select_only"
+      ],
+      "pragma": [
+        "select_only"
+      ],
+      "multiple": [
+        "exactly_one_statement_required"
+      ],
+      "extension": [
+        "denied_function: load_extension"
+      ]
+    }
+  },
+  "difficulty": {
+    "challenging": {
+      "n": 67,
+      "gold_executable_n": 65,
+      "correct": 11,
+      "execution_accuracy": 0.16923076923076924
+    },
+    "moderate": {
+      "n": 67,
+      "gold_executable_n": 65,
+      "correct": 24,
+      "execution_accuracy": 0.36923076923076925
+    },
+    "simple": {
+      "n": 66,
+      "gold_executable_n": 66,
+      "correct": 28,
+      "execution_accuracy": 0.42424242424242425
+    }
+  },
+  "failure_types": {
+    "schema_misunderstanding": 60,
+    "join_error_heuristic": 51,
+    "aggregation_error_heuristic": 13,
+    "gold_execution_error": 4,
+    "other_execution_error": 2,
+    "syntax_error": 4,
+    "denotation_mismatch": 3
+  },
+  "failure_type_method": "SQLite error text and SQL shape heuristics; human review required",
+  "gold_execution_errors": 4,
+  "manual_review": {
+    "reviewed_failure_cases": 25,
+    "model_error_count": 20,
+    "gold_suspicion_count": 5,
+    "undetermined_count": 0,
+    "gold_suspect_ratio_among_reviewed_failures": 0.2,
+    "additional_gold_suspicion_cases_outside_failure_review": [
+      "92"
+    ],
+    "verdicts": {
+      "28": {
+        "label": "모델 오류 / gold 의심",
+        "note": "예측은 없는 schools.name을 참조. 질문의 15–17세와 gold/evidence의 Ages 5–17가 불일치."
+      },
+      "41": {
+        "label": "모델 오류",
+        "note": "없는 satscores.School을 참조하고 county별 상위 5개를 계산하지 못함."
+      },
+      "25": {
+        "label": "모델 오류",
+        "note": "실행 결과가 gold와 다르고 학교별 평균 SAT 수학 점수 조건을 올바르게 계산하지 못함."
+      },
+      "83": {
+        "label": "모델 오류",
+        "note": "도시별 개수를 요구했으나 (1,1)만 반환해 출력 차원과 의미가 다름."
+      },
+      "17": {
+        "label": "모델 오류",
+        "note": "charter number 대신 CDS code를 반환함."
+      },
+      "36": {
+        "label": "모델 오류",
+        "note": "1500점 이상 학생 수의 최대 학교를 찾지 않고 정확히 1500인 행을 사용함."
+      },
+      "39": {
+        "label": "모델 오류",
+        "note": "satscores에 없는 OpenDate 열을 참조함."
+      },
+      "47": {
+        "label": "모델 오류",
+        "note": "Alameda County 조건을 누락해 gold와 다른 결과를 반환함."
+      },
+      "62": {
+        "label": "모델 오류 / gold 의심",
+        "note": "예측은 없는 frpm.Charter 열을 참조. gold는 질문의 grades 1–12 대신 K-12 비율을 대리 사용."
+      },
+      "46": {
+        "label": "모델 오류 / gold 의심",
+        "note": "예측은 State를 반환해 학교명 요청에 실패. gold의 K-12는 grades 1–12와 범위가 다름."
+      },
+      "469": {
+        "label": "모델 오류",
+        "note": "mtgoCode를 cards 테이블에서 조회했으나 해당 열은 sets에 있음."
+      },
+      "465": {
+        "label": "모델 오류",
+        "note": "set_translations에 없는 uuid로 조인함."
+      },
+      "408": {
+        "label": "모델 오류",
+        "note": "OR/AND 괄호가 없어 triggered ability 조건이 power 조건과 다르게 적용됨."
+      },
+      "528": {
+        "label": "모델 오류",
+        "note": "잘못된 set_code 열 및 관계를 사용함."
+      },
+      "484": {
+        "label": "모델 오류",
+        "note": "set_translations에 없는 uuid로 조인하고 최고 mana cost 결과를 잘못 제한함."
+      },
+      "412": {
+        "label": "모델 오류",
+        "note": "요청 조건에 대응하는 필드 이름과 조합이 달라 gold 결과를 반환하지 못함."
+      },
+      "487": {
+        "label": "모델 오류",
+        "note": "카드명과 세트명을 혼동해 Coldsnap 세트 비율을 계산하지 못함."
+      },
+      "415": {
+        "label": "모델 오류",
+        "note": "대소문자 불일치로 상태 필터 결과가 NULL이 되어 gold와 불일치."
+      },
+      "416": {
+        "label": "모델 오류",
+        "note": "불어 카드 조건의 조인과 집계가 잘못되어 gold와 불일치."
+      },
+      "424": {
+        "label": "모델 오류",
+        "note": "Textless 열을 사용했으나 실제 스키마의 isTextless를 사용해야 함."
+      },
+      "440": {
+        "label": "모델 오류",
+        "note": "외국어 명칭을 foreign_data에서 찾아야 하나 cards의 영어 이름을 조회함."
+      },
+      "639": {
+        "label": "모델 오류",
+        "note": "codebase_community의 실제 테이블·열과 맞지 않는 참조를 사용함."
+      },
+      "587": {
+        "label": "모델 오류",
+        "note": "tags 조인에 존재하지 않는 PostId 열을 사용함."
+      },
+      "881": {
+        "label": "모델 오류 / gold 의심",
+        "note": "예측은 비율 대신 driverid 목록을 반환. gold는 +1/+2/+3 Laps를 time NULL로 계산에서 제외."
+      },
+      "1175": {
+        "label": "모델 오류 / gold 의심",
+        "note": "예측은 없는 Examination.HGB를 참조. gold의 날짜·진단 원천은 evidence와 불일치하거나 모호."
+      }
+    }
+  }
+}
