@@ -1,0 +1,10 @@
+services:
+  pipeline:
+    build: .
+    volumes:
+      - ./data/raw:/app/data/raw:ro
+      - ./results:/app/results
+    command: python run.py
+  test:
+    build: .
+    command: pytest

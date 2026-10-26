@@ -1,0 +1,29 @@
+{
+  "split": {
+    "proxy": "ascending SK_ID_CURR order",
+    "reference_rows": 246008,
+    "comparison_rows": 61503,
+    "is_true_temporal_validation": false
+  },
+  "data": {
+    "application_rows": 307511,
+    "target_rate": 0.08072881945686496,
+    "application_features": 120,
+    "aggregate_features": 112,
+    "high_missing_aggregate_features": 6,
+    "categorical_features": 16
+  },
+  "baseline_to_joined": {
+    "roc_auc_change": 0.018007917745638147,
+    "pr_auc_change": 0.024443572344154174,
+    "mean_psi_change": 8.487185631739425e-05,
+    "p95_psi_change": 0.00017695705973916153
+  },
+  "high_missing_ablation": {
+    "roc_auc_exclude_minus_include": 0.0008262948574505602,
+    "pr_auc_exclude_minus_include": 0.0006019704073777499,
+    "mean_psi_exclude_minus_include": 3.0730908715152305e-06,
+    "p95_psi_exclude_minus_include": 1.090758471875724e-06
+  },
+  "measurement_boundary": "No application timestamp is available. The ID-ordered cohort is a proxy distribution-stress test, not evidence of production-time degradation."
+}
