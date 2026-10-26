@@ -1,0 +1,7 @@
+services:
+  evaluate:
+    build: .
+    volumes:
+      - ./data/raw:/app/data/raw:ro
+      - ./cache:/app/cache
+      - ./results:/app/results
