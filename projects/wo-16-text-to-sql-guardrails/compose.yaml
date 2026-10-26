@@ -1,0 +1,8 @@
+services:
+  score:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./data:/app/data:ro
+    command: ["python", "src/score.py"]

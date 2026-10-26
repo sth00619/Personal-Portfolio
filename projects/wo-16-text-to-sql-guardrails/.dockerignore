@@ -1,0 +1,7 @@
+.venv
+__pycache__
+.git
+artifacts/*.jsonl
+artifacts/*.log
+data/**
+!data/README.md
