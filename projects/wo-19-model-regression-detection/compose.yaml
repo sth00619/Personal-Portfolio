@@ -1,0 +1,14 @@
+services:
+  experiment:
+    build: .
+    volumes:
+      - ../wo-07-ctr-calibration/src:/app/wo07/src:ro
+      - ../wo-07-ctr-calibration/data:/app/wo07/data:ro
+      - ./results:/app/wo19/results
+    command: python scripts/run_experiments.py
+
+  test:
+    build: .
+    volumes:
+      - ./results:/app/wo19/results:ro
+    command: python -m pytest -q
