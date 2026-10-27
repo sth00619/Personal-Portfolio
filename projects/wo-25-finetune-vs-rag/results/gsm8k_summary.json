@@ -1,0 +1,48 @@
+{
+  "dataset": "GSM8K official test",
+  "base_model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "quantization_bits": 4
+  },
+  "decoding": {
+    "max_new_tokens": 256,
+    "sampling": false
+  },
+  "selected_settings": {
+    "few_shot_examples": 3,
+    "rag_top_k": 5,
+    "lora": {
+      "rank": 4,
+      "training_examples": 1024,
+      "steps": 100,
+      "validation": {
+        "correct": 100,
+        "total": 200,
+        "accuracy_percent": 50.0
+      }
+    }
+  },
+  "scores": {
+    "zero_shot": {
+      "correct": 702,
+      "total": 1319,
+      "accuracy_percent": 53.2221379833207
+    },
+    "few_shot": {
+      "correct": 733,
+      "total": 1319,
+      "accuracy_percent": 55.5724033358605
+    },
+    "rag": {
+      "correct": 716,
+      "total": 1319,
+      "accuracy_percent": 54.28354814253222
+    },
+    "lora": {
+      "correct": 620,
+      "total": 1319,
+      "accuracy_percent": 47.005307050796056
+    }
+  }
+}

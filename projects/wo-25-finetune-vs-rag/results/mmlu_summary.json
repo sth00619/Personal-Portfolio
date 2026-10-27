@@ -1,0 +1,13 @@
+{
+  "base": {
+    "correct": 52,
+    "total": 100,
+    "accuracy_percent": 52.0
+  },
+  "lora": {
+    "correct": 50,
+    "total": 100,
+    "accuracy_percent": 50.0
+  },
+  "delta_percentage_points": -2.0
+}

@@ -1,0 +1,26 @@
+{
+  "few_shot": {
+    "3": {
+      "correct": 135,
+      "total": 200,
+      "accuracy_percent": 67.5
+    },
+    "5": {
+      "correct": 121,
+      "total": 200,
+      "accuracy_percent": 60.5
+    }
+  },
+  "rag": {
+    "3": {
+      "correct": 117,
+      "total": 200,
+      "accuracy_percent": 58.5
+    },
+    "5": {
+      "correct": 124,
+      "total": 200,
+      "accuracy_percent": 62.0
+    }
+  }
+}
