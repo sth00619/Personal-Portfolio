@@ -1,0 +1,54 @@
+{
+  "gsm8k": {
+    "repo_id": "openai/gsm8k",
+    "revision": "740312add88f781978c0658806c59bc2815b9866",
+    "license": "MIT",
+    "train_rows": 7473,
+    "validation_rows_held_out_from_train": 200,
+    "validation_selection_seed": 2507,
+    "validation_selection": "random sample without replacement from official train",
+    "validation_indices_sha256": "57e39666fb569aaed12e1587cb7cc2a8663d26055c5a007be31278f9102c2d9f",
+    "train_pool_rows": 7273,
+    "official_test_rows": 1319,
+    "train_sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d",
+    "test_sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59",
+    "train_filename": "main/train-00000-of-00001.parquet",
+    "test_filename": "main/test-00000-of-00001.parquet"
+  },
+  "base_model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "license": "Apache-2.0",
+    "quantization_bits": 4,
+    "mlx_model_sha256": "5b6abb3e8bbb783216a1a034fe742de5f25a836f3c642910ce327199c51217e7",
+    "quantization_config": {
+      "group_size": 64,
+      "bits": 4,
+      "mode": "affine"
+    }
+  },
+  "mmlu": {
+    "repo_id": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "license": "MIT",
+    "test_sample_rows": 100,
+    "rows_per_subject": 10,
+    "subjects": [
+      "astronomy",
+      "business_ethics",
+      "college_computer_science",
+      "elementary_mathematics",
+      "global_facts",
+      "high_school_biology",
+      "high_school_mathematics",
+      "medical_genetics",
+      "security_studies",
+      "world_religions"
+    ],
+    "selection_seed": 2507,
+    "test_sha256": "74a41822ce7d3def56e1682f958469c04642a5336a5ce912fa375fdb90fb25d7",
+    "dev_sha256": "2b19bde1ed8ca6b482fb283abc90e8e0d9d228947029c0b91795d64b28b3bc3f",
+    "test_filename": "all/test-00000-of-00001.parquet",
+    "dev_filename": "all/dev-00000-of-00001.parquet"
+  }
+}

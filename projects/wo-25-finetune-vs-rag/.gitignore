@@ -1,0 +1,12 @@
+.venv/
+models/
+data/cache/
+data/raw/
+data/processed/
+artifacts/generations/
+artifacts/adapters/
+artifacts/checkpoints/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+

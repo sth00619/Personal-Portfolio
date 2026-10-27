@@ -1,0 +1,10 @@
+[project]
+name = "wo-25-finetune-vs-rag"
+version = "0.1.0"
+description = "Controlled comparison of prompting, retrieval, and LoRA on GSM8K"
+requires-python = ">=3.11,<3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
