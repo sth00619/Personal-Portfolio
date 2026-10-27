@@ -1,0 +1,23 @@
+"""Experiment configuration and explicit assumptions."""
+
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_CACHE = PROJECT_ROOT / "data" / "cache"
+RESULTS_DIR = PROJECT_ROOT / "results"
+MANIFEST_PATH = PROJECT_ROOT / "data" / "universe_manifest.csv"
+POPULATION_SUMMARY_PATH = PROJECT_ROOT / "data" / "universe_population_summary.csv"
+DOWNLOAD_START = "2018-01-01"
+BACKTEST_START = "2020-01-01"
+BACKTEST_END = "2024-12-31"
+CURRENT_SAMPLE_SIZE_PER_MARKET = 30
+DELISTED_SAMPLE_SIZE = 200
+PORTFOLIO_SIZE = 10
+LOOKBACK_SESSIONS = 252
+CURRENT_COST_BPS = (0, 10, 25)
+MONTHLY_COST_BPS = (0, 10, 25, 50)
+QUARTERLY_COST_BPS = 10
+ATTRIBUTION_COST_BPS = 10
+BASIS_POINTS_PER_RATIO = 10_000
+DELISTED_MIN_YEAR = 2018
+DELISTED_MAX_YEAR = 2023

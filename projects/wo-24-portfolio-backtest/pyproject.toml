@@ -1,0 +1,9 @@
+[project]
+name = "wo-24-portfolio-backtest"
+version = "0.1.0"
+description = "A survivorship-bias sensitivity study for a Korean equity momentum backtest"
+requires-python = ">=3.11,<3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
