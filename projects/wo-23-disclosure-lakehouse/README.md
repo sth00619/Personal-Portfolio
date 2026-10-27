@@ -36,7 +36,7 @@
 
 ```bash
 cp .env.example .env
-# .env의 OPENDART_API_KEY에 OpenDART 발급 키를 입력합니다.
+# .env의 DART_API_KEY에 OpenDART 발급 키를 입력합니다.
 docker compose up -d db
 docker compose run --rm app
 ```
