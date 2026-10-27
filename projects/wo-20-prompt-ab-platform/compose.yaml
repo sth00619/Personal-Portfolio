@@ -1,0 +1,32 @@
+services:
+  download:
+    build: .
+    volumes:
+      - ./data:/app/data
+    command: python data/download.py
+
+  experiment:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai-compatible}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      JUDGE_MODEL: ${JUDGE_MODEL:-}
+      LLM_CONCURRENCY: ${LLM_CONCURRENCY:-4}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-96}
+      SAMPLE_SIZE: ${SAMPLE_SIZE:-0}
+      COST_LIMIT_USD: ${COST_LIMIT_USD:-8}
+    volumes:
+      - ./data:/app/data:ro
+      - ./results:/app/results
+    command: python -m src.experiment
+
+  test:
+    build: .
+    volumes:
+      - ./data:/app/data:ro
+    command: python -m pytest -q

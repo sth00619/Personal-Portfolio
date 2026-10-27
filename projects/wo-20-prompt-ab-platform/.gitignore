@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+data/squad_v2_dev.json
+data/*.tmp
+results/predictions.jsonl
+results/judge_scores.jsonl
+results/budget_reservations.json
+results/*.tmp
