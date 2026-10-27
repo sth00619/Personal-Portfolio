@@ -19,6 +19,7 @@ class Fact:
 class XbrlDocument:
     sha256: str
     facts: tuple[Fact, ...]
+    text_facts_skipped: int = 0
 
 def _local(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
@@ -45,12 +46,13 @@ def parse_xbrl_zip(blob: bytes) -> XbrlDocument:
                     parts.append(f"dim={child.attrib.get('dimension', '')}:{child.text.strip()}")
                 elif label == "typedMember":
                     parts.append("typed=" + ET.tostring(child, encoding="unicode"))
-            contexts[ident] = "|".join(parts)
+            contexts[ident] = f"source_context_id={ident}|" + "|".join(parts)
         elif _local(element.tag) == "unit":
             units[element.attrib.get("id", "")] = "*".join(
                 _local(c.tag) for c in element if _local(c.tag) not in ("unitNumerator", "unitDenominator")
             ) or ET.tostring(element, encoding="unicode")
     facts = []
+    text_facts_skipped = 0
     excluded = {"context", "unit", "schemaRef", "entity", "identifier", "period", "startDate", "endDate", "instant", "segment", "scenario"}
     for element in elements:
         context_ref = element.attrib.get("contextRef")
@@ -66,8 +68,15 @@ def parse_xbrl_zip(blob: bytes) -> XbrlDocument:
                 numeric = -numeric
             value, text = numeric * (Decimal(10) ** scale), None
         except InvalidOperation:
-            value, text = None, raw
-        facts.append(Fact(_local(element.tag), contexts[context_ref], units.get(element.attrib.get("unitRef", ""), ""), value, text))
+            text_facts_skipped += 1
+            continue
+        facts.append(Fact(_local(element.tag), contexts[context_ref], units.get(element.attrib.get("unitRef", ""), ""), value, None))
     # Taxonomy labels and duplicated inline elements are not needed; preserve unique fact identity.
-    unique = {(f.concept, f.context_key, f.unit, str(f.value), f.value_text): f for f in facts}
-    return XbrlDocument(digest, tuple(unique.values()))
+    unique: dict[tuple[str, str, str], Fact] = {}
+    for fact in facts:
+        key = (fact.concept, fact.context_key, fact.unit)
+        previous = unique.get(key)
+        if previous is not None and previous.value != fact.value:
+            raise ValueError(f"Conflicting numeric duplicate XBRL fact for {fact.concept} / {fact.context_key}")
+        unique[key] = fact
+    return XbrlDocument(digest, tuple(unique.values()), text_facts_skipped)

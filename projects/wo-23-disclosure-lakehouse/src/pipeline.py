@@ -10,8 +10,8 @@ from .opendart import OpenDartClient, RequestLedger
 from .revisions import filing_from_row, find_date_distinguishable_pairs
 from .xbrl import Fact, parse_xbrl_zip
 
-CORP_CODES = ("005930", "000660", "005380")  # official stock-code mapping resolves corp_code
-REPORTS = ("11013", "11012", "11014", "11011")
+CORP_CODES = ("031820",)  # 아이티센씨티에스; selected from a broader quarterly-correction candidate scan
+REPORTS = ("11013", "11012", "11014")  # first quarter, half-year, and third quarter; annual is excluded
 
 def _db_facts(rows) -> dict[tuple[str, str, str], tuple[object, object]]:
     return {(row[0], row[1], row[2]): (row[3], row[4]) for row in rows}
@@ -34,7 +34,7 @@ def run() -> dict:
         corp_code = stock_to_corp.get(stock_code)
         if not corp_code:
             continue
-        for year in range(2020, date.today().year + 1):
+        for year in range(2023, date.today().year + 1):
             page_no = 1
             while True:
                 payload = client.get_json("list.json", {"corp_code": corp_code, "bgn_de": f"{year}0101",
@@ -53,14 +53,10 @@ def run() -> dict:
     selected = None
     checked = 0
     for original, correction in pairs:
-        if checked >= 12:
+        if checked >= 24:
             break
         before_blob = client.get_bytes("fnlttXbrl.xml", {"rcept_no": original.receipt_no, "reprt_code": original.report_code})
         after_blob = client.get_bytes("fnlttXbrl.xml", {"rcept_no": correction.receipt_no, "reprt_code": correction.report_code})
-        raw_dir = ROOT / "data" / "xbrl"
-        raw_dir.mkdir(parents=True, exist_ok=True)
-        (raw_dir / f"{original.receipt_no}.zip").write_bytes(before_blob)
-        (raw_dir / f"{correction.receipt_no}.zip").write_bytes(after_blob)
         before_doc = parse_xbrl_zip(before_blob)
         after_doc = parse_xbrl_zip(after_blob)
         checked += 1
@@ -70,6 +66,10 @@ def run() -> dict:
             continue
         if any(f.context_key == "" for f in before_doc.facts + after_doc.facts):
             continue
+        raw_dir = ROOT / "data" / "xbrl"
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        (raw_dir / f"{original.receipt_no}.zip").write_bytes(before_blob)
+        (raw_dir / f"{correction.receipt_no}.zip").write_bytes(after_blob)
         load_counts = {}
         for filing, document in ((original, before_doc), (correction, after_doc)):
             load_counts[filing.receipt_no] = load_revision(conn, corp_code=filing.corp_code,
@@ -86,6 +86,7 @@ def run() -> dict:
             "original_receipt": original.receipt_no, "correction_receipt": correction.receipt_no,
             "original_receipt_date": original.receipt_date.isoformat(), "correction_receipt_date": correction.receipt_date.isoformat(),
             "fact_counts": {"original": len(before_doc.facts), "corrected": len(after_doc.facts)},
+            "non_numeric_text_facts_skipped": {"original": before_doc.text_facts_skipped, "corrected": after_doc.text_facts_skipped},
             "revision_delta": delta.__dict__, "load_counts": load_counts,
             "point_in_time": {"original_matches_xbrl": exact_original, "corrected_matches_xbrl": exact_corrected,
                               "original_row_count": len(pit_original), "corrected_row_count": len(pit_corrected)},
