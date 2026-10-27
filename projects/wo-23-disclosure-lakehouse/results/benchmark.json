@@ -1,0 +1,29 @@
+{
+  "measurement": "local PostgreSQL query latency; synthetic benchmark rows",
+  "results": [
+    {
+      "synthetic_rows": 1000,
+      "query": "indexed point-in-time count by company/year/report/date",
+      "repeats": 30,
+      "median_ms": 0.163,
+      "p95_ms": 0.283
+    },
+    {
+      "synthetic_rows": 10000,
+      "query": "indexed point-in-time count by company/year/report/date",
+      "repeats": 30,
+      "median_ms": 0.266,
+      "p95_ms": 0.365
+    },
+    {
+      "synthetic_rows": 50000,
+      "query": "indexed point-in-time count by company/year/report/date",
+      "repeats": 30,
+      "median_ms": 0.757,
+      "p95_ms": 1.049
+    }
+  ],
+  "postgresql": "16 in local Docker container",
+  "timing": "client-side query round trip over local port; persistent connection",
+  "rows_per_size": 30
+}
