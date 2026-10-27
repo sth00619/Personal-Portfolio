@@ -1,0 +1,61 @@
+{
+  "measurement": "OpenDART receipt-level XBRL; date-granular effective interval",
+  "status": "actual_pair_loaded",
+  "candidate_pairs_found": 1,
+  "candidate_pairs_checked": 1,
+  "selected": {
+    "company": "아이티센씨티에스",
+    "corp_code": "00186559",
+    "report_year": 2023,
+    "report_code": "11013",
+    "original_receipt": "20230515001446",
+    "correction_receipt": "20230526000581",
+    "original_receipt_date": "2023-05-15",
+    "correction_receipt_date": "2023-05-26",
+    "fact_counts": {
+      "original": 544,
+      "corrected": 542
+    },
+    "non_numeric_text_facts_skipped": {
+      "original": 125,
+      "corrected": 125
+    },
+    "revision_delta": {
+      "changed": 6,
+      "added": 0,
+      "removed": 2,
+      "comparable": 542
+    },
+    "load_counts": {
+      "20230515001446": {
+        "inserted": 544,
+        "changed": 0,
+        "unchanged": 0,
+        "removed": 0,
+        "already_loaded": 0
+      },
+      "20230526000581": {
+        "inserted": 6,
+        "changed": 6,
+        "unchanged": 536,
+        "removed": 2,
+        "already_loaded": 0
+      }
+    },
+    "point_in_time": {
+      "original_matches_xbrl": true,
+      "corrected_matches_xbrl": true,
+      "original_row_count": 544,
+      "corrected_row_count": 542
+    },
+    "overwrite_baseline": {
+      "past_fact_values_mismatching_original": 8
+    },
+    "source_sha256": {
+      "original": "0b5f9f6626ed4fef3f1865fff51b04f128a5ffd1035016ebf85c66b2e70c2465",
+      "corrected": "38b11477f3c182d4090930048841bb10d42f7efd6574e7fa8992aa42fa7d684a"
+    }
+  },
+  "request_attempts": 7,
+  "request_cap": 300
+}
