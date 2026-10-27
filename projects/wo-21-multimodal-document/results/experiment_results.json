@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "dataset": "FUNSD official test split",
+    "training_split_documents": 149,
+    "evaluation_split_documents": 47,
+    "candidate_pairs": 21727,
+    "gold_links": 837,
+    "positive_class_prevalence": 0.03852349611082984,
+    "task": "question-answer entity linking with gold entity candidates",
+    "metric": "micro exact entity-link F1",
+    "seed": 21021,
+    "training_candidate_pairs": 77750,
+    "training_gold_links": 3129,
+    "training_documents_with_candidate_pairs": 147,
+    "training_documents_without_candidate_pairs": 2,
+    "dataset_archive_url": "https://guillaumejaume.github.io/FUNSD/dataset.zip",
+    "dataset_archive_sha256": "c31735649e4f441bcbb4fd0f379574f7520b42286e80b01d80b445649d54761f",
+    "official_evaluation_split_documents": 50,
+    "documents_without_question_answer_candidates": 3,
+    "candidate_document_coverage": 0.94
+  },
+  "text_only": {
+    "true_positive_links": 332,
+    "false_positive_links": 4362,
+    "false_negative_links": 505,
+    "gold_links": 837,
+    "predicted_links": 4694,
+    "precision": 0.07072858968896463,
+    "recall": 0.3966547192353644,
+    "f1": 0.12005062375700597
+  },
+  "text_plus_layout": {
+    "true_positive_links": 640,
+    "false_positive_links": 571,
+    "false_negative_links": 197,
+    "gold_links": 837,
+    "predicted_links": 1211,
+    "precision": 0.5284888521882741,
+    "recall": 0.7646356033452808,
+    "f1": 0.625
+  },
+  "paired_layout_delta": {
+    "f1_delta_b_minus_a": 0.5049493762429941,
+    "paired_document_wilcoxon_p_value": 1.4210854715202004e-14,
+    "paired_document_bootstrap_95_ci": [
+      0.4620142278728306,
+      0.5513414407432015
+    ],
+    "bootstrap_repetitions": 2000,
+    "document_count": 47
+  },
+  "error_transition_counts": {
+    "both_false_positive": 153,
+    "both_missed": 109,
+    "layout_fixed": 4605,
+    "layout_regressed": 506
+  },
+  "model_config": {
+    "classifier": "scikit-learn LogisticRegression",
+    "C": 1.0,
+    "class_weight": "balanced",
+    "text_only_threshold_from_grouped_train_cv": 0.5936846219581466,
+    "text_plus_layout_threshold_from_grouped_train_cv": 0.855138455148241,
+    "grouped_train_cv": {
+      "document_folds": 5,
+      "text_only_precision": 0.059257159058690105,
+      "text_only_recall": 0.20038350910834132,
+      "text_only_f1": 0.0914660831509847,
+      "text_plus_layout_precision": 0.5588536335721597,
+      "text_plus_layout_recall": 0.697986577181208,
+      "text_plus_layout_f1": 0.6207190564160865,
+      "proximity_rule_precision": 0.2650974797907751,
+      "proximity_rule_recall": 0.3563438798338127,
+      "proximity_rule_f1": 0.3040218132242672
+    },
+    "proximity_rule_max_normalized_distance": 0.12353070869515619,
+    "text_features": "word TF-IDF unigram/bigram; fit on train candidates only",
+    "layout_features": [
+      "dx",
+      "dy",
+      "abs_dx",
+      "abs_dy",
+      "distance",
+      "same_row",
+      "horizontal_overlap",
+      "answer_below",
+      "width_ratio",
+      "height_ratio"
+    ],
+    "vocabulary_size": 13702
+  },
+  "coordinate_proximity_rule": {
+    "true_positive_links": 388,
+    "false_positive_links": 909,
+    "false_negative_links": 449,
+    "precision": 0.2991518889745567,
+    "recall": 0.4635603345280765,
+    "f1": 0.36363636363636365
+  }
+}

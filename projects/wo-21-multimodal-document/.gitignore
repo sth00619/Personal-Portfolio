@@ -1,0 +1,7 @@
+data/raw/
+data/funsd.zip
+results/error*
+results/predictions.jsonl
+__pycache__/
+.pytest_cache/
+.venv/

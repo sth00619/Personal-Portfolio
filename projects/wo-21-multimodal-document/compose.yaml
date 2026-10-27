@@ -1,0 +1,16 @@
+services:
+  download:
+    build: .
+    command: ["python", "-m", "data.download"]
+    volumes:
+      - .:/app
+  experiment:
+    build: .
+    command: ["python", "-m", "src.experiment"]
+    volumes:
+      - .:/app
+  test:
+    build: .
+    command: ["pytest", "-q"]
+    volumes:
+      - .:/app
