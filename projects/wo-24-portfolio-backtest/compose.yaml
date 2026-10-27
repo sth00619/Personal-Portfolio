@@ -1,0 +1,7 @@
+services:
+  backtest:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+    command: ["python", "-m", "wo24.pipeline"]

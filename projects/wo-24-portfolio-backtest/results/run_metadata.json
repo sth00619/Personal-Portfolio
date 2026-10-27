@@ -1,0 +1,13 @@
+{
+  "listing_source": "FinanceDataReader KRX and KRX-DELISTING listing providers",
+  "price_source": "FinanceDataReader default Korean equity price source (Naver Finance)",
+  "universe_manifest": "data/universe_manifest.csv",
+  "sample_note": "Deterministic, stratified ticker sample; not a full-market point-in-time panel.",
+  "price_panel_shape": [
+    1728,
+    197
+  ],
+  "manifest_rows": 199,
+  "delisted_manifest_rows": 139,
+  "population_summary_path": "data/universe_population_summary.csv"
+}

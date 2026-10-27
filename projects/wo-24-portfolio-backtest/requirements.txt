@@ -1,0 +1,4 @@
+FinanceDataReader==0.9.202
+pandas==3.1.0
+numpy==2.4.6
+pytest==8.4.2

@@ -1,0 +1,5 @@
+population,eligible_count,sampled_count,not_sampled_count
+current_common_shares,2532,60,2472
+delisted_common_shares_before_reason_filter,195,139,0
+delisted_merger_redemption_or_maturity_reasons_excluded,56,0,56
+delisted_candidate_pool_after_reason_filter,139,139,0
