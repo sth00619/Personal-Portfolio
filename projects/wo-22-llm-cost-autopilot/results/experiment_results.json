@@ -1,0 +1,188 @@
+{
+  "metadata": {
+    "dataset": "SQuAD 2.0 dev",
+    "dataset_questions": 11873,
+    "dataset_sha256": "80a5225e94905956a6446d296ca1093975c4d3b3260f1d6c8f68bc2ab77182d8",
+    "paired_prediction_rows": 23746,
+    "train_questions": 8915,
+    "test_questions": 2958,
+    "train_article_titles": 26,
+    "test_article_titles": 9,
+    "split": "GroupShuffleSplit by article title; seed 22021; test_size 0.25",
+    "answer_traces": "WO-20 GPT-6 Luna prompt A/B; no additional model calls",
+    "router_target": "Prompt A SQuAD token F1 >= 0.80",
+    "route_threshold": 0.5,
+    "bootstrap_replicates": 2000,
+    "price_profiles": {
+      "economy": {
+        "source": "WO-20 GPT-6 Luna rate",
+        "input_usd_per_million": 0.1,
+        "output_usd_per_million": 0.5
+      },
+      "premium": {
+        "source": "WO-18 synthetic provider rate",
+        "input_usd_per_million": 2.0,
+        "output_usd_per_million": 8.0
+      }
+    },
+    "model_comparison_boundary": "A/B are prompts to the same model, not two distinct LLMs; rate profiles are copied from WO-20 and WO-18."
+  },
+  "baselines": {
+    "all_economy_prompt_a": {
+      "count": 2958,
+      "f1": 0.533564083788868,
+      "exact_match": 0.3935091277890467,
+      "abstention_rate": 0.17545638945233266,
+      "answerable_f1": 0.7343011345505615,
+      "unanswerable_f1": 0.33712374581939797,
+      "answerable_false_abstention_rate": 0.010252904989747095,
+      "unanswerable_abstention_rate": 0.33712374581939797,
+      "tiered_cost_usd": 0.09197310000000003,
+      "economy_rate_cost_usd": 0.09197310000000003,
+      "premium_rate_cost_usd": 1.7491820000000016,
+      "economy_route_rate": 1.0,
+      "premium_route_rate": 0.0
+    },
+    "all_premium_prompt_b": {
+      "count": 2958,
+      "f1": 0.7646003381056078,
+      "exact_match": 0.6477349560513861,
+      "abstention_rate": 0.3820148749154834,
+      "answerable_f1": 0.8036143541465401,
+      "unanswerable_f1": 0.7264214046822742,
+      "answerable_false_abstention_rate": 0.03007518796992481,
+      "unanswerable_abstention_rate": 0.7264214046822742,
+      "tiered_cost_usd": 1.7181500000000027,
+      "economy_rate_cost_usd": 0.08870250000000017,
+      "premium_rate_cost_usd": 1.7181500000000027,
+      "economy_route_rate": 0.0,
+      "premium_route_rate": 1.0
+    }
+  },
+  "router": {
+    "routed": {
+      "count": 2958,
+      "f1": 0.6423642098521122,
+      "exact_match": 0.5101419878296146,
+      "abstention_rate": 0.2748478701825558,
+      "answerable_f1": 0.7622100702273054,
+      "unanswerable_f1": 0.5250836120401338,
+      "answerable_false_abstention_rate": 0.019138755980861243,
+      "unanswerable_abstention_rate": 0.5250836120401338,
+      "tiered_cost_usd": 0.8411564999999976,
+      "economy_rate_cost_usd": 0.09012070000000016,
+      "premium_rate_cost_usd": 1.728954000000001,
+      "economy_route_rate": 0.5581473968897904,
+      "premium_route_rate": 0.4418526031102096
+    },
+    "f1_delta_vs_all_premium": -0.12223612825349571,
+    "f1_delta_bootstrap_95_ci": [
+      -0.1335424547122532,
+      -0.11036963600613392
+    ],
+    "errors": {
+      "hard_routed_to_economy": {
+        "count": 851,
+        "mean_quality_loss_f1_vs_premium": 0.4370089832856974,
+        "quality_loss_sum_f1_points": 371.8946447761288,
+        "tiered_cost_avoided_usd": 0.4541207999999999
+      },
+      "easy_routed_to_premium": {
+        "count": 478,
+        "mean_quality_headroom_f1": -0.02172020345231798,
+        "tiered_extra_cost_usd": 0.2638778000000002
+      }
+    },
+    "cutoff_curve": [
+      {
+        "threshold": 0.2,
+        "f1": 0.5375272704053775,
+        "exact_match": 0.39790398918187964,
+        "tiered_cost_usd": 0.11170860000000012,
+        "tiered_savings_percent": 93.49832086837587,
+        "economy_route_rate": 0.9901960784313726
+      },
+      {
+        "threshold": 0.35,
+        "f1": 0.5689836433124352,
+        "exact_match": 0.4306964164976335,
+        "tiered_cost_usd": 0.3055885000000001,
+        "tiered_savings_percent": 82.21409655734368,
+        "economy_route_rate": 0.8786342123056119
+      },
+      {
+        "threshold": 0.5,
+        "f1": 0.6423642098521122,
+        "exact_match": 0.5101419878296146,
+        "tiered_cost_usd": 0.8411564999999976,
+        "tiered_savings_percent": 51.04289497424577,
+        "economy_route_rate": 0.5581473968897904
+      },
+      {
+        "threshold": 0.65,
+        "f1": 0.7233438779765744,
+        "exact_match": 0.6027721433400947,
+        "tiered_cost_usd": 1.4165811000000001,
+        "tiered_savings_percent": 17.55195413671694,
+        "economy_route_rate": 0.20182555780933062
+      },
+      {
+        "threshold": 0.8,
+        "f1": 0.7574415289184012,
+        "exact_match": 0.6399594320486816,
+        "tiered_cost_usd": 1.6574260000000012,
+        "tiered_savings_percent": 3.5342665075809077,
+        "economy_route_rate": 0.04158215010141988
+      },
+      {
+        "threshold": 0.95,
+        "f1": 0.7644876493519455,
+        "exact_match": 0.6473968897903989,
+        "tiered_cost_usd": 1.7173883000000028,
+        "tiered_savings_percent": 0.04433256700521193,
+        "economy_route_rate": 0.0003380662609871535
+      }
+    ]
+  },
+  "semantic_cache": {
+    "calibration": {
+      "threshold_found": true,
+      "pre_margin_threshold": 0.7,
+      "pre_margin_precision": 0.997083239847431,
+      "selected_validation_precision": 0.997083239847431,
+      "selected_validation_recall": 0.9969713965227145,
+      "selected_validation_safe_hits": 8888,
+      "selected_validation_false_hits": 26,
+      "target_precision": 0.995,
+      "safety_margin": 0.003,
+      "validation_query_count": 8915
+    },
+    "heldout_replay": {
+      "safe_replay_pairs": 2958,
+      "safe_semantic_hits": 2664,
+      "safe_hit_rate": 0.9006085192697769,
+      "unsafe_same_context_candidates": 25014,
+      "unsafe_cache_hits": 280,
+      "unsafe_hit_rate": 0.011193731510354202,
+      "heldout_top1_precision": 0.904891304347826,
+      "heldout_precision_gate_passed": false,
+      "mean_safe_similarity": 0.9283274213533041,
+      "selected_threshold": 0.703,
+      "route_quality_f1": 0.6423642098521122,
+      "cache_quality_f1": 0.5977987497352285,
+      "cache_quality_delta_f1": -0.04456546011688367,
+      "false_hit_route_f1": 0.6319447549627264,
+      "false_hit_reused_answer_f1": 0.1611425012993616
+    },
+    "routing_quality_f1": 0.6423642098521122,
+    "routing_plus_cache_quality_f1": 0.5977987497352285,
+    "routing_only_two_pass_tiered_cost_usd": 1.6823129999999953,
+    "routing_plus_cache_two_pass_tiered_cost_usd": 0.8434978999999974,
+    "incremental_savings_usd": 0.8388150999999979,
+    "incremental_savings_percent": 49.86082256987851,
+    "safe_hit_only_savings_usd": 0.772780399999999,
+    "false_hit_count": 280,
+    "cache_compute_cost_included": false,
+    "cache_quality_policy": "Second request is a same-context wording variant of the same SQuAD question; reused output is scored against the same gold answers."
+  }
+}

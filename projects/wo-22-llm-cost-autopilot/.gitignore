@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+data/squad_v2_dev.json
+data/*.tmp
+data/model_predictions.jsonl
+results/*.tmp
+results/cache_replay.jsonl

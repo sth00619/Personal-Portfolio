@@ -1,0 +1,8 @@
+.git
+.venv
+__pycache__
+.pytest_cache
+.env
+data/squad_v2_dev.json
+data/model_predictions.jsonl
+results/cache_replay.jsonl

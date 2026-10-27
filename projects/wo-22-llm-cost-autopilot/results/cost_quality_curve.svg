@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="450" y="30" text-anchor="middle" font-family="sans-serif" font-size="19" font-weight="bold">WO-22 Cost–Quality Trade-off</text>
+<line x1="90" y1="54" x2="90" y2="430" stroke="#222"/>
+<line x1="90" y1="430" x2="864" y2="430" stroke="#222"/>
+<text x="477.0" y="492" text-anchor="middle" font-family="sans-serif" font-size="14">Tiered rate cost savings vs all-premium (%)</text>
+<text x="22" y="242.0" transform="rotate(-90 22 242.0)" text-anchor="middle" font-family="sans-serif" font-size="14">SQuAD token F1 (%)</text>
+<line x1="90.00" y1="54" x2="90.00" y2="430" stroke="#e7eaf0"/>
+<text x="90.00" y="452" text-anchor="middle" font-family="sans-serif" font-size="11">0</text>
+<line x1="244.80" y1="54" x2="244.80" y2="430" stroke="#e7eaf0"/>
+<text x="244.80" y="452" text-anchor="middle" font-family="sans-serif" font-size="11">20</text>
+<line x1="399.60" y1="54" x2="399.60" y2="430" stroke="#e7eaf0"/>
+<text x="399.60" y="452" text-anchor="middle" font-family="sans-serif" font-size="11">40</text>
+<line x1="554.40" y1="54" x2="554.40" y2="430" stroke="#e7eaf0"/>
+<text x="554.40" y="452" text-anchor="middle" font-family="sans-serif" font-size="11">61</text>
+<line x1="709.20" y1="54" x2="709.20" y2="430" stroke="#e7eaf0"/>
+<text x="709.20" y="452" text-anchor="middle" font-family="sans-serif" font-size="11">81</text>
+<line x1="864.00" y1="54" x2="864.00" y2="430" stroke="#e7eaf0"/>
+<text x="864.00" y="452" text-anchor="middle" font-family="sans-serif" font-size="11">101</text>
+<line x1="90" y1="430.00" x2="864" y2="430.00" stroke="#e7eaf0"/>
+<text x="78" y="434.00" text-anchor="end" font-family="sans-serif" font-size="11">48.8</text>
+<line x1="90" y1="336.00" x2="864" y2="336.00" stroke="#e7eaf0"/>
+<text x="78" y="340.00" text-anchor="end" font-family="sans-serif" font-size="11">56.9</text>
+<line x1="90" y1="242.00" x2="864" y2="242.00" stroke="#e7eaf0"/>
+<text x="78" y="246.00" text-anchor="end" font-family="sans-serif" font-size="11">65.1</text>
+<line x1="90" y1="148.00" x2="864" y2="148.00" stroke="#e7eaf0"/>
+<text x="78" y="152.00" text-anchor="end" font-family="sans-serif" font-size="11">73.3</text>
+<line x1="90" y1="54.00" x2="864" y2="54.00" stroke="#e7eaf0"/>
+<text x="78" y="58.00" text-anchor="end" font-family="sans-serif" font-size="11">81.4</text>
+<polyline points="806.67,372.50 720.17,336.33 481.24,251.94 224.54,158.81 117.09,119.60 90.34,111.50" fill="none" stroke="#2864dc" stroke-width="3"/>
+<circle cx="806.67" cy="372.50" r="5" fill="#2864dc"/>
+<text x="806.67" y="362.50" text-anchor="middle" font-family="sans-serif" font-size="10">t=0.20</text>
+<circle cx="720.17" cy="336.33" r="5" fill="#2864dc"/>
+<text x="720.17" y="326.33" text-anchor="middle" font-family="sans-serif" font-size="10">t=0.35</text>
+<circle cx="481.24" cy="251.94" r="5" fill="#2864dc"/>
+<text x="481.24" y="241.94" text-anchor="middle" font-family="sans-serif" font-size="10">t=0.50</text>
+<circle cx="224.54" cy="158.81" r="5" fill="#2864dc"/>
+<text x="224.54" y="148.81" text-anchor="middle" font-family="sans-serif" font-size="10">t=0.65</text>
+<circle cx="117.09" cy="119.60" r="5" fill="#2864dc"/>
+<text x="117.09" y="109.60" text-anchor="middle" font-family="sans-serif" font-size="10">t=0.80</text>
+<circle cx="90.34" cy="111.50" r="5" fill="#2864dc"/>
+<text x="90.34" y="101.50" text-anchor="middle" font-family="sans-serif" font-size="10">t=0.95</text>
+<text x="450" y="500" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">Same GPT-6 Luna outputs (WO-20 prompts A/B); price tiers are portfolio rate proxies, not a model bake-off.</text>
+</svg>
