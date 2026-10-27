@@ -1,0 +1,10 @@
+services:
+  score:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./data:/app/data:ro
+      - ./artifacts:/app/artifacts
+    command: ["python", "-m", "wo25.score"]
+
